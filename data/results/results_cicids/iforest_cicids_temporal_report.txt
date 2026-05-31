@@ -1,0 +1,16 @@
+
+Isolation Forest (CIC-IDS2017 temporal) eval
+              precision    recall  f1-score   support
+
+       Legit     0.9600    0.4195    0.5839   1282611
+       Fraud     0.3577    0.9487    0.5195    437005
+
+    accuracy                         0.5540   1719616
+   macro avg     0.6589    0.6841    0.5517   1719616
+weighted avg     0.8070    0.5540    0.5676   1719616
+
+ROC-AUC          : 0.8438
+Avg Precision    : 0.7604
+Balanced Accuracy: 0.6841
+F1 (fraud)       : 0.5195
+TP=414606  TN=538115  FP=744496  FN=22399

@@ -1,0 +1,16 @@
+
+Causal Transformer (A3Benchmark) eval
+              precision    recall  f1-score   support
+
+       Legit     0.9058    0.1877    0.3110     29651
+       Fraud     0.3654    0.9599    0.5293     14449
+
+    accuracy                         0.4407     44100
+   macro avg     0.6356    0.5738    0.4202     44100
+weighted avg     0.7287    0.4407    0.3825     44100
+
+ROC-AUC          : 0.7442
+Avg Precision    : 0.6342
+Balanced Accuracy: 0.5738
+F1 (fraud)       : 0.5293
+TP=13870  TN=5566  FP=24085  FN=579

@@ -1,0 +1,16 @@
+
+Predictive LSTM eval
+              precision    recall  f1-score   support
+
+       Legit     0.9979    0.9900    0.9940     56863
+       Fraud     0.3992    0.7642    0.5244       492
+
+    accuracy                         0.9881     57355
+   macro avg     0.6985    0.8771    0.7592     57355
+weighted avg     0.9928    0.9881    0.9900     57355
+
+ROC-AUC          : 0.9581
+Avg Precision    : 0.5190
+Balanced Accuracy: 0.8771
+F1 (fraud)       : 0.5244
+TP=376  TN=56297  FP=566  FN=116

@@ -1,0 +1,16 @@
+
+Causal Transformer (CIC-IDS2017 temporal) eval
+              precision    recall  f1-score   support
+
+       Legit     0.9942    0.0751    0.1397   1282611
+       Fraud     0.2690    0.9987    0.4238    437005
+
+    accuracy                         0.3098   1719616
+   macro avg     0.6316    0.5369    0.2818   1719616
+weighted avg     0.8099    0.3098    0.2119   1719616
+
+ROC-AUC          : 0.6383
+Avg Precision    : 0.5710
+Balanced Accuracy: 0.5369
+F1 (fraud)       : 0.4238
+TP=436438  TN=96379  FP=1186232  FN=567

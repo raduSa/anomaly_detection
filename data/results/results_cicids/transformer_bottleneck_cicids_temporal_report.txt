@@ -1,0 +1,16 @@
+
+Transformer Bottleneck AE (CIC-IDS2017 temporal) eval
+              precision    recall  f1-score   support
+
+       Legit     0.9975    0.0974    0.1775   1282611
+       Fraud     0.2739    0.9993    0.4299    437005
+
+    accuracy                         0.3266   1719616
+   macro avg     0.6357    0.5483    0.3037   1719616
+weighted avg     0.8136    0.3266    0.2416   1719616
+
+ROC-AUC          : 0.7679
+Avg Precision    : 0.6194
+Balanced Accuracy: 0.5483
+F1 (fraud)       : 0.4299
+TP=436692  TN=124920  FP=1157691  FN=313

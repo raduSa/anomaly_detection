@@ -1,0 +1,16 @@
+
+Transformer Bottleneck AE (A4Benchmark) eval
+              precision    recall  f1-score   support
+
+       Legit     0.9312    0.0195    0.0382     32657
+       Fraud     0.2625    0.9959    0.4155     11443
+
+    accuracy                         0.2728     44100
+   macro avg     0.5968    0.5077    0.2268     44100
+weighted avg     0.7577    0.2728    0.1361     44100
+
+ROC-AUC          : 0.6549
+Avg Precision    : 0.4039
+Balanced Accuracy: 0.5077
+F1 (fraud)       : 0.4155
+TP=11396  TN=636  FP=32021  FN=47

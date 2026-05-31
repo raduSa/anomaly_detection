@@ -1,0 +1,16 @@
+
+LSTM AE (A3Benchmark) eval
+              precision    recall  f1-score   support
+
+       Legit     1.0000    0.0007    0.0013     29651
+       Fraud     0.3278    1.0000    0.4937     14449
+
+    accuracy                         0.3281     44100
+   macro avg     0.6639    0.5003    0.2475     44100
+weighted avg     0.7798    0.3281    0.1627     44100
+
+ROC-AUC          : 0.5663
+Avg Precision    : 0.3915
+Balanced Accuracy: 0.5003
+F1 (fraud)       : 0.4937
+TP=14449  TN=20  FP=29631  FN=0

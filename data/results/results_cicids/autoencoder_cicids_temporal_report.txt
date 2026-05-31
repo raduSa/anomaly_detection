@@ -1,0 +1,16 @@
+
+Autoencoder (CIC-IDS2017 temporal) eval
+              precision    recall  f1-score   support
+
+       Legit     0.9679    0.5124    0.6701   1282611
+       Fraud     0.3990    0.9502    0.5620    437005
+
+    accuracy                         0.6236   1719616
+   macro avg     0.6835    0.7313    0.6160   1719616
+weighted avg     0.8234    0.6236    0.6426   1719616
+
+ROC-AUC          : 0.8716
+Avg Precision    : 0.7623
+Balanced Accuracy: 0.7313
+F1 (fraud)       : 0.5620
+TP=415236  TN=657196  FP=625415  FN=21769

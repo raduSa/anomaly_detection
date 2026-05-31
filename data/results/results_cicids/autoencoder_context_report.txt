@@ -1,0 +1,16 @@
+
+MLP AE+Context (CIC-IDS2017) eval
+              precision    recall  f1-score   support
+
+       Legit     0.9909    0.9364    0.9629   1285944
+       Fraud     0.8380    0.9745    0.9011    433977
+
+    accuracy                         0.9460   1719921
+   macro avg     0.9145    0.9555    0.9320   1719921
+weighted avg     0.9523    0.9460    0.9473   1719921
+
+ROC-AUC          : 0.9864
+Avg Precision    : 0.9473
+Balanced Accuracy: 0.9555
+F1 (fraud)       : 0.9011
+TP=422897  TN=1204216  FP=81728  FN=11080

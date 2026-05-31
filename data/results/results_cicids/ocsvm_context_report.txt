@@ -1,0 +1,16 @@
+
+OC-SVM+Context (CIC-IDS2017) eval
+              precision    recall  f1-score   support
+
+       Legit     0.9831    0.9630    0.9729   1285944
+       Fraud     0.8965    0.9509    0.9229    433977
+
+    accuracy                         0.9599   1719921
+   macro avg     0.9398    0.9569    0.9479   1719921
+weighted avg     0.9612    0.9599    0.9603   1719921
+
+ROC-AUC          : 0.9745
+Avg Precision    : 0.9396
+Balanced Accuracy: 0.9569
+F1 (fraud)       : 0.9229
+TP=412650  TN=1238310  FP=47634  FN=21327

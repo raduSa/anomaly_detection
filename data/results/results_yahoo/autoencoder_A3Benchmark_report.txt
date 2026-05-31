@@ -1,0 +1,16 @@
+
+Autoencoder (A3Benchmark) eval
+              precision    recall  f1-score   support
+
+       Legit     0.9430    0.3703    0.5318     29651
+       Fraud     0.4247    0.9540    0.5878     14449
+
+    accuracy                         0.5616     44100
+   macro avg     0.6839    0.6622    0.5598     44100
+weighted avg     0.7732    0.5616    0.5502     44100
+
+ROC-AUC          : 0.7653
+Avg Precision    : 0.5068
+Balanced Accuracy: 0.6622
+F1 (fraud)       : 0.5878
+TP=13785  TN=10981  FP=18670  FN=664

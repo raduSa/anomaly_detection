@@ -1,0 +1,16 @@
+
+LSTM Autoencoder eval
+              precision    recall  f1-score   support
+
+       Legit     0.9982    0.9969    0.9976     56863
+       Fraud     0.6904    0.7886    0.7362       492
+
+    accuracy                         0.9952     57355
+   macro avg     0.8443    0.8928    0.8669     57355
+weighted avg     0.9955    0.9952    0.9953     57355
+
+ROC-AUC          : 0.9476
+Avg Precision    : 0.6223
+Balanced Accuracy: 0.8928
+F1 (fraud)       : 0.7362
+TP=388  TN=56689  FP=174  FN=104

@@ -1,0 +1,16 @@
+
+Transformer AE eval
+              precision    recall  f1-score   support
+
+       Legit     0.9967    0.9811    0.9888     56863
+       Fraud     0.2207    0.6199    0.3255       492
+
+    accuracy                         0.9780     57355
+   macro avg     0.6087    0.8005    0.6572     57355
+weighted avg     0.9900    0.9780    0.9831     57355
+
+ROC-AUC          : 0.9457
+Avg Precision    : 0.2535
+Balanced Accuracy: 0.8005
+F1 (fraud)       : 0.3255
+TP=305  TN=55786  FP=1077  FN=187

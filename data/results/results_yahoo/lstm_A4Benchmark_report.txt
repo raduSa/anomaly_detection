@@ -1,0 +1,16 @@
+
+Predictive LSTM (A4Benchmark) eval
+              precision    recall  f1-score   support
+
+       Legit     0.8895    0.5778    0.7005     32657
+       Fraud     0.3975    0.7951    0.5300     11443
+
+    accuracy                         0.6341     44100
+   macro avg     0.6435    0.6864    0.6153     44100
+weighted avg     0.7618    0.6341    0.6563     44100
+
+ROC-AUC          : 0.7454
+Avg Precision    : 0.5050
+Balanced Accuracy: 0.6864
+F1 (fraud)       : 0.5300
+TP=9098  TN=18868  FP=13789  FN=2345

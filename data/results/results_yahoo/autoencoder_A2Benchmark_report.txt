@@ -1,0 +1,16 @@
+
+Autoencoder (A2Benchmark) eval
+              precision    recall  f1-score   support
+
+       Legit     0.0000    0.0000    0.0000   36400.0
+       Fraud     0.0000    0.0000    0.0000       0.0
+
+    accuracy                         0.0000   36400.0
+   macro avg     0.0000    0.0000    0.0000   36400.0
+weighted avg     0.0000    0.0000    0.0000   36400.0
+
+ROC-AUC          : nan
+Avg Precision    : 0.0000
+Balanced Accuracy: 0.0000
+F1 (fraud)       : 0.0000
+TP=0  TN=0  FP=36400  FN=0

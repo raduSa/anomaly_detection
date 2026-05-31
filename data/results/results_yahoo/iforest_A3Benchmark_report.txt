@@ -1,0 +1,16 @@
+
+Isolation Forest (A3Benchmark) eval
+              precision    recall  f1-score   support
+
+       Legit     0.8851    0.0151    0.0296     29651
+       Fraud     0.3301    0.9960    0.4959     14449
+
+    accuracy                         0.3365     44100
+   macro avg     0.6076    0.5055    0.2628     44100
+weighted avg     0.7033    0.3365    0.1824     44100
+
+ROC-AUC          : 0.5109
+Avg Precision    : 0.3312
+Balanced Accuracy: 0.5055
+F1 (fraud)       : 0.4959
+TP=14391  TN=447  FP=29204  FN=58

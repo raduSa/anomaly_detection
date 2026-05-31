@@ -1,0 +1,16 @@
+
+Autoencoder eval
+              precision    recall  f1-score   support
+
+       Legit     0.9983    0.9958    0.9970     56863
+       Fraud     0.6205    0.8008    0.6992       492
+
+    accuracy                         0.9941     57355
+   macro avg     0.8094    0.8983    0.8481     57355
+weighted avg     0.9950    0.9941    0.9945     57355
+
+ROC-AUC          : 0.9649
+Avg Precision    : 0.7105
+Balanced Accuracy: 0.8983
+F1 (fraud)       : 0.6992
+TP=394  TN=56622  FP=241  FN=98

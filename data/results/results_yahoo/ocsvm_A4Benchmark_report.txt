@@ -1,0 +1,16 @@
+
+OC-SVM (A4Benchmark) eval
+              precision    recall  f1-score   support
+
+       Legit     1.0000    0.0043    0.0085     32657
+       Fraud     0.2603    1.0000    0.4131     11443
+
+    accuracy                         0.2626     44100
+   macro avg     0.6301    0.5021    0.2108     44100
+weighted avg     0.8081    0.2626    0.1135     44100
+
+ROC-AUC          : 0.5192
+Avg Precision    : 0.2652
+Balanced Accuracy: 0.5021
+F1 (fraud)       : 0.4131
+TP=11443  TN=139  FP=32518  FN=0

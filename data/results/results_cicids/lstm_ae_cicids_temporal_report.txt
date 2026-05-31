@@ -1,0 +1,16 @@
+
+LSTM AE (CIC-IDS2017 temporal) eval
+              precision    recall  f1-score   support
+
+       Legit     0.9566    0.6566    0.7787   1282611
+       Fraud     0.4752    0.9126    0.6249    437005
+
+    accuracy                         0.7216   1719616
+   macro avg     0.7159    0.7846    0.7018   1719616
+weighted avg     0.8343    0.7216    0.7396   1719616
+
+ROC-AUC          : 0.8976
+Avg Precision    : 0.7955
+Balanced Accuracy: 0.7846
+F1 (fraud)       : 0.6249
+TP=398793  TN=842158  FP=440453  FN=38212
