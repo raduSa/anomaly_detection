@@ -1,6 +1,4 @@
 data/models/*
 data/raw/*
 data/processed_data/*
-papers/*
-mds/*
 __pycache__/*

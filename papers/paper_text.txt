@@ -1,0 +1,1268 @@
+﻿Pages: 11
+--- PAGE 1 ---
+Towards a Rigorous Evaluation of Time-series Anomaly Detection
+Siwon Kim1
+Kukjin Choi1,2
+Hyun-Soo Choi3,4
+Byunghan Lee5*
+Sungroh Yoon1,6*
+1 Data Science and AI Laboratory, Seoul National University, Korea,
+2 DIT Center, Samsung Electronics, Korea, 3 Ziovision, Korea,
+4 Department of CSE and Education Research Team for Medical Big-data Convergence, Kangwon National University, Korea,
+5 Department of Electronic and IT Media Engineering, Seoul National University of Science and Technology, Korea,
+6 Department of ECE and Interdisciplinary Program in AI, Seoul National University, Korea,
+tuslkkk@snu.ac.kr
+kj21.choi@snu.ac.kr
+choi.hyunsoo@kangwon.ac.kr
+bhlee@seoultech.ac.kr
+sryoon@snu.ac.kr
+Abstract
+In recent years, proposed studies on time-series anomaly de-
+tection (TAD) report high F1 scores on benchmark TAD
+datasets, giving the impression of clear improvements in
+TAD. However, most studies apply a peculiar evaluation pro-
+tocol called point adjustment (PA) before scoring. In this
+paper, we theoretically and experimentally reveal that the
+PA protocol has a great possibility of overestimating the de-
+tection performance; that is, even a random anomaly score
+can easily turn into a state-of-the-art TAD method. Therefore,
+the comparison of TAD methods after applying the PA proto-
+col can lead to misguided rankings. Furthermore, we question
+the potential of existing TAD methods by showing that an
+untrained model obtains comparable detection performance
+to the existing methods even when PA is forbidden. Based
+on our ﬁndings, we propose a new baseline and an evalua-
+tion protocol. We expect that our study will help a rigorous
+evaluation of TAD and lead to further improvement in future
+researches.
+1
+Introduction
+As Industry 4.0 accelerates system automation, conse-
+quences of system failures can have a signiﬁcant social im-
+pact (Baheti and Gill 2011; Lee 2008; Lee, Bagheri, and Kao
+2015). To prevent this failure, the detection of the anomalous
+state of a system is more important than ever, and it is being
+studied under the name of anomaly detection (AD). Mean-
+while, deep learning has shown its effectiveness in mod-
+eling multivariate time-series data collected from numer-
+ous sensors and actuators of large systems (Chalapathy and
+Chawla 2019). Therefore, various time-series AD (TAD)
+methods have widely adopted deep learning, and each of
+them demonstrated its own superiority by reporting higher
+F1 scores than the preceding methods (Choi et al. 2021).
+For some datasets, the reported F1 scores exceed 0.9, giving
+an encouraging impression of today’s TAD capabilities.
+However, most of the current TAD methods measure the
+F1 score after applying a peculiar evaluation protocol named
+point adjustment (PA), proposed by Xu et al. (Audibert et al.
+*Correspondence with Byunghan Lee and Sungroh Yoon
+Copyright © 2022, Association for the Advancement of Artiﬁcial
+Intelligence (www.aaai.org). All rights reserved.
+GT anomaly
+Time
+(a)
+(b)
+GDN
+OmniAnomaly
+LSTM-VAE
+DAGMM
+USAD
+Random score
+Baseline
+F1 score
+Threshold
+Informative
+anomaly score
+Threshold
+Random
+anomaly score
+Adjusted
+prediction
+Point adjust (      )
+Point adjust (      )
+Methods
+w/
+w/o
+Figure 1: (a) PA makes different anomaly scores indistin-
+guishable. The black lines, gray area, and dashed line in-
+dicate the anomaly scores, GT anomaly segment, and TAD
+threshold, respectively. After applying PA, the predictions
+for informative and random anomaly scores degenerate to
+the same adjusted prediction (red). (b) Existing methods fail
+to exceed F1PA of a randomly generated anomaly score (left)
+and show no improvement against the newly proposed base-
+line (right) even when PA is forbidden for the WADI dataset.
+2020; Shen, Li, and Kwok 2020; Su et al. 2019). PA works
+as follows: if at least one moment in a contiguous anomaly
+segment is detected as an anomaly, the entire segment is then
+considered to be correctly predicted as anomaly. Typically,
+F1 score is calculated with the adjusted predictions (here-
+inafter denoted by F1PA). If the F1 score is computed with-
+out PA, it is denoted as F1. The PA protocol was proposed
+arXiv:2109.05257v2  [cs.LG]  4 Jan 2022
+
+--- PAGE 2 ---
+on the basis that a single alert within an anomaly period is
+sufﬁcient to take action for system recovery. It has become
+a fundamental step in TAD evaluation, and some of the fol-
+lowing studies reported only F1PA without F1 (Chen et al.
+2021). A higher F1PA has been indicated better detection ca-
+pability.
+However, PA has a high possibility of overestimating
+the model performance. A typical TAD model produces an
+anomaly score that informs about the degree of input ab-
+normality, and predicts an anomaly if this score is higher
+than a threshold. With PA, the prediction from the randomly
+generated anomaly score and that of the well-trained model
+becomes identical, as depicted in Figure 1-(a). The black
+solid lines show two different anomaly scores; the upper
+line shows informative scores from a well-trained model,
+while the lower is randomly generated. The shaded area
+and dashed line indicate the ground truth (GT) anomaly
+segment and TAD threshold, respectively. The informative
+scores (above) are ideal given that they are high only during
+the GT segment. In contrast, randomly generated anomaly
+scores (below) cross the threshold only once within the GT
+segment. Despite their disparity, the predictions after PA be-
+come indistinguishable, as indicated by the red line. If ran-
+dom anomaly scores can yield F1PA as high as a proﬁcient
+detection model, it is difﬁcult to conclude that a model with a
+higher F1PA performs better than the others. Our experimen-
+tal results in Section 5 show that random anomaly scores can
+overturn most state-of-the-art TAD methods (Figure 1-(b)).
+Another question that arises is whether PA is the only
+problem in the evaluation of TAD methods. Until now, only
+the absolute F1 has been reported, without any attempt to
+establish a baseline and relative comparison against it. If the
+accuracy of a binary classiﬁer is 50%, it is not much differ-
+ent from random guessing despite being an apparently large
+number. Similarly, a proper baseline should be discussed for
+TAD, and future methods should be evaluated based on the
+improvement compared to the baseline. According to our
+observations, existing TAD methods do not seem to have ob-
+tained a signiﬁcant improvement over the baseline that this
+paper proposes. Furthermore, several methods fail to exceed
+it. Our observations for one of the benchmark dataset are
+summarized in the right of Figure 1-(b).
+In this paper, we raise the question of whether the current
+TAD methods that claim to bring signiﬁcant improvements
+are being properly evaluated, and suggest directions for the
+rigorous evaluation of TAD for the ﬁrst time. Our contribu-
+tions are summarized as follows:
+• We show that PA, a peculiar evaluation protocol for TAD,
+greatly overestimates the detection performance of exist-
+ing methods.
+• We show that, without PA, existing methods exhibit no
+(or mostly insigniﬁcant) improvement over the baseline.
+• Based on our ﬁndings, we propose a new baseline and an
+evaluation protocol for rigorous evaluation of TAD.
+2
+Background
+2.1
+Types of anomaly in time-series signals
+Various types of anomalies exist in TAD dataset (Choi et al.
+2021). A contextual anomaly represents a signal that has a
+different shape from that of the normal signal. A collective
+anomaly indicates a small amount of noise accumulated over
+a period of time. The point anomaly indicates a temporary
+and signiﬁcant deviation from the expected range owing to a
+rapid increase or decrease in the signal value. Point anomaly
+is the most dominant type in the current TAD datasets.
+2.2
+Unsupervised TAD
+A typical AD setting assumes that only normal data are ac-
+cessible during the training time. Therefore, an unsupervised
+method is one of the most appropriate approaches for TAD,
+which trains a model to learn shared patterns in only normal
+signals. The ﬁnal objective is to assign different anomaly
+scores to inputs depending on the degree of their abnormal-
+ity, i.e., low and high anomaly scores for normal and abnor-
+mal inputs, respectively. Reconstruction-based AD method
+trains a model to minimize the distance between a normal in-
+put and its reconstruction. Anomalous input at the test time
+results in large distance as it is difﬁcult to reconstruct. The
+distance, or reconstruction error, serves as an anomaly score.
+Forecasting-based approach trains a model to predict the sig-
+nal that will come after the normal input, and takes the dis-
+tance between the ground truth and predicted signal as an
+anomaly score. Please refer to Appendix for detailed exam-
+ples of each category.
+2.3
+Assessment of TAD evaluation
+There have been several approaches to point out the pitfalls
+in current TAD evaluation. (Wu and Keogh 2021) proposed
+limitations of the benchmark TAD datasets and shows that
+a simple detector, so-called one-liner, is sufﬁcient for some
+datasets. They also provided several synthetic datasets. (Lai
+et al. 2021) built a new taxonomy for anomaly types (e.g.
+point vs. pattern) and introduced new datasets synthesized
+under new criteria. In contrast, we propose the pitfalls in
+TAD evaluation: the risk of PA’s overestimation and the ab-
+sence of baseline and the solutions. If the pitfalls are not
+resolved, it is impossible to evaluate whether the improve-
+ment of a TAD methods is signiﬁcant even with the better
+datasets proposed by above papers.
+3
+Pitfalls of the TAD evaluation
+3.1
+Problem formulation
+First, we denote the time-series signal observed from N sen-
+sors during time T as X = {x1, ..., xT }, xt ∈RN. As
+conventional approaches, it is normalized and split into a
+series of windows W = {w1, ..., wT −τ+1} with stride 1,
+where wt = {xt, ..., xt+τ−1} and τ is the window size. The
+ground truth binary label yt ∈{0, 1}, indicating whether a
+signal is an anomaly (1) or not (0), is given only for the test
+dataset. The goal of TAD is to predict the anomaly label ˆyt
+for all windows in the test dataset. The labels are obtained
+
+--- PAGE 3 ---
+by comparing anomaly scores A (wt) with a TAD threshold
+δ given as follows:
+ˆyt =
+1,
+if A (wt) > δ
+0,
+otherwise.
+(1)
+An example of A (wt) is the mean squared error (MSE)
+between the original input and its reconstructed version,
+which is deﬁned as follows:
+A (wt) = MSE (wt, ˆwt) = 1
+τ ∥wt −ˆwt∥2
+(2)
+where ˆwt = fθ (wt) denotes the output from a reconstruc-
+tion model fθ parameterized with θ. After labeling, the pre-
+cision (P), recall (R), and F1 score for the evaluation are
+computed as follows:
+P =
+TP
+TP + FP, R =
+TP
+TP + FN
+F1 score =2 · P · R
+P + R ,
+(3)
+where TP, FP, and FN denote the number of true positives,
+false positives and false negatives, respectively.
+The TAD test dataset may contain multiple anomaly seg-
+ments lasting over a few time steps. We denote S as a set
+of M anomaly segments; that is, S = {S1, ..., SM}, where
+Sm = {tm
+s , ..., tm
+e }; tm
+s and tm
+e denote the start and end
+times of Sm, respectively. PA adjusts ˆyt to 1 for all t ∈Sm
+if anomaly score is higher than δ at least once in Sm. With
+PA, the labeling scheme of Eq. 1 changes as follows:
+ˆyt =
+
+
+
+
+
+1,
+if A (wt) > δ
+or t ∈Sm and
+∃
+t′∈Sm
+A(wt′) > δ
+0,
+otherwise.
+(4)
+F1PA denotes the F1 score computed with adjusted labels.
+3.2
+Random anomaly score with high F1PA
+In this section, we demonstrate that the PA protocol overes-
+timates the detection capability. We start from the abstract
+analysis of the P and R of Eq. 3, and we mathematically
+show that a randomly generated A (wt) can achieve a high
+F1PA value close to 1. According to Eq. 3, as the F1 score
+is a harmonic mean of P and R, it also depends on TP, FN,
+and FP. As shown in Eq. 4, PA increases TP and decreases
+FN while maintaining FP. Therefore, after the PA, the P, R
+and consequently F1 score can only increase.
+Next, we show that F1PA can easily get close to 1. First,
+R is restated as a conditional probability as follows:
+R = Pr (ˆyt = 1 | yt = 1)
+= Pr (ˆyt = 1 | t ∈S)
+= 1 −Pr (ˆyt = 0 | t ∈S) .
+(5)
+Let’s assume that A (wt) is drawn from a uniform distribu-
+tion U(0, 1). We use 0 ≤δ′ ≤1 to denote a TAD threshold
+for this assumption. If only one anomaly segment exists, i.e.,
+Figure 2: F1PA for the case of uniform random anomaly
+scores varying with δ for different te −ts. If an anomaly
+segment is considerably long, that is, if te −ts is sufﬁciently
+large, F1PA approaches 1 as δ increases.
+S = {{ts, ..., te}}, R after PA can be expressed as follows,
+referring to Eq. 4:
+R = 1 −Pr (∀t′ ∈S, A(wt′) < δ′ | t ∈S)
+= 1 −
+Y
+t′ ∈S
+Pr (A (wt′) < δ′ | t ∈S)
+= 1 −1
+γ ·
+Y
+t′ ∈S
+Pr (A (wt′) < δ′)
+= 1 −1
+γ · δ′ (te−ts),
+(6)
+where γ = Pr(t ∈S) is a test dataset anomaly ratio and
+Pr (A (wt′) < δ′) =
+R δ′
+0 1 = δ′.
+P = Pr (yt = 1 | ˆyt = 1) = R · Pr (yt = 1)
+Pr (ˆyt = 1)
+= R ·
+γ
+Pr (ˆyt = 1, yt = 1) + Pr (ˆyt = 1, yt = 0)
+=
+γ −δ′(te−ts)
+(γ −δ′(te−ts)) + (1 −δ′).
+(7)
+For a more generalized proof, please refer to the Appendix.
+The anomaly ratio γ for a dataset is mostly given between 0
+and 0.2; te −ts is also determined by the dataset and gen-
+erally ranges from 100 to 5,000 in the benchmark datasets.
+Figure 2 depicts F1PA varying with δ′ under different te−ts
+when γ is ﬁxed to 0.05. As shown in the ﬁgure, we can al-
+ways obtain the F1PA close to 1 by changing δ′, except for
+the case when the length of the anomaly segment is short.
+3.3
+Untrained model with comparably high F1
+This section shows that the anomaly scores obtained from an
+untrained model are informative to a certain extent. A deep
+neural network is generally initialized with random weights
+drawn from a Gaussian distribution N
+ 0, σ2
+, where σ is
+
+--- PAGE 4 ---
+often much smaller than 1. Without training, the outputs
+of the model are close to zero because they also follow a
+zero-mean Gaussian distribution. The anomaly score of a
+reconstruction-based or forecasting-based method is typi-
+cally deﬁned as the Euclidean distance between the input
+and output, which in the above case is proportional to the
+value of the input window:
+A (wt) = ∥wt −η ∥2 ≃∥wt∥2 ,
+where η = fθ(wt) and θ ∼N(0, σ2).
+(8)
+In the case of a point anomaly, the speciﬁc sensor values in-
+crease abruptly. This leads to a larger magnitude of ∥wt∥2
+than normal windows, which is connected directly to a high
+A (wt) for GT anomalies. The experimental results in Sec-
+tion 5 reveal that F1 calculated from A (wt) of Eq. 8 is com-
+parable to that of current TAD methods. It is also shown that
+F1 increases even more when the window size gets longer.
+4
+Towards a rigorous evaluation of TAD
+4.1
+New baseline for TAD
+For a classiﬁcation task, the baseline accuracy is often de-
+ﬁned as that of a random guess. It can be said that there is
+an improvement only when the classiﬁcation accuracy ex-
+ceeds this baseline. Similarly, TAD needs to be compared
+not only with the existing methods but also with the base-
+line detection performance. Therefore, based on the ﬁndings
+of Section 3.3, we suggest establishing a new baseline with
+the F1 measured from the prediction of a randomly initial-
+ized reconstruction model with simple architecture, such as
+an untrained autoencoder comprising a single-layer LSTM.
+Alternatively, the anomaly score can be deﬁned as the input
+itself, which is the extreme case of Eq. 8 when the model
+consistently outputs zero regardless of the input. If the per-
+formance of the new TAD model does not exceed this base-
+line, the effectiveness of the model should be reexamined.
+4.2
+New evaluation protocol PA%K
+In the previous section, we demonstrated that PA has a
+great possibility of overestimating detection performance.
+F1 without PA can settle the overestimation immediately.
+In this case, it is recommended to set a baseline as intro-
+duced in Section 4.1. However, depending on the test data
+distribution, F1 can unexpectedly underestimate the detec-
+tion capability. In fact, due to the incomplete test set label-
+ing, some signals labeled as anomalies share more statistics
+with normal signals. Even if anomalies are inserted intermit-
+tently over a period of time, yt = 1 for all t in that period.
+We further investigated this problem using t-distributed
+stochastic neighbor embedding (t-SNE) (Van der Maaten
+and Hinton 2008), as depicted in Figure 3. The t-SNE
+is generated by the test dataset of secure water treatment
+(SWaT) (Goh et al. 2016). Blue and orange colors indicate
+the normal and abnormal samples, respectively. The major-
+ity of the anomalies form a distinctive cluster located far
+from the normal data distribution. However, some abnormal
+windows are closer to the normal data than anomalies. The
+visualization of signals corresponding to the green and red
+time
+feature
+GT anomaly
+GT normal
+(a)
+(b)
+(c)
+Figure 3: t-SNE of the input windows of the SWaT test
+dataset and visualization of corresponding signals. Blue
+color indicates ground truth (GT) normal while orange,
+green and red color indicate GT anomaly. Even though (b)
+is GT anomaly, it shares patterns more with (a), GT normal
+signal, than (c) abnormal signal.
+points is depicted in (b) and (c), respectively. Although both
+samples were annotated as GT anomalies, (b) shared more
+patterns with normal data of (a) than (c). Concluding that
+the model’s performance is deﬁcient only because it cannot
+detect signals such as (b) can lead to an underestimation of
+the detection capability.
+Therefore, we propose an alternative evaluation proto-
+col PA%K, which can mitigate the overestimation effect of
+F1PA and the possibility of underestimation of F1. Please
+note that it is not proposed to replace existing TAD metrics,
+but rather to be used along with them. The idea of PA%K is
+to apply PA to Sm only if the ratio of the number of cor-
+rectly detected anomalies in Sm to its length exceeds the
+PA%K threshold K. PA%K modiﬁes Eq. 4 as follows:
+ˆyt =
+
+
+
+
+
+
+
+
+
+1,
+if A (wt) > δ or
+t ∈Sm and
+{t′ | t′ ∈Sm, A (wt′) > δ}
+
+Sm
+
+> K
+0,
+otherwise
+
+--- PAGE 5 ---
+where
+·
+ denotes the size of Sm (i.e., tm
+e −tm
+s ) and K can be
+selected manually between 0 and 100 based on prior knowl-
+edge. For example, if the test set labels are reliable, a larger
+K is allowable. If a user wants to remove the dependency on
+K, it is recommended to measure the area under the curve of
+F1PA%K obtained by increasing K from 0 to 100.
+5
+Experimental results
+5.1
+Benchmark TAD datasets
+In this section, we introduce a list of the ﬁve most widely
+used TAD benchmark datasets as follows:
+Secure water treatment (SWaT) (Goh et al. 2016):
+the SWaT dataset was collected over 11 days from a
+scaled-down water treatment testbed comprising 51 sen-
+sors (Mathur and Tippenhauer 2016). In the last 4 days, 41
+anomalies were injected using diverse attack methods, while
+only normal data were generated during the ﬁrst 7 days.
+Water distribution testbed (WADI) (Ahmed, Palleti, and
+Mathur 2017): the WADI dataset was acquired from a re-
+duced city water distribution system with 123 sensors and
+actuators operating for 16 days. Only normal data were
+collected during the ﬁrst 14 days, and the remaining two
+days contained anomalies. The test dataset had a total of 15
+anomaly segments.
+Server Machine Dataset (SMD) (Su et al. 2019): the SMD
+dataset was collected from 28 server machines with 38 sen-
+sors for 10 days; only normal data appeared for the ﬁrst 5
+days, and anomalies were intermittently injected for the last
+5 days. The results for the SMD dataset are the averaged
+values from 28 different models for each machine.
+Mars Science Laboratory (MSL) and Soil Moisture Ac-
+tive Passive (SMAP) (Hundman et al. 2018): the MSL and
+SMAP dataset is a real-world dataset collected from a space-
+craft of NASA. These are the anomaly data from an incident
+surprise anomaly (ISA) report for a spacecraft monitoring
+system. Unlike other datasets, unlabeled anomalies are con-
+tained in the training data, which makes training difﬁcult.
+The statistics are summarized in Table 1.
+5.2
+Evaluated methods
+Below, we present the descriptions of 7 representative TAD
+methods recently proposed and the 3 cases investigated in
+Section 3.
+USAD (Audibert et al. 2020) stands for unsupervised
+anomaly detection, which trains two autoencoders consist-
+ing of one shared encoder and two separate decoders, under
+a two-phase training scheme: an autoencoder training phase
+and an adversarial training phase.
+DAGMM (Zong et al. 2018) represents deep autoencoding
+Gaussian mixture model that adopts an autoencoder to yield
+a representation vector and feed it to a Gaussian mixture
+model. It uses the estimated sample energy as a reconstruc-
+tion error; high energy indicates high abnormality.
+LSTM-VAE (Park, Hoshi, and Kemp 2018) represents an
+LSTM-based variational autoencoder that adopts variational
+inference for reconstruction.
+OmniAnomaly (Su et al. 2019) applied a VAE to model
+the time-series signal into a stochastic representation, which
+Dataset
+Train
+Test (anomaly%)
+N
+SWaT
+495,000
+449,919 (12.33%)
+51
+WADI
+784,537
+172,801 (5.77%)
+123
+SMD
+25,300
+25,300 (4.21%)
+38
+MSL
+58,317
+73,729 (10.5%)
+55
+SMAP
+135,183
+427,617 (12.8%)
+25
+Table 1: Statistics of benchmark TAD datasets. N denotes
+the dimension of input features.
+would predict an anomaly if the reconstruction likelihood of
+a given input is lower than a threshold value. It also deﬁned
+the reconstruction probabilities of individual features as at-
+tribution scores and quantiﬁed their interpretability.
+MSCRED (Zhang et al. 2019) represents a multi-scale con-
+volutional recurrent encoder-decoder comprising convolu-
+tional LSTMs to reconstruct the input matrices that charac-
+terize multiple system levels, rather than the input itself.
+THOC (Shen, Li, and Kwok 2020) represents a temporal
+hierarchical one-class network, which is a multi-layer di-
+lated recurrent neural network and a hierarchical deep sup-
+port vector data description.
+GDN (Deng and Hooi 2021) represents a graph deviation
+network that learns a sensor relationship graph to detect de-
+viations of anomalies from the learned pattern.
+Case 1. Random anomaly score corresponds to the case
+described in Section 3.2. The F1 score is measured with a
+randomly generated anomaly score drawn from a uniform
+distribution U, i.e., A (wt) ∼U(0, 1).
+Case 2. Input itself as an anomaly score denotes the case
+assuming fθ(wt) = 0 regardless of wt. This is equal to an
+extreme case of Eq. 8. Therefore, A (wt) = ∥wt∥2.
+Case 3. Anomaly score from the randomized model cor-
+responds to Eq. 8, where η denotes a small output from a
+randomized model. The parameters were ﬁxed after being
+initialized from a Gaussian distribution N(0, 0.02).
+5.3
+Correlation between F1PA and F1
+F1 is the most conservative indicator of detection perfor-
+mance. Therefore, if F1PA reliably represents the detection
+capability, it should have at least some correlation with F1.
+Figure 4 plots F1PA and F1 for SWaT and WADI, as re-
+ported by the original studies on USAD, DAGMM, LSTM-
+VAE, OmniAnomaly, and GDN. The ﬁgure also includes the
+results of Case 1–3. It is noteworthy that given that only a
+subset of the datasets and methods reported F1PA and F1 to-
+gether, we plotted them only. For SWaT, the Pearson corre-
+lation coefﬁcient (PCC) and Kendall rank correlation coef-
+ﬁcient (KRC) were -0.59 and 0.07, respectively. For WADI,
+the PCC and KRC were 0.41 and 0.43, respectively. How-
+ever, these numbers are insufﬁcient to assure the existence
+of correlation and conﬁrm that comparing the superiority of
+the methods using only F1PA may have the risk of improper
+evaluation of the detection performance.
+
+--- PAGE 6 ---
+SWaT
+WADI
+MSL
+SMAP
+SMD
+F1PA
+F1
+F1PA
+F1
+F1PA
+F1
+F1PA
+F1
+F1PA
+F1
+USAD
+0.846 (↓)
+0.791 (↑)
+0.429 (↓)
+0.232 (↓)
+0.927 (↓)
+0.211† (↓)
+0.818 (↓)
+0.228† (↓)
+0.938(↑)
+0.426† (↓)
+DAGMM
+0.853 (↓)
+0.550 (↓)
+0.209 (↓)
+0.121 (↓)
+0.701 (↓)
+0.199† (↓)
+0.712 (↓)
+0.333† (↑)
+0.723 (↓)
+0.238† (↓)
+LSTM-VAE
+0.805 (↓)
+0.775 (↓)
+0.380 (↓)
+0.227 (↓)
+0.678 (↓)
+0.212† (↓)
+0.756 (↓)
+0.235† (↑)
+0.808 (↑)
+0.435† (↓)
+OmniAnomaly
+0.866 (↓)
+0.782 (↓)
+0.417 (↓)
+0.223 (↓)
+0.899 (↓)
+0.207† (↓)
+0.805 (↓)
+0.227† (↓)
+0.944 (↑)
+0.474† (↓)
+MSCRED
+0.868 (↓)
+0.662† (↓)
+0.346 (↓)
+0.087† (↓)
+0.775 (↓)
+0.199† (↓)
+0.942† (↓)
+0.232† (↑)
+0.389† (↓)
+0.097† (↓)
+THOC
+0.880 (↓)
+0.612† (↓)
+0.506 (↓)
+0.130† (↓)
+0.891 (↓)
+0.190† (↓)
+0.781† (↓)
+0.240† (↑)
+0.541† (↓)
+0.168† (↓)
+GDN
+0.935 (↓)
+0.81 (↑)
+0.855 (↓)
+0.57 (↑)
+0.903 (↓)
+0.217† (↓)
+0.708† (↓)
+0.252† (↑)
+0.716† (↓)
+0.529† (↑)
+Case 1
+0.969
+0.216
+0.965
+0.109
+0.931
+0.190
+0.961
+0.227
+0.804
+0.080
+Case 2
+0.873
+0.781
+0.694
+0.353
+0.812
+0.239
+0.675
+0.229
+0.896
+0.494
+Case 3
+0.869
+0.789
+0.695
+0.331
+0.427
+0.236
+0.699
+0.229
+0.893
+0.466
+Table 2: F1 score for various methods. † indicates the reproduced results. Bottom three rows represent the followings: Case 1.
+Random anomaly score, Case 2. Input itself as a anomaly score, Case 3. Anomaly score from a randomized model. Please refer
+to the manuscript for the detailed explanations. Bold and underlined cases indicate the best and the second best, respectively. ↑
+is marked in the following cases: (1) F1PA is higher than Case 1, (2) F1 is higher than Case 2 or 3.
+KRC: 0.07
+PCC: -0.59
+KRC: 0.43
+PCC: 0.41
+Figure 4: Correlation between F1PA and F1 of the existing
+methods on SWaT and WADI dataset. The Kendall rank cor-
+relation (KRC) and Pearson correlation coefﬁcient (PCC)
+are indicated in the ﬁgure.
+5.4
+Comparison results
+Here, we compare the results of the AD methods with Case
+1–3. It should be noted that the anomaly score is directly
+generated without model inference for Case 1 and 2. For
+Case 3, we adopted the simplest encoder-decoder architec-
+ture with LSTM layers. The window size τ for Case 2 and
+3 was set to 120. For experiments that included randomness,
+such as Case 1 and 3, we repeated them with ﬁve differ-
+ent seeds and reported the average values. For the existing
+methods, we used the best numbers reported in the original
+papers and ofﬁcially reproduced results (Choi et al. 2021);
+if there were no available scores, we reproduced them re-
+ferring to the ofﬁcially provided codes. Please note the we
+did not apply any preprocessing such as early time steps re-
+moval or downsampling. The F1 for MSL, SMAP, and SMD
+have not been provided in previous papers; thus they are
+all reproduced. It is worth noting that we searched for op-
+timal hyperparameters within the suggested range in the pa-
+pers and we did not apply down-sampling. All thresholds
+were obtained from those that yielded the best score. Fur-
+ther details of the implementation are provided in the Ap-
+pendix. The results are shown in Table 2. The reproduced
+results are marked as †. Bold and underlined numbers in-
+dicate the best and second-best results, respectively. The up
+arrow (↑) is displayed with the result for the following cases:
+(1) F1PA is higher than Case 1, (2) F1 is higher than Case2
+or 3, whichever is greater.
+Clearly, the randomly generated anomaly score (Case 1)
+is not able to detect anomalies because it reﬂects nothing
+about the abnormality in an input. Correspondingly, F1 was
+quite low, which clearly revealed a deﬁcient detection capa-
+bility. However, when applying the PA protocol, Case 1 ap-
+pears to yield the state-of-the-art F1PA far beyond the exist-
+ing methods, except for SMD. If the result is provided only
+with PA, as in the case of the MSL, SMAP, and SMD, distin-
+guishing whether the method successfully detects anomalies
+or whether it merely outputs a random anomaly score irrele-
+vant to the input is impossible. In particular, F1 of the MSL
+and SMAP is quite low; this implies difﬁculty in modeling
+them, originating from the fact that they are both real-world
+datasets, and the training data contain anomalies. However,
+F1PA appears considerably high, creating an illusion that the
+anomalies are being detected well for those datasets.
+The F1 of Case 1 of SMD is lower than that in other
+datasets, and there are previous methods surpassing it. This
+may be attributed to the composition of the SMD test
+dataset. According to Eqs. 6 and 7, F1PA varies with three
+parameters: the ratio of anomalies in the test dataset (γ),
+length of anomaly segments (te −ts), and TAD threshold
+(δ). Unlike the other datasets, the anomaly ratio of SMD
+was quite low, as shown in Table 1. Moreover, the lengths
+of the anomaly segments are relatively short; the average
+length of 28 machines is 90, unlike other datasets ranging
+from hundreds to thousands. This is similar to the lowest
+case in Figure 2, which shows that the maximum achievable
+F1PA in this case is only approximately 0.8. Therefore, we
+can conclude that the overestimation effect of PA depends
+on the test dataset distribution, and its effect becomes less
+conspicuous with shorter anomaly segments.
+Across all datasets, the F1 for the existing methods is
+
+--- PAGE 7 ---
+Figure 5: F1 for various window sizes (τ). As τ increases,
+F1 mostly increases after a short decrease.
+mostly inferior to Case 2 and 3, implying that the currently
+proposed methods may have obtained marginal or even no
+advancement against the baselines. Only the GDN consis-
+tently exceeded the baselines for all datasets. The F1 of
+Case 2 and 3 depend on the length of the input window.
+With a longer window, the F1 baseline becomes even larger.
+We experimented with various window lengths ranging from
+1 to 250 in Case 2 and depicted the results in Figure 5.
+For SWaT, WADI, and SMAP, F1 begins to increase after a
+short decrease as τ increases. This increase occurs because a
+longer window is more likely to contain more point anoma-
+lies, resulting in high anomaly score for the window. If τ
+becomes too large, F1 saturates or degrades, possibly be-
+cause the windows that used to contain only normal signals
+unexpectedly contain anomalies in it.
+5.5
+Effect of PA%K protocol
+To examine how PA%K alleviates the overestimation effect
+of PA and underestimation tendency of F1, we observed
+F1PA%K varying with different PA%K thresholds K. Figure 6
+shows the F1PA%K for SWaT from Case 1 and the fully
+trained encoder-decoder when K changes in increments of
+10 from 0 to 100. The F1PA%K values of K = 0 and K = 100
+are equal to the original F1PA and F1, respectively. The
+F1PA%K of a well-trained model is expected to show con-
+stant results regardless of the value of K. Correspondingly,
+the F1PA%K of the trained encoder-decoder (orange) shows
+consistently high F1PA%K. In contrast, the F1PA%K of Case
+1 (blue) rapidly decreased when K increased. We also pro-
+posed measuring the area under the curve (AUC) to reduce
+the dependence on K. In this case, the AUC were 0.88 and
+0.41 for the trained encoder-decoder and Case 1, respec-
+tively; this demonstrates that PA%K clearly distinguishes the
+former from the latter regardless of K.
+6
+Discussion
+Throughout this paper, we have demonstrated that the cur-
+rent evaluation of TAD has pitfalls in two respects: (1) since
+PA overestimate the detection performance, we cannot en-
+sure that a method with higher F1PA has indeed a better
+detection capability; (2) the results have been compared
+random (AUC: 0.41)
+trained  (AUC: 0.88)
+Figure 6: F1 score with PA%K with varying K. If K = 0, it is
+equal to the F1PA and if K = 100, it is equal to the F1.
+only with existing methods, not against the baseline. A bet-
+ter anomaly detector can be developed when the current
+achievements are properly assessed. In this section, we sug-
+gest several directions for future TAD evaluations.
+The motivation of PA, i.e., the source of the ﬁrst pitfall,
+originates from the incompleteness of the test dataset la-
+beling process, as observed in Section 4.2. An extermina-
+tory solution is to develop a new benchmark dataset an-
+notated in a more ﬁne-grained manner, so that the time-
+step-wise labels become reliable. As it is often not feasi-
+ble because ﬁne-grained annotation requires tremendous re-
+sources, F1PA%K can be a good alternative that can alleviate
+overestimation without any additional dataset modiﬁcation.
+Please note that PA%K is an evaluation protocol that can be
+applied to various metrics other than the F1 score. For the
+second issue, it is important to set a baseline as the perfor-
+mance of the untrained model as Case 2 and 3 and measure
+the relative improvement against it. The window size should
+be carefully determined by considering its effect on the base-
+lines, as described in Section 5.4.
+Furthermore, pre-deﬁning the TAD threshold without
+any access to the test dataset is often impractical in the
+real world. Correspondingly, many AD methods in the vi-
+sion ﬁeld evaluate themselves using the area under the
+receiver operating characteristic (AUROC) curve (Yi and
+Yoon 2020). In contrast, existing TAD methods set the
+threshold after investigating the test dataset or simply use the
+optimal threshold that yields the best F1. Thus, the detec-
+tion result depends signiﬁcantly on threshold selection. Ad-
+ditional metrics with the reduced dependency such as AU-
+ROC or area under precision-recall (AUPR) curve will help
+in rigorous evaluation. Even in this case, the proposed base-
+line selection method is valid. Since PA%K is a protocol, it
+also can be used to above metrics.
+7
+Conclusion
+In this paper, we showed for the ﬁrst time that applying
+PA can severely overestimate a TAD model’s capability,
+which may not reﬂect the true modeling performance. We
+also proposed a new baseline for TAD and showed that only
+a few methods have achieved signiﬁcant advancement in this
+regard. To mitigate overestimation of PA, we proposed a new
+PA%K protocol that can be applied with existing metrics. Fi-
+nally, we suggest several directions for rigorous evaluation
+of TAD methods, including baseline selection. We expect
+
+--- PAGE 8 ---
+that our research help clarify the potential of current TAD
+methods and lead the improvement of TAD in the future.
+8
+Acknowledgement
+This work was supported by Institute of Information &
+communications Technology Planning & Evaluation (IITP)
+grant funded by the Korea government(MSIT) [No.2021-
+0-02068, Artiﬁcial Intelligence Innovation Hub, NO.2021-
+0-01343, Artiﬁcial Intelligence Graduate School Program
+(Seoul National University)], the National Research Foun-
+dation of Korea (NRF) grant funded by the Korea govern-
+ment (Ministry of Science and ICT) [2018R1A2B3001628,
+2019R1G1A1003253], the Brain Korea 21 Plus Project in
+2021, AIR Lab (AI Research Lab) in Hyundai Motor Com-
+pany through HMC-SNU AI Consortium Fund, and Sam-
+sung Electronics.
+References
+Abadi, M.; Agarwal, A.; Barham, P.; Brevdo, E.; Chen, Z.;
+Citro, C.; Corrado, G. S.; Davis, A.; Dean, J.; Devin, M.;
+Ghemawat, S.; Goodfellow, I.; Harp, A.; Irving, G.; Isard,
+M.; Jia, Y.; Jozefowicz, R.; Kaiser, L.; Kudlur, M.; Leven-
+berg, J.; Man´e, D.; Monga, R.; Moore, S.; Murray, D.; Olah,
+C.; Schuster, M.; Shlens, J.; Steiner, B.; Sutskever, I.; Tal-
+war, K.; Tucker, P.; Vanhoucke, V.; Vasudevan, V.; Vi´egas,
+F.; Vinyals, O.; Warden, P.; Wattenberg, M.; Wicke, M.; Yu,
+Y.; and Zheng, X. 2015. TensorFlow: Large-Scale Machine
+Learning on Heterogeneous Systems.
+Software available
+from tensorﬂow.org.
+Ahmed, C. M.; Palleti, V. R.; and Mathur, A. P. 2017. WADI:
+A Water Distribution Testbed for Research in the Design
+of Secure Cyber Physical Systems. In Proceedings of the
+3rd International Workshop on Cyber-Physical Systems for
+Smart Water Networks, CySWATER ’17, 25–28. New York,
+NY, USA: Association for Computing Machinery.
+ISBN
+9781450349758.
+Audibert, J.; Michiardi, P.; Guyard, F.; Marti, S.; and Zulu-
+aga, M. A. 2020. USAD: UnSupervised Anomaly Detec-
+tion on Multivariate Time Series.
+In Proceedings of the
+26th ACM SIGKDD International Conference on Knowl-
+edge Discovery & Data Mining, 3395–3404.
+Baheti, R.; and Gill, H. 2011. Cyber-physical systems. The
+impact of control technology, 12(1): 161–166.
+Chalapathy, R.; and Chawla, S. 2019.
+Deep learn-
+ing for anomaly detection: A survey.
+arXiv preprint
+arXiv:1901.03407.
+Chen, Z.; Chen, D.; Zhang, X.; Yuan, Z.; and Cheng, X.
+2021. Learning Graph Structures with Transformer for Mul-
+tivariate Time Series Anomaly Detection in IoT. IEEE In-
+ternet of Things Journal.
+Choi, K.; Yi, J.; Park, C.; and Yoon, S. 2021. Deep Learning
+for Anomaly Detection in Time-Series Data: Review, Anal-
+ysis, and Guidelines. IEEE Access.
+Chung, J.; Gulcehre, C.; Cho, K.; and Bengio, Y. 2014. Em-
+pirical Evaluation of Gated Recurrent Neural Networks on
+Sequence Modeling. arXiv:1412.3555.
+Deng, A.; and Hooi, B. 2021. Graph neural network-based
+anomaly detection in multivariate time series. In Proceed-
+ings of the AAAI Conference on Artiﬁcial Intelligence, vol-
+ume 35, 4027–4035.
+Ding, N.; Gao, H.; Bu, H.; and Ma, H. 2018. RADM: real-
+time anomaly detection in multivariate time series based on
+Bayesian network. In 2018 IEEE International Conference
+on Smart Internet of Things (SmartIoT), 129–134. IEEE.
+Goh, J.; Adepu, S.; Junejo, K. N.; and Mathur, A. 2016.
+A dataset to support research in the design of secure water
+treatment systems. In International conference on critical
+information infrastructures security, 88–99. Springer.
+Hochreiter, S.; and Schmidhuber, J. 1997. Long short-term
+memory. Neural computation, 9(8): 1735–1780.
+Hundman, K.; Constantinou, V.; Laporte, C.; Colwell, I.; and
+Soderstrom, T. 2018. Detecting spacecraft anomalies using
+lstms and nonparametric dynamic thresholding. In Proceed-
+ings of the 24th ACM SIGKDD international conference on
+knowledge discovery & data mining, 387–395.
+Lai, K.-H.; Zha, D.; Xu, J.; Zhao, Y.; Wang, G.; and Hu, X.
+2021. Revisiting Time Series Outlier Detection: Deﬁnitions
+and Benchmarks.
+Lee, E. A. 2008.
+Cyber physical systems: Design chal-
+lenges. In 2008 11th IEEE international symposium on ob-
+ject and component-oriented real-time distributed comput-
+ing (ISORC), 363–369. IEEE.
+Lee, J.; Bagheri, B.; and Kao, H.-A. 2015. A cyber-physical
+systems architecture for industry 4.0-based manufacturing
+systems. Manufacturing letters, 3: 18–23.
+Li, D.; Chen, D.; Jin, B.; Shi, L.; Goh, J.; and Ng, S.-K.
+2019. MAD-GAN: Multivariate anomaly detection for time
+series data with generative adversarial networks. In Interna-
+tional Conference on Artiﬁcial Neural Networks, 703–716.
+Springer.
+Ma, J.; and Perkins, S. 2003. Time-series novelty detection
+using one-class support vector machines.
+In Proceedings
+of the International Joint Conference on Neural Networks,
+2003., volume 3, 1741–1745 vol.3.
+Malhotra, P.; Ramakrishnan, A.; Anand, G.; Vig, L.; Agar-
+wal, P.; and Shroff, G. 2016.
+LSTM-based encoder-
+decoder for multi-sensor anomaly detection. arXiv preprint
+arXiv:1607.00148.
+Mathur, A. P.; and Tippenhauer, N. O. 2016. SWaT: a water
+treatment testbed for research and training on ICS security.
+In 2016 international workshop on cyber-physical systems
+for smart water networks (CySWater), 31–36. IEEE.
+Park, D.; Hoshi, Y.; and Kemp, C. C. 2018. A multimodal
+anomaly detector for robot-assisted feeding using an lstm-
+based variational autoencoder. IEEE Robotics and Automa-
+tion Letters, 3(3): 1544–1551.
+Paszke, A.; Gross, S.; Massa, F.; Lerer, A.; Bradbury, J.;
+Chanan, G.; Killeen, T.; Lin, Z.; Gimelshein, N.; Antiga,
+L.; Desmaison, A.; Kopf, A.; Yang, E.; DeVito, Z.; Raison,
+M.; Tejani, A.; Chilamkurthy, S.; Steiner, B.; Fang, L.; Bai,
+J.; and Chintala, S. 2019. PyTorch: An Imperative Style,
+High-Performance Deep Learning Library. In Wallach, H.;
+
+--- PAGE 9 ---
+Larochelle, H.; Beygelzimer, A.; d'Alch´e-Buc, F.; Fox, E.;
+and Garnett, R., eds., Advances in Neural Information Pro-
+cessing Systems 32, 8024–8035. Curran Associates, Inc.
+Shen, L.; Li, Z.; and Kwok, J. 2020. Timeseries anomaly
+detection using temporal hierarchical one-class network.
+Advances in Neural Information Processing Systems, 33:
+13016–13026.
+Su, Y.; Zhao, Y.; Niu, C.; Liu, R.; Sun, W.; and Pei, D.
+2019. Robust anomaly detection for multivariate time series
+through stochastic recurrent neural network.
+In Proceed-
+ings of the 25th ACM SIGKDD International Conference on
+Knowledge Discovery & Data Mining, 2828–2837.
+Van der Maaten, L.; and Hinton, G. 2008. Visualizing data
+using t-SNE. Journal of machine learning research, 9(11).
+Wu, R.; and Keogh, E. 2021. Current time series anomaly
+detection benchmarks are ﬂawed and are creating the illu-
+sion of progress.
+IEEE Transactions on Knowledge and
+Data Engineering.
+Wu, W.; He, L.; Lin, W.; Su, Y.; Cui, Y.; Maple, C.; and
+Jarvis, S. A. 2020. Developing an Unsupervised Real-time
+Anomaly Detection Scheme for Time Series with Multi-
+seasonality. IEEE Transactions on Knowledge and Data En-
+gineering.
+Xu, H.; Feng, Y.; Chen, J.; Wang, Z.; Qiao, H.; Chen, W.;
+Zhao, N.; Li, Z.; Bu, J.; Li, Z.; and et al. 2018. Unsupervised
+Anomaly Detection via Variational Auto-Encoder for Sea-
+sonal KPIs in Web Applications. Proceedings of the 2018
+World Wide Web Conference on World Wide Web - WWW
+’18.
+Yi, J.; and Yoon, S. 2020. Patch svdd: Patch-level svdd for
+anomaly detection and segmentation. In Proceedings of the
+Asian Conference on Computer Vision.
+Zhang, C.; Song, D.; Chen, Y.; Feng, X.; Lumezanu, C.;
+Cheng, W.; Ni, J.; Zong, B.; Chen, H.; and Chawla, N. V.
+2019. A Deep Neural Network for Unsupervised Anomaly
+Detection and Diagnosis in Multivariate Time Series Data.
+In AAAI.
+Zhou, B.; Liu, S.; Hooi, B.; Cheng, X.; and Ye, J. 2019.
+BeatGAN: Anomalous Rhythm Detection using Adversar-
+ially Generated Time Series. In IJCAI, 4433–4439.
+Zong, B.; Song, Q.; Min, M. R.; Cheng, W.; Lumezanu, C.;
+Cho, D.; and Chen, H. 2018. Deep autoencoding gaussian
+mixture model for unsupervised anomaly detection. In In-
+ternational Conference on Learning Representations.
+A1
+Relaxation of assumptions
+In Section 3.2 of the manuscript, we demonstrated F1PA be-
+comes close to 1 by restating recall and precision with con-
+ditional probability under two assumptions: (1) There exist
+only one anomaly segment in the test dataset (2) Anomaly
+scores are randomly drawn from a uniform distribution
+U(0, 1). Here we relax the assumptions for generalization.
+A1.1
+Multiple anomaly segments
+We show that for the multiple anomaly segments, F1PA close
+to 1 is achievable without loss of generality. First, if there
+exists multiple anomaly segments in the dataset, i.e., S =
+{S1, ..., SM}, then the recall R can be stated as follows:
+R = Pr (ˆyt = 1 | yt = 1)
+= 1 −Pr(ˆyt = 0|t ∈S)
+= 1 −1
+γ · Pr(ˆyt = 0, t ∈S)
+= 1 −1
+γ ·
+M
+X
+m=1
+Pr(ˆyt = 0, t ∈Sm)
+= 1 −1
+γ ·
+M
+X
+m=1
+Pr(ˆyt = 0) · Pr(t ∈Sm)
+= 1 −1
+γ ·
+M
+X
+m=1
+Y
+t′ ∈Sm
+Pr(A (wt′) < δ′)) · Pr(t ∈Sm)
+= 1 −1
+γ ·
+M
+X
+m=1
+δ′(tm
+e −tm
+s ) · tm
+e −tm
+s
+L
+= 1 −
+M
+X
+m=1
+δ′(tm
+e −tm
+s ) ·
+(tm
+e −tm
+s )
+PM
+m=1 tm
+e −tm
+s
+,
+(9)
+where L denotes the length of the input signal, i.e., L · γ =
+PM
+m=1 tm
+e −tm
+s . Then, the precision P is written as below:
+P = R · Pr(yt = 1)
+Pr(ˆyt = 1)
+=
+γ · R
+Pr(ˆyt = 1, yt = 0) + Pr(ˆyt = 1, yt = 1)
+=
+γ · R
+(1 −δ′)(1 −
+PM
+m=1 tm
+e −tm
+s
+L
+) + γ · R
+.
+(10)
+Figure 7 depicts the F1PA for various thresholds, when
+γ = 0.05 and M = 6. If the average length of Sm is sufﬁ-
+ciently large, which is typical for the majority of benchmark
+datasets, F1PA achieves close to 1 depending on δ′.
+A1.2
+Anomaly scores drawn from a Gaussian
+distribution
+Here, we extend the above F1PA for multiple anomaly seg-
+ments case to the anomaly scores drawn from drawn from
+a Gaussian distribution, i.e., A(wt) ∼N(0, σ), where
+0 < σ << 1. Then, Pr(A(wt) < δ′) of Eq. 9 changes
+to
+R ∞
+δ′ N(0, σ). In this case, F1PA also achieves close to 1 if
+
+--- PAGE 10 ---
+Figure 7: F1PA for A(wt) ∼U(0, 1), γ = 0.05, M = 6
+the average length of window, as shown in Figure. 8, where
+σ is 0.02. Anomaly scores generated from a Gaussian dis-
+tribution corresponds to the untrained model initialized with
+the same distribution.
+A2
+Related works
+Reconstruction-based AD method trains a model to mini-
+mize the distance between a normal input and its reconstruc-
+tion. Anomalous input at the test time results in large dis-
+tance as it is difﬁcult to reconstruct. The distance, or recon-
+struction error, serves as an anomaly score. Various network
+architectures have been adopted for reconstruction, from an
+autoencoder (Malhotra et al. 2016) to a generative adversar-
+ial network (GAN) (Li et al. 2019; Zhou et al. 2019). The
+distance metrics also vary from the Euclidean distance (Au-
+dibert et al. 2020) to likelihood of reconstruction (Su et al.
+2019).
+Forecasting-based
+AD
+method
+is
+similar
+to
+the
+reconstruction-based methods, except that it predicts a sig-
+nal for the future time steps. The distance between the pre-
+dicted and ground truth signal is considered an anomaly
+score. Hundman et al. adopted a long short-term memory
+(LSTM) (Hochreiter and Schmidhuber 1997) to forecast the
+current time-step-ahead input. Another variant of the recur-
+rent model, the gated recurrent unit (Chung et al. 2014), was
+applied to the forecasting-based TAD (Wu et al. 2020).
+Others include various attempts to model the normal data
+distribution. One-class classiﬁcation-based approaches (Ma
+and Perkins 2003; Shen, Li, and Kwok 2020) measured the
+similarity between the hidden representations of the nor-
+mal and abnormal signals. Real-time anomaly detection in
+multivariate time-series (RADM) (Ding et al. 2018) applied
+hierarchical temporal memory and a Bayesian network to
+model normal data distribution. Recently, as graph neural
+networks (GNNs) have shown very good performance in
+modeling temporal dependency, their use in TAD is grow-
+ing rapidly (Chen et al. 2021; Deng and Hooi 2021).
+Figure 8: F1PA for A(wt) ∼N(0, 0.02), γ = 0.05, M = 6
+A3
+Experimental details
+A3.1
+Experimental environment
+All experiments, including the reimplementations, were
+conducted with the following environment:
+• CPU: Intel(R) Xeon(R) Gold 6242R
+• GPU: NVIDIA GeForce RTX 2080Ti (MSCRED,
+THOC, GDN) Quadro RTX 8000 with 48GB VRAM (re-
+mainder)
+• Library: PyTorch (Paszke et al. 2019) and Tensor-
+ﬂow (Abadi et al. 2015)
+• CUDA version: 11.0
+A3.2
+Details of reimplementation
+To reproduce the results of existing methods, we referred
+to the public codes published by the authors. Although
+some methods, including USAD (Audibert et al. 2020) and
+GDN (Deng and Hooi 2021), state that they applied down-
+sampling in the original paper, we did not apply it in the
+main manuscript because it potentially modiﬁes the test
+dataset distribution. Moreover, as previously reported in
+OmniAnomaly (Su et al. 2019), applying down-sampling at
+various sampling rates did not make a signiﬁcant difference
+in results. We used default hyper-parameters provided by the
+public code except for some hyper-parameters that depend
+on the dataset and they are listed below. For all methods and
+datasets presented in the manuscript, we experimented with
+three different window sizes in a list incremented by 10 from
+10 to 100. Below are the list of hyper-parameters that we
+searched for:
+• USAD
+– context vector size: [10, 50, 100]
+• DAGMM (Zong et al. 2018)
+– unit sizes of hidden layers of compression network:
+[32, 64, 80]
+– unit sizes of hidden layers of estimation network: [16,
+32, 48]
+• LSTM-VAE
+– intermediate dimension: ﬁxed to 200
+
+--- PAGE 11 ---
+– dimension of latent vector: [15, 30, 50]
+• OmniAnomaly
+– dimension of latent vector: [3, 5, 10]
+– hidden unit of recurrent neural network (RNN): [300,
+500, 700]
+• THOC (Shen, Li, and Kwok 2020)
+– warmup length for dilated RNN test data: [500, 1000]
+– prediction loss lambda: [0.01, 0.1, 1, 10, 100]
+– orthogonality loss lambda: [0.01, 0.1, 1, 10, 100]
+– step sizes for 3-layere dilated RNN: [{1, 2, 4},{1, 4,
+8},{1, 4, 12}, {1, 4, 16}]
+– hidden unit dimension: [32, 64, 84, 128]
+– number of clusters for the 3-layer dilated RNN: [{6,
+6, 6}, {12,6,1}, {12,6,4},{18,6,1}{18, 12, 4}{18, 12,
+6}{32, 12, 6}]
+• GDN:
+– embedding dimension: [64, 128, 256]
+– number of output layers: [1, 2, 4]
+– number of adjacent attributes: [5, 15]
+– intermediate dimension of output layer: [64, 128, 256]
+A3.3
+Architecture of the untrained model
+In experimental results, we introduced a simple untrained
+encoder-decoder for implementation of Case 3. Anomaly
+score from the randomized model. Below is the descrip-
+tion of its architecture:
+• Encoder: Single-layer LSTM
+• Decoder: Single-layer LSTM
+• Hidden unit dimension: 25
+• Context dimension: 25
+We note that the model was not trained after initialization.
+

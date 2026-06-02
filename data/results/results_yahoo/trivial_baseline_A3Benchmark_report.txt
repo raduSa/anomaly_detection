@@ -1,0 +1,16 @@
+
+Trivial Baseline — ||w||_2 (A3Benchmark) eval
+              precision    recall  f1-score   support
+
+       Legit     1.0000    0.0011    0.0022     29651
+       Fraud     0.3279    1.0000    0.4938     14449
+
+    accuracy                         0.3284     44100
+   macro avg     0.6639    0.5005    0.2480     44100
+weighted avg     0.7798    0.3284    0.1633     44100
+
+ROC-AUC          : 0.5078
+Avg Precision    : 0.3480
+Balanced Accuracy: 0.5005
+F1 (fraud)       : 0.4938
+TP=14449  TN=32  FP=29619  FN=0
