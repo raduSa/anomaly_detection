@@ -45,7 +45,7 @@ class SinusoidalPositionalEncoding(nn.Module):
 
 class BottleneckTransformerAE(nn.Module):
     """
-    Transformer encoder â†’ global average pool â†’ linear bottleneck â†’ linear expand â†’ reshape.
+    Transformer encoder -> global average pool -> linear bottleneck -> linear expand -> reshape.
 
     The transformer handles feature extraction with self-attention; the pool+squeeze
     creates an explicit information bottleneck (like the MLP AE) that prevents

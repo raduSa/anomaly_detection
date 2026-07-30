@@ -1,0 +1,306 @@
+\chapter{Methods and Experimental Setup}
+\label{ch:methodology}
+
+% This chapter explains every model and every shared experimental choice
+% (preprocessing, hyperparameters, evaluation protocol) that applies across
+% all three datasets. Dataset-specific preprocessing details that don't
+% generalize (e.g. exact feature counts, window lengths) can either stay
+% here at a high level or move into the per-dataset Results subsections --
+% decide per case once the prose is drafted.
+
+\section{Anomaly Detection Algorithms}
+
+All models below are used for \emph{novelty detection}, not outlier detection: each is fit exclusively on benign/normal data and never sees an anomaly during training, so "normal" is whatever the training distribution looked like. At test time each model produces a scalar anomaly score per sample (never a hard label directly), and the label is obtained by thresholding that score with the procedure in \S\ref{sec:eval-protocol}. The seven models fall into four paradigms: \textbf{boundary-based} (One-Class SVM), \textbf{partition-based} (Isolation Forest), \textbf{reconstruction-based} (Feedforward Autoencoder, LSTM Autoencoder, Bottleneck Transformer Autoencoder), and \textbf{temporal-predictive} (Predictive LSTM, Causal Transformer).
+
+\subsection{One-Class SVM}
+
+One-Class SVM (\texttt{sklearn.svm.OneClassSVM}, $\nu$-SVM formulation) learns a boundary around the training data in a (typically infinite-dimensional) feature space induced by a kernel, rather than reconstructing or partitioning the input directly. With the RBF kernel used throughout this project, the model implicitly fits a smooth, closed decision region around the bulk of the benign training points. Fixed across all three datasets: \texttt{kernel='rbf'}, \texttt{nu=0.01}, \texttt{gamma='scale'} (see \S\ref{sec:architecture}). At test time, \texttt{decision\_function} returns the signed distance to the learned boundary (positive inside, negative outside); this is negated so that, consistently with every other model in this project, \emph{higher score = more anomalous}.
+
+\subsection{Isolation Forest}
+
+Isolation Forest (\texttt{sklearn.ensemble.IsolationForest}) is partition-based: it builds an ensemble of random trees that recursively split the feature space on randomly chosen features and split points, and uses the average path length required to isolate a point (into its own leaf) across all trees as the anomaly signal. Because splits are random, points that are easy to separate from the rest of the data -- i.e.\ anomalies, which tend to sit in sparse, low-density regions -- are isolated in fewer splits, giving them a shorter average path length than typical benign points. \texttt{score\_samples} returns the negative mean path length, which is negated once more here so that higher score means shorter path (i.e.\ more anomalous), keeping the convention consistent with every other model. \texttt{contamination} is left at its default, \texttt{'auto'}: this parameter would normally set the model's own internal decision threshold based on an assumed anomaly fraction in the training data, but since training data here is exclusively benign (no contamination to speak of) and the operating threshold is instead selected externally via the PR-curve sweep in \S\ref{sec:eval-protocol}, \texttt{contamination} has no effect on the reported results -- only the continuous anomaly score matters.
+
+\subsection{Feedforward (MLP) Autoencoder}
+
+The Feedforward Autoencoder is reconstruction-based: a symmetric encoder/decoder pair of fully-connected \texttt{Linear}+\texttt{ReLU} layers (with dropout between hidden layers) compresses the input feature vector down through a bottleneck of strictly reduced dimensionality and then expands it back to the original input size, trained end-to-end to minimize mean squared reconstruction error against its own input. Because the bottleneck is narrower than the input, the network cannot simply learn the identity function; it is forced to learn a compressed representation that captures the dominant structure of \emph{benign} data specifically. At test time, the anomaly score is the per-sample mean squared error between the input and its reconstruction: benign samples, which resemble the training distribution the bottleneck was shaped around, reconstruct with low error, while anomalous samples -- which the bottleneck was never trained to represent -- tend to reconstruct poorly. Layer widths and the resulting bottleneck ratio vary by dataset (\S\ref{sec:architecture}) but the encoder/decoder-mirror-of-encoder architecture is identical everywhere.
+
+\subsection{LSTM Autoencoder}
+
+The LSTM Autoencoder applies the same reconstruction principle as the Feedforward Autoencoder, but to sequence-shaped input: one LSTM layer serves as the encoder, consuming the full input sequence and retaining only its final hidden (and cell) state as a single fixed-size vector summary of the entire sequence. That final hidden state is then repeated identically at every timestep as the input to a second LSTM layer acting as the decoder, whose per-timestep outputs are projected back to the original feature dimensionality by a shared linear layer. The anomaly score is again per-sample mean squared error, computed over every timestep and feature jointly between the input sequence and its reconstruction.
+
+\subsection{Predictive LSTM}
+
+The Predictive LSTM uses the same recurrent building block (a single LSTM layer) as the LSTM Autoencoder above, but with a categorically different training objective: rather than reconstructing its own input, it is trained to predict step $t+1$ from steps $0..t$ at every position in the sequence simultaneously -- the model never sees the value it is being asked to predict. Architecturally, this means the LSTM's hidden state at each timestep is projected directly to a next-step prediction via a linear output layer, with no encoder/decoder split and no bottleneck vector: the model consumes the sequence once, and every hidden state along the way is used, rather than only the final one. The anomaly score is the mean squared error between predicted and true next-step values across the sequence. This distinction in \emph{objective} (predict the future vs.\ reconstruct the present), rather than any difference in raw architectural capacity, is what separates this model from the LSTM Autoencoder, and turns out to matter substantially more than the choice of recurrent vs.\ attention-based backbone for how each model responds to different anomaly types (\S\ref{ch:results}).
+
+\subsection{Transformer-Based Autoencoders}
+
+Two transformer variants are used, both replacing the LSTM Autoencoder's recurrent backbone with a multi-layer \texttt{TransformerEncoder} (self-attention + feedforward blocks, sinusoidal positional encoding, identical \texttt{D\_MODEL}/\texttt{NHEAD}/\texttt{NUM\_LAYERS}/\texttt{DIM\_FF} across datasets -- \S\ref{sec:architecture}), but differing in how the bottleneck (reconstruction) or causality (prediction) constraint is imposed:
+
+\begin{itemize}
+  \item \textbf{Bottleneck Transformer Autoencoder} -- reconstruction-based. Each input feature/timestep is projected to a $\texttt{D\_MODEL}$-dimensional token and passed through the transformer encoder with full (non-causal) self-attention, so every position can attend to every other position freely. The resulting per-position representations are then \emph{global-average-pooled} across the sequence into a single $\texttt{D\_MODEL}$-dimensional vector, squeezed through a linear layer to a strictly smaller \texttt{LATENT\_DIM}, and expanded back out by a second linear layer to the full flattened sequence shape. This pool-squeeze-expand step is the explicit information bottleneck (analogous to the LSTM Autoencoder's final hidden state) that prevents the attention mechanism from simply copying its input through to the output. Anomaly score: per-sample MSE between input and reconstruction across all positions, computed in a single forward pass.
+  \item \textbf{Causal Transformer} -- temporal-predictive, the attention-based counterpart to the Predictive LSTM. The same encoder stack is used, but with a causal (upper-triangular) attention mask applied, so position $t$ can only attend to positions $0..t$; the model is trained on the same next-step objective as the Predictive LSTM, with no pooling bottleneck. Anomaly score: per-sample MSE between predicted and true next-step values.
+\end{itemize}
+
+Both variants deliberately use a single \texttt{TransformerEncoder} stack rather than the full encoder-decoder structure common in the time-series transformer literature (e.g.\ Informer's ProbSparse-attention encoder paired with a generative decoder, or reconstruction-based designs that pair a Transformer encoder with a separate convolutional decoder). Training and inference cost scale with the number of attention layers on both datasets and models, and an encoder-only design keeps that cost, along with the number of trainable parameters, to roughly half of what an equivalent encoder-decoder model would require, without sacrificing the ability to either pool-and-reconstruct or causally predict.
+
+No Causal Transformer implementation exists for the credit card dataset (\S\ref{ch:results}).
+
+\section{Datasets}
+
+Three datasets were selected to span a deliberate spectrum of temporal structure: Dataset A is purely tabular, with no meaningful temporal ordering between rows; Datasets B and C are genuinely temporal, with Dataset C additionally admitting both a flat/tabular and a temporal view of the same underlying data. This lets the same four modeling paradigms be evaluated under progressively harder conditions for the "does temporal order matter" question.
+
+\subsection{Credit Card Fraud Detection (Dataset A)}
+
+The Kaggle Credit Card Fraud Detection dataset contains 284{,}807 transactions, of which 492 (0.172\%) are fraudulent -- an extreme class imbalance typical of real-world fraud detection. Each row has 30 features: \texttt{Time} (seconds elapsed since the first transaction in the dataset), 28 PCA-transformed features \texttt{V1}--\texttt{V28} (anonymized for confidentiality, already decorrelated and roughly zero-mean by construction), and \texttt{Amount} (raw transaction value, heavily right-skewed).
+
+The dataset, along with community exploratory analysis, is available on Kaggle.\footnote{\url{https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud}} A further exploratory notebook specifically covering imbalanced-data handling and anomaly detection on this dataset is also available.\footnote{\url{https://www.kaggle.com/code/janiobachmann/credit-fraud-dealing-with-imbalanced-datasets}}
+
+\texttt{Time} is elapsed seconds, not a repeating or structured temporal axis -- there is no periodicity, trend, or session concept to exploit. This makes Dataset A the deliberate "no genuine temporal order" control case.
+
+\subsection{Yahoo Webscope S5 (Dataset B)}
+
+Yahoo Webscope S5 consists of four benchmark families (A1--A4), each a collection of independent univariate time series with labeled anomalies, but each constructed to isolate a different anomaly type:
+
+\begin{center}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllll@{}}
+\toprule
+Benchmark & Series & Origin & Anomaly type & Anomaly rate \\
+\midrule
+A1 & 67  & Real server metrics & Point outliers & 1.76\% \\
+A2 & 100 & Synthetic, single periodic component + trend & Point outliers & 0.33\% \\
+A3 & 100 & Synthetic, 3 interacting frequency components & Contextual (phase deviation) & 0.56\% \\
+A4 & 100 & Synthetic, same structure, no seasonality & Level shifts & 0.50\% \\
+\bottomrule
+\end{tabular}%
+}
+\end{center}
+
+A1 is real, organic, and noisy (messy daily/weekly cycles); A2--A4 are synthetic and purpose-built so that the anomaly type is controlled independently of the underlying series shape. This is what allows the Results chapter to attribute performance differences to \emph{anomaly type} (point vs.\ contextual vs.\ level-shift) rather than to confounding differences between datasets. A2 is included in the codebase but has only a partial run so far (see \S\ref{ch:results}).
+
+\subsection{CIC-IDS2017 (Dataset C)}
+
+CIC-IDS2017 (Canadian Institute for Cybersecurity) is a network intrusion detection benchmark captured over five working days: $\sim$2.8 million bidirectional network flows, each described by $\sim$80 statistical features extracted by CICFlowMeter (duration, packet/byte counts and rates, inter-arrival-time statistics, TCP flag counts, window sizes, etc.). Monday is 100\% benign traffic; 14 distinct attack types (DoS/DDoS variants, PortScan, brute-force, web attacks, Bot, Infiltration, Heartbleed) are injected Tuesday through Friday. The Monday-benign / rest-mixed split is therefore a natural, dataset-native novelty detection split.
+
+The raw/Kaggle distribution of this dataset is known to be substantially corrupted (Engelen et al., WTMC 2021): roughly 26\% of flows are TCP "appendix" artifacts inheriting their parent flow's attack label without containing any attack traffic, a large fraction of nominally-labeled attack flows carry no actual payload (label-only, not behavior-based), and the entire \texttt{DoS Hulk} class corresponds to a broken attack simulation that never executes against the target server. Identifier columns (\texttt{Flow ID}, source/destination IP, \texttt{Timestamp}) are also present and, if kept, let a model shortcut-learn by IP address or capture time window instead of by traffic behavior. This project uses the cleaned, re-extracted version of the dataset from Engelen et al. rather than the original Kaggle/UNB CSVs, and drops the identifier columns explicitly (see \S\ref{sec:preprocessing}).
+
+CIC-IDS2017 flows are session-level statistical aggregates. This makes the dataset a genuine bridge case: it supports a valid flat/tabular view (one flow = one sample, analogous to Dataset A), a valid temporal view (flows grouped and ordered per host, analogous to Dataset B), and, as introduced in this project, a host-context view that augments each flow with rolling per-host activity statistics, adapted from the unsupervised method of Raskovalov et al.\ (2024) and described in full in \S\ref{sec:preprocessing}. Comparing all three feature-engineering strategies against the same underlying data and the same model paradigms is the core experimental design for Dataset C.
+
+\section{Preprocessing}
+\label{sec:preprocessing}
+
+Two principles are shared across all three pipelines. First, every model is trained exclusively on benign/normal samples (novelty detection): the training split never contains an anomaly, and all scalers/normalizers are \emph{fit} on the training split only, then applied unchanged to the test split -- this prevents any statistic of the anomalous test data from leaking into preprocessing. Second, the test split always contains both classes, evaluated with the protocol described in \S\ref{sec:eval-protocol}.
+
+\subsection{Tabular Preprocessing (Credit Card)}
+
+\begin{enumerate}
+  \item \texttt{Time} is dropped (not a meaningful axis, see \S\ref{ch:methodology}).
+  \item Rows are split by class: all benign (\texttt{Class=0}) rows are pooled, then split 80/20 (\texttt{TEST\_SIZE=0.2}, \texttt{RANDOM\_SEED=123}) into train and test-benign. The training set is the 80\% split, containing only benign rows ($\sim$227{,}451 rows).
+  \item The test set is the remaining 20\% benign rows plus \emph{all} 492 fraud rows.
+  \item Scaling is asymmetric by feature group: \texttt{V1--V28} pass through \textbf{unscaled} by default (\texttt{V\_SCALING = 'none'} -- reasonable since these are already PCA-whitened features), with \texttt{'standard'} also attempted on some runs but no real differenece across models. \texttt{Amount} is scaled independently with a \texttt{RobustScaler} (median/IQR-based), chosen for robustness to its heavy right tail, following the same reasoning as the exploratory notebook cited in \S\ref{ch:methodology}.\footnote{\url{https://www.kaggle.com/code/janiobachmann/credit-fraud-dealing-with-imbalanced-datasets}}
+\end{enumerate}
+
+Output: \texttt{X\_train\_normal.npy} ($\sim$227k $\times$ 29), \texttt{X\_test.npy} / \texttt{y\_test.npy} (mixed class), under \texttt{data/processed\_data/processed\_credit\_card/}.
+
+\subsection{Time-Series Windowing (Yahoo S5)}
+
+Implemented in \texttt{yahoo/preprocess\_timeseries.py}, run once per benchmark (the \texttt{BENCHMARK} constant is edited and the script re-run for each of A1/A2/A3/A4, producing one \texttt{processed\_yahoo/\{Benchmark\}/} directory per run).
+
+\begin{enumerate}
+  \item Each series is split 70/30 along the time axis (\texttt{TRAIN\_FRAC=0.70}) -- a temporal split, not a random shuffle, so no future information leaks into training.
+  \item A \texttt{MinMaxScaler} is fit \emph{per series}, using only the non-anomalous points of that series' training portion, then applied to both the train and test portions of the same series.
+  \item A sliding window of length \texttt{WINDOW=64} is applied: stride 4 for training windows (\texttt{STRIDE\_TRAIN}, subsampled, and only fully-normal windows are kept for training) and stride 1 for test windows (\texttt{STRIDE\_TEST}, dense -- every possible window position is evaluated).
+  \item A window's label follows the "any" rule: positive if at least one of its 64 timesteps is anomalous. This is a documented source of label blur -- e.g.\ on A1, a $1.76\%$ point-level anomaly rate becomes a $\sim$17--18\% window-level rate, since a single anomalous point contaminates up to 64 overlapping windows. A smaller window would reduce this blur; re-running with $w=35$ (following the DeepAnt window-size ablation discussed below) is worth trying, though this has not yet been done.
+  \item Windows from all series in a benchmark are pooled into single \texttt{X\_train\_normal.npy} / \texttt{X\_test.npy} / \texttt{y\_test.npy} arrays.
+\end{enumerate}
+
+\paragraph{Comparison with DeepAnt.} DeepAnt (Munir et al., 2019) was used as a reference for evaluating a deep next-step predictor on Yahoo S5, though several methodological choices differ from this project's:
+
+\begin{itemize}
+  \item \textbf{Many-to-one prediction, not many-to-many.} DeepAnt's proposed predictor is a convolutional network; the LSTM variant they report as a comparison baseline (two stacked layers of 32 units each) is narrower and shallower than the single 64-unit LSTM used for Predictive LSTM here. More importantly, both predict only a single next timestep from a window (many-to-one), rather than every step $t{+}1$ from $0..t$ simultaneously, as this project's predictive models do (\S\ref{ch:methodology}).
+  \item \textbf{Per-series vs.\ pooled training.} DeepAnt fits and evaluates a separate model on each individual time series (a 40/60 train/test split per series, F-score computed per series and then averaged per sub-benchmark), which lets each model specialise to a single frequency. This project instead pools windows from all $\sim$100 series in a benchmark into one shared model trained on a 70/30 split -- mostly for ease of implementation.
+\end{itemize}
+
+\subsection{Network Flow Preprocessing (CIC-IDS2017)}
+
+Three preprocessing variants exist for this dataset, all sharing the same base cleaning steps (drop \texttt{Flow ID}/\texttt{Src IP}/\texttt{Dst IP}/\texttt{Timestamp}/\texttt{Src Port}; one-hot encode \texttt{Protocol}; replace \texttt{Inf} with \texttt{NaN}; median-impute using training-set medians; drop zero-variance columns measured on the training set; \texttt{MinMaxScaler} fit on the training set only) but differing in unit of observation:
+
+\paragraph{Flat (\texttt{preprocess.py}).} One row = one flow. Training set is all Monday benign flows (371{,}749 rows); test set is all Tuesday--Friday benign flows plus all real attack flows (\texttt{-- Attempted} flows, i.e.\ attacks with no observed payload, are excluded entirely). Zero-variance filtering on Monday drops the three URG-flag columns, leaving 77 of the original 80 features.
+
+\paragraph{Temporal (\texttt{preprocess\_temporal.py}).} One row = a window of \texttt{WINDOW=16} consecutive flows from the same source IP, sorted by timestamp. This grouping choice -- by source IP rather than by individual 5-tuple flow session -- is deliberate and matches the grouping key already used to compute the host-context features above (\texttt{preprocess\_context.py}): both pipelines treat "one entity" as one source host's ordered activity stream, not one 5-tuple connection, since it is host-level behaviour (many short connections in a burst) rather than any single connection's internal structure that characterises attacks such as PortScan or DoS. Grouping by source IP works because the $\sim$48 testbed hosts each generate thousands of ordered flows; at \texttt{WINDOW=16}, source-IP streams cover 100\% of flows for 12 of 14 attack classes. The split is day-based (Monday train, Tuesday--Friday test) for the same reason as the flat pipeline; an earlier position-based (80/20 row-index) split was tried and abandoned after it was found to silently discard entire attack classes whose flows were concentrated late in the row order (documented as a fixed bug in \texttt{mds/cicids2017.md}). Output shape: \texttt{(N, 16, 77)}.
+
+\paragraph{Host-context (\texttt{preprocess\_context.py}).} Same flat, per-flow cleaning as above, but each flow is additionally augmented with 9 engineered features computed from a 60-second sliding time window per host IP: flow count, unique port count, port-diversity rate, a new-port indicator, and the source/destination asymmetry of each. These are computed causally (only from activity \emph{prior} to the current flow) and require no attack labels, following the unsupervised adaptation of Raskovalov et al.\ (2024). Final feature count: $77 + 9 = 86$. This variant was introduced specifically to address a blind spot shared by both the flat and temporal pipelines on the PortScan attack class (see \S\ref{ch:results}).
+
+\section{Hyperparameter and Training-Related Choices}
+\label{sec:architecture}
+
+Two policy choices apply uniformly across all models and datasets:
+
+\begin{itemize}
+  \item \textbf{Optimizer.} All neural networks are trained with Adam, at a fixed learning rate of $10^{-3}$, uniformly across every model and dataset.
+  \item \textbf{No hyperparameter sweeping.} If a model performed unexpectedly poorly, its learning rate was sanity-checked against $\{10^{-4}, 10^{-3}, 3\times10^{-3}\}$ before drawing any conclusion from that result.
+  \item \textbf{Validation split for monitoring only.} Every neural network holds out a random 10\% of its training data purely to plot a training/validation loss curve per run, as a sanity check that training is proceeding correctly. This split is never used for early stopping or model selection: training always runs for the fixed epoch count below, and the reported test-set results use the model's final-epoch weights.
+\end{itemize}
+
+\subsection{Isolation Forest}
+
+\begin{center}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+ & CIC flat & CIC context & Yahoo & Credit card \\
+\midrule
+N\_ESTIMATORS & 150 & 150 & 150 & 150 \\
+MAX\_SAMPLES & 300{,}000 & 300{,}000 & $\min(n, 50{,}000)$ & 200{,}000 \\
+Training set size & $\sim$371k & $\sim$371k & few thousand & $\sim$227k \\
+\% of train used & $\sim$81\% & $\sim$81\% & $\sim$100\% & $\sim$88\% \\
+RANDOM\_SEED & 123 & 123 & 123 & 123 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\texttt{MAX\_SAMPLES} is the only meaningful difference and is set as high as practically feasible per dataset (accuracy improves with more samples per tree, with diminishing returns; swamping the trees is not a concern here since training data is always benign-only). Yahoo's 50{,}000 cap is never actually reached and is kept only as a safety ceiling.
+
+\subsection{One-Class SVM}
+
+\begin{center}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+ & CIC flat & CIC context & Yahoo & Credit card \\
+\midrule
+NU & 0.01 & 0.01 & 0.01 & 0.01 \\
+KERNEL & rbf & rbf & rbf & rbf \\
+GAMMA & scale & scale & scale & scale \\
+SUBSAMPLE & 50{,}000 & 50{,}000 & none (full) & none (full) \\
+\% of train used & $\sim$13.5\% & $\sim$13.5\% & $\sim$100\% & $\sim$100\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+All kernel/nu parameters are uniform across datasets. Subsampling is applied only where the training set is large enough to make full-data OC-SVM impractically slow; credit card ($\sim$227k rows) currently trains on the full set without subsampling.
+
+\subsection{Feedforward (MLP) Autoencoder}
+
+\begin{center}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+ & CIC flat & CIC context & Yahoo & Credit card \\
+\midrule
+Input dim & 77 & 86 & 64 (window flattened) & $\sim$30 (PCA) \\
+Hidden dims & [64, 32, 16] & [64, 32, 16] & [32, 16] & [16, 8] \\
+Bottleneck ratio & 0.21 & 0.19 & 0.25 & $\sim$0.27 \\
+Final activation & Sigmoid & Sigmoid & Linear & Linear \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Layer widths scale with input size to hold the bottleneck compression ratio roughly constant ($\sim$0.20--0.27) across datasets. The final activation differs because CIC uses \texttt{MinMaxScaler} (bounded to $[0,1]$, matching a sigmoid output), while Yahoo and credit card use unbounded scalers (linear output).
+
+\subsection{Predictive LSTM}
+
+\begin{center}
+\begin{tabular}{@{}llll@{}}
+\toprule
+ & CIC & Yahoo & Credit card \\
+\midrule
+INPUT\_SIZE & 77 & 1 & 1 \\
+HIDDEN\_DIM & 128 & 64 & 64 \\
+NUM\_LAYERS & 1 & 1 & 1 \\
+EPOCHS & 20 & 20 & 50 \\
+BATCH\_SIZE & 256 & 256 & 512 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\texttt{HIDDEN\_DIM} scales with input size for CIC (a $\sim$1.66$\times$ expansion over 77 input features); both univariate datasets use 64, sufficient capacity for a scalar signal. Credit card uses more epochs (50) because its loss curve keeps declining past epoch 30 -- a direct consequence of treating 29 non-temporal PCA features as a pseudo-sequence, which makes optimization noisier than on genuinely temporal data. CIC and Yahoo converge by epoch $\sim$5, so 20 epochs is already conservative for them.
+
+\subsection{LSTM Autoencoder}
+
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+ & CIC & Yahoo & Credit card \\
+\midrule
+INPUT\_SIZE & 77 & 1 & 1 \\
+HIDDEN\_DIM & 128 & 64 & 64 \\
+NUM\_LAYERS & 1 & 1 & 1 \\
+EPOCHS & 50 & 30 & 50 \\
+BATCH\_SIZE & 256 & 256 & 512 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+CIC and credit card both required 50 epochs to plateau; Yahoo converges by epoch $\sim$5, so 30 epochs is already generous there.
+
+\subsection{Bottleneck Transformer Autoencoder}
+
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+ & CIC & Yahoo & Credit card \\
+\midrule
+D\_MODEL & 64 & 64 & 64 \\
+NHEAD & 4 & 4 & 4 \\
+NUM\_LAYERS & 2 & 2 & 2 \\
+DIM\_FF & 256 & 256 & 256 \\
+LATENT\_DIM & 32 & 32 & 32 \\
+EPOCHS & 50 & 20 & 20 \\
+BATCH\_SIZE & 256 & 256 & 512 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\texttt{LATENT\_DIM=32} gives a uniform 50\% compression relative to \texttt{D\_MODEL=64} across all three datasets. \textbf{Known issue:} the CIC bottleneck-transformer numbers currently in \texttt{results\_analysis.md} (\S\ref{ch:results}) were produced before this fix, with \texttt{LATENT\_DIM=64=D\_MODEL} (i.e.\ no actual bottleneck) -- a re-run with the corrected value is needed before those numbers can be treated as final.
+
+\subsection{Causal Transformer}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+ & CIC & Yahoo \\
+\midrule
+D\_MODEL & 64 & 64 \\
+NHEAD & 4 & 4 \\
+NUM\_LAYERS & 2 & 2 \\
+DIM\_FF & 256 & 256 \\
+DROPOUT & 0.1 & 0.1 \\
+EPOCHS & 30 & 30 \\
+BATCH\_SIZE & 256 & 256 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Evaluation Protocol}
+\label{sec:eval-protocol}
+
+\subsection{Metrics Reported}
+
+Every run produces a text report containing the following:
+
+\begin{center}
+\begin{tabular}{@{}p{4cm}p{9.5cm}@{}}
+\toprule
+Metric & Notes \\
+\midrule
+Precision / Recall / F1 (per class) & Via \texttt{sklearn.classification\_report}, reported for both the normal and anomaly class, plus accuracy and macro/weighted averages. \\
+ROC-AUC & Reported for completeness / comparability with prior literature; not the primary ranking metric under class imbalance. \\
+Average Precision (PR-AUC) & Threshold-independent; the standard choice under severe class imbalance, since ROC-AUC can look deceptively good when negatives vastly outnumber positives. \\
+Balanced Accuracy & $\frac{1}{2}(\text{sensitivity} + \text{specificity})$ at the selected operating threshold. \\
+F1 (positive/attack class) & At the selected operating threshold. \\
+Confusion matrix counts & Raw TP/TN/FP/FN at the selected threshold. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+For CIC-IDS2017 specifically, \texttt{evaluate\_per\_class()} additionally reports Average Precision broken down per attack type (treating each attack class against all benign samples in isolation) -- this is what supports the per-attack-type discussion in \S\ref{ch:results}.
+
+PR-AUC (Average Precision) is treated as the primary metric for model comparison throughout this thesis, rather than F1 or ROC-AUC. This follows Kim et al.\ (2022), who observe that pre-defining a decision threshold without access to the test set is impractical, and that existing time-series anomaly detection methods instead report F1 at whichever threshold happens to maximize it -- making reported results threshold-dependent by construction. In their Discussion, they conclude that \enquote{additional metrics with the reduced dependency such as AUROC or area under precision-recall (AUPR) curve will help in rigorous evaluation}, which is the justification adopted here for ranking models by PR-AUC rather than by threshold-dependent F1.
+
+\subsection{Threshold Selection}
+
+A single decision threshold is still chosen per model/dataset to report the secondary threshold-dependent metrics (F1, balanced accuracy, confusion matrix) discussed above: it scans all thresholds on the precision-recall curve and picks the one maximizing $F_\beta$ with $\beta=2$, weighting recall twice as heavily as precision. The exact value of $\beta$ is not tuned -- any $\beta>1$ would express the same operationally reasonable preference for an anomaly/fraud-detection setting, where a missed anomaly is typically costlier than a false alarm; $\beta=2$ was simply fixed as a representative choice.
+
+This is an \emph{oracle} threshold: it is selected using the test set's own precision-recall curve, which would not be available at deployment time. This is acceptable here because the object of study is relative model/paradigm comparison at the best achievable operating point, not deployment readiness -- and because PR-AUC, the primary metric, does not depend on threshold selection at all. The F2/F1/balanced-accuracy figures at the oracle threshold should be read as secondary, illustrative numbers.
+
+\subsection{No Point Adjustment}
+
+Many time-series anomaly detection papers apply \emph{Point Adjustment} (PA): if any point within a contiguous ground-truth anomaly segment is flagged, the entire segment is retroactively counted as detected. Kim et al.\ (2022) show this can inflate F1 to near-1 even for random scores when anomaly segments are long, and that PA-adjusted F1 is nearly uncorrelated with the un-adjusted F1 (Pearson $r=-0.59$ on the SWaT dataset in their study). No PA is applied anywhere in this project: window/flow labels are fixed at preprocessing time and predictions are scored exactly as thresholded, with no retroactive adjustment.

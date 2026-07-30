@@ -7,9 +7,9 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 import joblib
 
-YAHOO_DIR = os.path.join(_ROOT, 'data', 'ydata-labeled-time-series-anomalies-v1_0')
+YAHOO_DIR = os.path.join(_ROOT, 'data', 'raw', 'yahoo')
 
-BENCHMARK = 'A4Benchmark'
+BENCHMARK = 'A3Benchmark'
 OUT_DIR = os.path.join(_ROOT, 'data', 'processed_data', 'processed_yahoo', BENCHMARK)
 
 WINDOW = 64

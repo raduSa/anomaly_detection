@@ -1,0 +1,353 @@
+\chapter{Experimental Results}
+\label{ch:results}
+
+% One subsection tree per dataset. Each dataset section follows the same
+% internal shape for comparability: summary table -> per-model discussion ->
+% dataset-specific takeaway. Cross-dataset synthesis (which paradigm wins
+% where, and why) is saved for the Discussion/Conclusion chapter, not here --
+% keep this chapter to "what happened", not "what it means for the thesis".
+
+\section{Credit Card Fraud Detection (Dataset A)}
+% Source docs: data/results/results_credit_card/*_report.txt, credit_card/credit_card_results.md
+
+\subsection{Overall Comparison}
+
+Table~\ref{tab:cc-results} summarises all six evaluated models, ranked by Average Precision (AP), the primary metric. No Causal Transformer variant used for this dataset.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lllll@{}}
+\toprule
+Model & Paradigm & ROC-AUC & Avg. Precision & F1 (fraud) \\
+\midrule
+MLP Autoencoder            & Reconstruction              & 0.9649 & \textbf{0.7105} & 0.6992 \\
+Isolation Forest           & Partition                   & 0.9587 & 0.6725          & 0.6070 \\
+LSTM Autoencoder           & Reconstruction (pseudo-seq.) & 0.9476 & 0.6223          & \textbf{0.7362} \\
+OC-SVM                     & Boundary                     & 0.9354 & 0.5959          & 0.6454 \\
+Transformer Bottleneck AE  & Reconstruction (pseudo-seq.) & 0.9583 & 0.5947          & 0.6137 \\
+Predictive LSTM            & Predictive (pseudo-seq.)     & 0.9581 & 0.5190          & 0.5244 \\
+\bottomrule
+\end{tabular}
+\caption{Credit Card Fraud Detection -- model comparison, ranked by Average Precision.}
+\label{tab:cc-results}
+\end{table}
+
+All six models reach ROC-AUC $>0.93$, but AP spans 0.519--0.711 \rightarrow ROC-AUC is far less sensitive to class imbalance than AP and can look deceptively uniform across models that behave very differently once the positive class is rare.
+
+\subsection{Discussion}
+
+\paragraph{No genuine sequence exists in this dataset.} Unlike Yahoo S5 or the CIC-IDS2017 temporal/context variants, transaction rows have no temporal or causal ordering across features: \texttt{Time}  — seconds since the dataset's first transaction, an arbitrary reference point — is dropped at preprocessing; the pipeline predates the sequential models, added later purely for cross-dataset comparability, so it was left unchanged,
+ leaving each row as an independent 29-dimensional vector (\texttt{V1--V28} PCA components + \texttt{Amount}). The three "temporal" architectures evaluated here (Predictive LSTM, LSTM AE, Transformer Bottleneck AE) do not see a real sequence -- they reshape each 29-feature row into an artificial sequence of 29 scalar steps ($(N,29) \to (N,29,1)$), one feature per step, in the order present in the .csv file.
+
+\paragraph{Impact on results.} Predictive LSTM is the weakest model (AP 0.519): its next-step objective assumes a causal relationship between consecutive steps, but adjacent PCA components are orthogonal/decorrelated by construction, so there is no real next-step signal to learn -- reflected in its worst false-positive count (FP=566). LSTM AE holds up comparatively well (AP 0.622, best F1 of all evaluated models at 0.736, lowest FP at 174) - its encoder still compresses the full input into one summary hidden state before decoding, functioning similarly to the MLP AE's bottleneck rather than depending on order alone. Transformer Bottleneck AE (AP 0.595) sits close to the classical models for the same reason -- global average pooling into a single latent vector, does not only rely on positional coherence between adjacent PCA components. MLP Autoencoder, the only architecture that treats the 29 features as an ordinary flat vector with no artificial windowing, wins overall (AP 0.7105) -- consistent with there being no sequence to exploit.
+
+This is the mirror image of the CIC-IDS2017 finding that host-context features (encoding \emph{real} temporal/behavioural information) dominate, and of the Yahoo finding that the predictive objective wins under genuine periodic structure. Here, imposing sequence structure where none exists is a handicap: results rank models roughly by how much each architecture depends on the artificial ordering being meaningful -- MLP AE (none) $>$ LSTM AE / Transformer Bottleneck (soft, pooled/compressed) $>$ Predictive LSTM (hard, depends on order).
+
+\paragraph{Paradigm-level notes.} Reconstruction is the strongest paradigm overall once the pseudo-sequence handicap is accounted for (MLP AE, LSTM AE, and Transformer Bottleneck AE occupy three of the top four spots). Isolation Forest is the best non-reconstruction model (AP 0.6725) and the second-best model overall -- notably beating OC-SVM and two of the three temporal architectures, echoing CIC-IDS2017's finding that simple, low-assumption models remain competitive whenever imposed structure is a poor match for the data. OC-SVM (AP 0.5959) sits mid-table, with the second-highest false-positive count after Predictive LSTM. Predictive LSTM is the only representative of the predictive paradigm on this dataset and the weakest model overall, for the structural reason discussed above. Given this, a Causal Transformer variant was not trained for this dataset — there is no genuine sequence for any predictive architecture to exploit.
+
+\paragraph{Sanity check.} LSTM AE's best-of-all F1 (0.7362) despite a middling AP (0.6223) is a reminder that F1 is computed at a single oracle F2-threshold and can favor a different operating point than the one maximising area under the PR curve; AP remains the primary metric for cross-model ranking.
+
+\section{Yahoo Webscope S5 (Dataset B)}
+% Source docs: yahoo/results_notes.md, data/results/results_yahoo/*_report.txt
+
+A2 (single clean periodic component + trend, point outliers) is excluded from the comparisons below: like A1, it contains only point anomalies rather than contextual or level-shift ones, so it would pose the same limited-discriminative-power challenge discussed for A1 without adding a new anomaly type to the comparison.
+
+\subsection{A1 -- Point Anomalies (Real Server Metrics)}
+
+Table~\ref{tab:yahoo-a1} summarises the five models evaluated on A1. Causal Transformer and Transformer Bottleneck AE were not run on this benchmark.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}llll@{}}
+\toprule
+Model & Paradigm & ROC-AUC & Avg. Precision \\
+\midrule
+MLP Autoencoder  & Reconstruction & 0.792 & \textbf{0.611} \\
+LSTM Autoencoder & Reconstruction & 0.794 & 0.600 \\
+OC-SVM           & Boundary       & 0.776 & 0.595 \\
+Predictive LSTM  & Predictive     & 0.789 & 0.588 \\
+Isolation Forest & Partition      & 0.765 & 0.511 \\
+\bottomrule
+\end{tabular}
+\caption{Yahoo S5 A1 (point anomalies) -- model comparison, ranked by Average Precision.}
+\label{tab:yahoo-a1}
+\end{table}
+
+\paragraph{Discussion.} All five models cluster tightly within AP 0.51--0.61: MLP Autoencoder is best (AP 0.611) and Isolation Forest worst (AP 0.511), but the gap is narrow enough that no architecture shows a structural advantage here. Point anomalies (single-timestep spikes) do not require temporal understanding to detect. The window-level label blur discussed in \S\ref{sec:preprocessing} (a $1.76\%$ point-level anomaly rate becomes $\sim$17--18\% at the window level) further limits all models roughly equally, since it dilutes the discriminative signal available to every architecture in the same way.
+
+\subsection{A3 -- Contextual/Seasonal Anomalies}
+
+Table~\ref{tab:yahoo-a3} summarises all seven models evaluated on A3.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}llll@{}}
+\toprule
+Model & Paradigm & ROC-AUC & Avg. Precision \\
+\midrule
+Predictive LSTM            & Predictive     & \textbf{0.868} & \textbf{0.812} \\
+Transformer Bottleneck AE  & Reconstruction & 0.762          & 0.663 \\
+Causal Transformer         & Predictive     & 0.738          & 0.623 \\
+MLP Autoencoder            & Reconstruction & 0.765          & 0.507 \\
+LSTM Autoencoder           & Reconstruction & 0.566          & 0.392 \\
+OC-SVM                     & Boundary       & 0.584          & 0.376 \\
+Isolation Forest           & Partition      & 0.511          & 0.331 \\
+\bottomrule
+\end{tabular}
+\caption{Yahoo S5 A3 (contextual/seasonal anomalies) -- model comparison, ranked by Average Precision.}
+\label{tab:yahoo-a3}
+\end{table}
+
+\paragraph{Discussion.} Results diverge sharply once anomalies become contextual (a value normal in absolute terms but wrong for its phase in the seasonal cycle) rather than amplitude-based. Isolation Forest and OC-SVM collapse toward chance (ROC-AUC 0.511 and 0.584): a flattened 64-step window carries no phase information, so distribution-based detection fails outright. 
+LSTM Autoencoder collapses just as badly (ROC-AUC 0.566) despite being a sequence model -- its encoder compresses the whole seasonal window into a single hidden state, showing this is a compression-bottleneck failure rather than a weakness of recurrent architectures generally.
+In the same vein, Transformer Bottleneck AE trails the best model (AP 0.663) but is by far the strongest \emph{reconstruction}-based architecture, well ahead of LSTM AE: global self-attention over the window likely recovers periodicity that the LSTM AE's bottleneck destroys, which probably accounts for the gap.
+Predictive LSTM dominates and is the best model on any Yahoo benchmark (AP 0.812, ROC-AUC 0.868): its next-step objective directly exploits how predictable a seasonal series is, so an injected anomaly produces a clean spike in prediction error exactly where it violates the expected trajectory.
+
+\subsection{A4 -- Level-Shift Anomalies}
+
+Table~\ref{tab:yahoo-a4} summarises all seven models evaluated on A4.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}llll@{}}
+\toprule
+Model & Paradigm & ROC-AUC & Avg. Precision \\
+\midrule
+Predictive LSTM            & Predictive     & \textbf{0.745} & \textbf{0.505} \\
+Causal Transformer         & Predictive     & 0.695          & 0.436 \\
+MLP Autoencoder            & Reconstruction & 0.719          & 0.402 \\
+Transformer Bottleneck AE  & Reconstruction & 0.655          & 0.404 \\
+Isolation Forest           & Partition      & 0.498          & 0.268 \\
+OC-SVM                     & Boundary       & 0.519          & 0.265 \\
+LSTM Autoencoder           & Reconstruction & 0.502          & 0.252 \\
+\bottomrule
+\end{tabular}
+\caption{Yahoo S5 A4 (level-shift anomalies) -- model comparison, ranked by Average Precision.}
+\label{tab:yahoo-a4}
+\end{table}
+
+\paragraph{Discussion.} The series now model a system that experiences abrupt structural shifts.
+Every model degrades relative to A3, regardless of paradigm: windows from all $\sim$100 series are pooled together without series identity, and each series sits at its own baseline level -- a window's absolute value alone cannot tell a model whether it is looking at a genuine post-shift window or an ordinary window from another series whose normal baseline happens to be similar. Classical models bottom out entirely under this confound -- Isolation Forest reaches ROC-AUC 0.498, effectively a coin flip, since a shifted window can fall in a region of the pooled feature space already dense with unrelated series' normal windows. Reconstruction autoencoders (MLP AE, Transformer Bottleneck AE) are blunted for the same reason and fail to overtake Predictive LSTM here despite a step-shaped window intuitively being easier to flag by reconstruction error; both plateau around AP 0.40. LSTM Autoencoder additionally collapses outright (ROC-AUC 0.502), reproducing the same encoder-compression failure seen on A3. Predictive LSTM still leads (AP 0.505, ROC-AUC 0.745), though its margin over the field narrows sharply from A3: because it conditions each prediction on a series' own recent history rather than the pooled baseline distribution, a shift still registers as a violation of local continuity regardless of the absolute level it occurs at, but it probably generates a sustained, noisier error signal over the transition rather than the clean seasonal-deviation spike it could more easily exploit on A3.
+
+\subsection{Trivial Baseline Sanity Check (Yahoo Only)}
+
+Following Kim et al. (2022), who recommend checking every trained model against at least one label-free baseline before attributing its score to genuine representation learning, the models trained on Yahoo S5 were also evaluated against such a baseline (their "Case 2"): score each window by its raw L2 norm $\lVert w \rVert_2$, with no learned model at all. Because point anomalies in A1--A3 are amplitude spikes, a window containing one has elevated magnitude even without any representation learning. Any trained model that fails to exceed this baseline on PR-AUC is not adding value over raw signal amplitude -- this check is what confirms that the gains seen on A3 are genuine and not a window-magnitude artifact.
+
+On A3, the baseline itself scores ROC-AUC 0.508 and AP 0.348 -- indistinguishable from random, as expected for contextual anomalies that are phase violations rather than amplitude spikes. The \emph{margin} each trained model holds above this baseline is a more informative quantity than its raw AP: the baseline's own AP (0.348) closely matches the $\sim$33\% positive-window prior on A3 (itself elevated by the window-level label blur discussed in \S\ref{sec:preprocessing}), confirming the baseline is pure noise and that a model's raw AP is partly a function of this inflated prior rather than of learned structure alone.
+
+\begin{itemize}
+  \item \textbf{LSTM AE (+0.04 AP):} barely above noise -- encoder compression discards phase, leaving the model effectively using magnitude alone.
+  \item \textbf{MLP AE (+0.16 AP):} captures some window-shape statistics implicitly.
+  \item \textbf{Transformers (+0.28--0.29 AP):} global attention over the 64-step window recovers periodicity directly, a large and meaningful margin.
+  \item \textbf{Predictive LSTM (+0.47 AP):} more than doubles the baseline's AP -- the strongest evidence in this project that the \emph{training objective} (predict the next step), not raw model capacity, is the decisive factor on contextual anomalies.
+\end{itemize}
+
+\subsection{Discussion}
+
+\paragraph{Paradigm and architecture both matter.} The A3 results form a 2$\times$2 comparison of paradigm (reconstruction vs.\ predictive) against architecture (LSTM vs.\ Transformer): reconstruction scores 0.39 AP (LSTM AE) and 0.66 AP (Transformer Bottleneck), while predictive scores 0.81 AP (Predictive LSTM) and 0.62 AP (Causal Transformer). The predictive paradigm is necessary -- both predictive models beat both reconstruction models -- but not sufficient on its own: the 0.19 AP gap between Predictive LSTM and Causal Transformer, despite an identical training objective and identical training data, shows the LSTM architecture carries an additional advantage on seasonal data. The likely explanation is that the LSTM's recurrent hidden state acts as a continuous phase tracker, accumulating a compact summary of where the signal sits in its seasonal cycle at every step, so a phase violation produces a clean error spike; the causal transformer can attend to any earlier position directly but must learn explicit attention patterns to recover phase, a harder problem for A3's three interacting frequency components. On A4 this architectural gap shrinks to 0.07 AP, since a single abrupt transition does not require phase accumulation, so the LSTM's sequential inductive bias matters less.
+
+\paragraph{Per-anomaly-type summary.} Point anomalies (A1) leave all models within a narrow 0.51--0.61 AP band -- no temporal understanding is needed to flag an isolated spike. Seasonal anomalies (A3) are where the predictive paradigm's advantage is clearest, and where architecture choice matters most within that paradigm. Change-points (A4) degrade every model, but Predictive LSTM still leads, and Causal Transformer still beats both reconstruction models -- the predictive advantage shrinks with weaker, shorter-lived signal, but does not flip. Classical models (Isolation Forest, OC-SVM) and LSTM Autoencoder collapse on any anomaly type that requires contextual rather than absolute discrimination (A3, A4), while remaining competitive only on A1.
+
+\section{CIC-IDS2017 (Dataset C)}
+% Source docs: cicids2017/results_analysis.md
+
+\subsection{Overall Comparison}
+
+Before comparing models, Table~\ref{tab:cic-composition} breaks down the pooled attack flows in the flat/context test set by class, since every AP figure reported below is computed against this entire pool at once and not per class. This includes \textbf{DoS Hulk} (158{,}469 flows, tied with PortScan for the largest attack class): every preprocessing script labels any non-benign, non-attempted flow as positive with no per-class filtering, so DoS Hulk flows are counted as attack samples in every model's aggregate ROC-AUC/AP/F1 in Table~\ref{tab:cic-results}. However, Engelen et al. (WTMC 2021) show the DoS Hulk attack tool used to generate this dataset is misconfigured -- it sets the HTTP \texttt{Connection} header to \texttt{Close} instead of \texttt{Keep-Alive}, so the target web server terminates the connection immediately instead of being kept busy, rendering the attack ineffective by construction. Consequently, DoS Hulk is deliberately excluded from the \emph{per-class} breakdown in \S\ref{sec:cic-per-attack}. This exclusion applies only to the per-class reporting, not to the pooled evaluation: DoS Hulk's $\sim$158k flows remain part of the positive class that every aggregate metric in Table~\ref{tab:cic-results} is computed against.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Attack class & $n$ (flows) & \% of attack pool \\
+\midrule
+PortScan            & 159{,}000 & 36.66\% \\
+DoS Hulk            & 158{,}469 & 36.54\% \\
+DDoS                & 95{,}000  & 21.91\% \\
+DoS GoldenEye       & 7{,}500   & 1.73\%  \\
+DoS slowloris       & 4{,}000   & 0.92\%  \\
+FTP-Patator         & 4{,}000   & 0.92\%  \\
+SSH-Patator         & 3{,}000   & 0.69\%  \\
+DoS Slowhttptest    & 1{,}700   & 0.39\%  \\
+Bot                 & 738       & 0.17\%  \\
+Web Attack -- Brute Force & 151 & 0.03\%  \\
+Infiltration        & 32        & 0.01\%  \\
+Web Attack -- XSS    & 27        & 0.01\%  \\
+Web Attack -- SQL Injection & 12 & $<$0.01\% \\
+Heartbleed          & 11        & $<$0.01\% \\
+\bottomrule
+\end{tabular}
+\caption{CIC-IDS2017 -- attack-class composition of the pooled attack flows in the flat/context test set. DoS Hulk contributes to every aggregate metric in Table~\ref{tab:cic-results} but is excluded from the per-class breakdown in \S\ref{sec:cic-per-attack} (see text).}
+\label{tab:cic-composition}
+\end{table}
+
+PortScan, DoS Hulk, and DDoS jointly account for 95.1\% of all attack flows in this pool -- directly substantiating the claim, made repeatedly below, that aggregate AP on this dataset is effectively a proxy for performance on these three classes, and that the ten remaining classes (all under 2\% individually, seven of them under 0.2\%) have limited leverage over the model ranking in Table~\ref{tab:cic-results} regardless of how well or poorly a model handles them individually. This is also why a per-attack breakdown is necessary at all (\S\ref{sec:cic-per-attack} below): a model could in principle top Table~\ref{tab:cic-results} while being essentially blind to every interpretable attack type except PortScan and DDoS.
+
+Table~\ref{tab:cic-composition-temporal} gives the analogous breakdown for the temporal pipeline's windowed test set. DoS Hulk is included here for the same reason as above.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Attack class & $n$ (windows) & \% of attack pool \\
+\midrule
+PortScan            & 159{,}160 & 36.42\% \\
+DoS Hulk            & 158{,}469 & 36.27\% \\
+DDoS                & 95{,}131  & 21.77\% \\
+DoS GoldenEye       & 7{,}575   & 1.73\%  \\
+DoS slowloris       & 4{,}001   & 0.92\%  \\
+FTP-Patator         & 3{,}966   & 0.91\%  \\
+Bot                 & 3{,}320   & 0.76\%  \\
+SSH-Patator         & 2{,}980   & 0.68\%  \\
+DoS Slowhttptest    & 1{,}742   & 0.40\%  \\
+Infiltration        & 445       & 0.10\%  \\
+Web Attack -- Brute Force & 151 & 0.03\%  \\
+Web Attack -- XSS    & 26        & 0.01\%  \\
+Web Attack -- SQL Injection & 20 & $<$0.01\% \\
+Heartbleed          & 19        & $<$0.01\% \\
+\midrule
+BENIGN              & 1{,}282{,}611 & -- \\
+\bottomrule
+\end{tabular}
+\caption{CIC-IDS2017 -- attack-class composition of the pooled attack windows in the temporal test set (1{,}719{,}616 windows total, 25.41\% attack rate).}
+\label{tab:cic-composition-temporal}
+\end{table}
+
+Window counts track flat flow counts closely for dense, bursty classes (DoS Hulk: 158{,}469 vs.\ 158{,}469 flat; similarly PortScan, DDoS, the DoS/Patator classes) -- sliding \texttt{STRIDE\_TEST=1} across a long uninterrupted attack span relabels nearly every position as attack without adding windows beyond what the span already spans. Sparse, isolated classes inflate far more sharply -- Bot $\sim$4.5$\times$ (738 $\to$ 3{,}320), Infiltration $\sim$14$\times$ (32 $\to$ 445) -- since each isolated flow gets "smeared" across up to \texttt{WINDOW=16} overlapping windows under the any-attack rule (\S\ref{sec:preprocessing}).
+Table~\ref{tab:cic-results} summarises all thirteen model/feature-set combinations evaluated on CIC-IDS2017, ranked by Average Precision (AP), the primary metric. Attack prevalence in the test set is $\sim$25\%, considerably less extreme than Credit Card's 0.17\% but still imbalanced enough that AP and ROC-AUC diverge for the weaker models.
+
+\begin{table}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllllll@{}}
+\toprule
+Model & Feature set & Paradigm & ROC-AUC & Avg. Precision & Balanced Acc. & F1 (attack) \\
+\midrule
+MLP Autoencoder            & Context  & Reconstruction & \textbf{0.9860} & \textbf{0.9487} & 0.9548          & 0.9020 \\
+OC-SVM                     & Context  & Boundary       & 0.9745          & 0.9396          & \textbf{0.9569} & \textbf{0.9229} \\
+Isolation Forest           & Context  & Partition      & 0.9785          & 0.9328          & 0.9270          & 0.8367 \\
+LSTM Autoencoder           & Temporal & Reconstruction & 0.8976          & 0.7955          & 0.7846          & 0.6249 \\
+MLP Autoencoder            & Flat     & Reconstruction & 0.9189          & 0.7921          & 0.8022          & 0.6305 \\
+Isolation Forest           & Flat     & Partition      & 0.9049          & 0.7612          & 0.8228          & 0.6639 \\
+OC-SVM                     & Temporal & Boundary       & 0.8629          & 0.7816          & 0.7600          & 0.5888 \\
+MLP Autoencoder            & Temporal & Reconstruction & 0.8831          & 0.7509          & 0.7734          & 0.6125 \\
+Isolation Forest           & Temporal & Partition      & 0.8438          & 0.7604          & 0.6841          & 0.5195 \\
+OC-SVM                     & Flat     & Boundary       & 0.7336          & 0.6845          & 0.6121          & 0.4644 \\
+Bottleneck Transformer AE  & Temporal & Reconstruction & 0.8077          & 0.6539          & 0.7059          & 0.5423 \\
+Causal Transformer         & Temporal & Predictive     & 0.7099          & 0.5449          & 0.5520          & 0.4320 \\
+Predictive LSTM            & Temporal & Predictive     & 0.6126          & 0.4472          & 0.5475          & 0.4295 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{CIC-IDS2017 -- all model/feature-set combinations, ranked by Average Precision.}
+\label{tab:cic-results}
+\end{table}
+
+\paragraph{Host-context features dominate.} The three context-augmented models occupy the top three positions by every metric, with AP ranging 0.933--0.949. The gap between the best context model (AE+Context, AP 0.949) and the best non-context model (Flat MLP AE, AP 0.792) exceeds the entire spread across the remaining ten models. Each of the three base architectures improves substantially when context features are added: IForest gains +0.172 AP (0.761 $\to$ 0.933), MLP AE gains +0.157 (0.792 $\to$ 0.949), and OC-SVM gains the most, +0.255 (0.685 $\to$ 0.940) -- the model that was worst among the flat trio becomes roughly tied for best. This shows that better features are sometimes more important than the choice of paradigm: OC-SVM's RBF kernel is the same kernel finding the same kind of hypersphere boundary either way, but the 9 added spatial dimensions give it a well-separated kernel problem where the flat 77-feature space previously left benign and PortScan regions heavily overlapping.
+
+\paragraph{Temporal windowing alone does not help.} For IForest and the MLP AE, grouping flows into src-IP-ordered windows (\S\ref{sec:preprocessing}) without adding context features gives no consistent improvement over the flat view, and sometimes hurts: Flat IForest (AP 0.761) $\approx$ Temporal IForest (AP 0.760), while Flat AE (AP 0.792) $>$ Temporal AE (AP 0.751). This is a direct contrast with the host-context gain above: both modifications add information about flow \emph{order/activity over time}, but only the aggregate context statistics translate into a usable decision signal for the two attack classes (DDoS, PortScan) that dominate the test set by volume. The temporal windows carry the same underlying activity information implicitly, spread across 16 arbitrarily-ordered flows, which is a harder representation for these architectures to exploit directly.
+
+\paragraph{Reconstruction beats prediction.} Among the temporal-feature models, reconstruction-based architectures (LSTM AE, Temporal AE, Temporal OC-SVM) all clearly outperform the two prediction-based ones (Predictive LSTM AP 0.447, Causal Transformer AP 0.545) -- the reverse of the Yahoo A3 finding (\S\ref{ch:results}). Both predictive models' threshold sweeps land at an extreme operating point (FP $>$ 1.1M out of 1.28M benign flows), consistent with their low ROC-AUC (0.61 and 0.71): the scores themselves are poorly discriminative, not merely mis-thresholded.
+
+\subsection{Per-Attack-Type Breakdown}
+\label{sec:cic-per-attack}
+
+Table~\ref{tab:cic-per-class} breaks down Average Precision by attack class for the three context models, the strongest family overall. Class sizes vary by four orders of magnitude (11 to 159{,}000 samples), which itself shapes what is detectable at all.
+
+\begin{table}[h]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lrlll@{}}
+\toprule
+Attack class & $n$ & IForest+Ctx & OC-SVM+Ctx & AE+Ctx \\
+\midrule
+DDoS                & 95{,}000  & 0.982          & \textbf{0.998} & 0.994          \\
+PortScan             & 159{,}000 & 0.601          & 0.820          & \textbf{0.842} \\
+DoS GoldenEye        & 7{,}500   & \textbf{0.655} & 0.215          & 0.220          \\
+DoS slowloris        & 4{,}000   & \textbf{0.190} & 0.012          & 0.025          \\
+DoS Slowhttptest     & 1{,}700   & \textbf{0.112} & 0.007          & 0.013          \\
+Heartbleed           & 11        & \textbf{0.093} & 0.001          & 0.000          \\
+Infiltration         & 32        & \multicolumn{3}{l}{AP 0.03--0.14, no clear winner across any model} \\
+Bot                  & 738       & \multicolumn{3}{l}{$<$0.01 across all models, including context variants} \\
+FTP-Patator          & 4{,}000   & \multicolumn{3}{l}{$<$0.01 across all models, including context variants} \\
+SSH-Patator          & 3{,}000   & \multicolumn{3}{l}{$<$0.01 across all models, including context variants} \\
+Web Attack subtypes  & 12--151   & \multicolumn{3}{l}{near-zero AP everywhere (Brute Force, SQL Injection, XSS)} \\
+\bottomrule
+\end{tabular}%
+}
+\caption{CIC-IDS2017 -- per-attack-class Average Precision for the three context-augmented models.}
+\label{tab:cic-per-class}
+\end{table}
+
+\paragraph{Consistently well-detected.} Two attack classes stand out as reliably detectable across nearly every feature set:
+
+\begin{itemize}
+  \item \textbf{DDoS} is the easiest class by a wide margin: all context models score AP $>$ 0.98 (OC-SVM+Context reaches 0.998), and even the flat models exceed AP 0.77. The very high packet rate and tiny packet sizes characteristic of a flood produce an extreme outlier in both per-flow and host-context feature spaces -- \texttt{ctx\_max\_flow\_cnt} alone nearly isolates it.
+  \item \textbf{PortScan} is the clearest demonstration of the context features' value: every flat and temporal model scores AP 0.07--0.28, while every context model exceeds 0.60, with AE+Context reaching 0.842. A single short scan flow to an arbitrary port is unremarkable in isolation, but \texttt{ctx\_max\_port\_cnt} (unique destination ports contacted by the source IP in the preceding 60 seconds) is unmistakable during a scan -- probably helping especially with this attack. IForest+Context is comparatively weaker here (0.601).
+\end{itemize}
+
+\paragraph{Mixed context response for application-layer DoS.} Not every attack class responds to context features the same way -- the three application-layer DoS classes split the context family rather than favouring it uniformly:
+
+\begin{itemize}
+  \item \textbf{DoS GoldenEye} shows a clear split within the context family: IForest+Context reaches AP 0.655, while AE+Context and OC-SVM+Context both collapse to $\sim$0.22. GoldenEye floods a single HTTP endpoint, producing many flows to one destination port -- high \texttt{ctx\_max\_flow\_cnt} paired with very low \texttt{ctx\_max\_port\_rate}. Isolation Forest isolates this specific combination directly; the autoencoder reconstructs it with moderate error spread across many feature dimensions, reducing its discriminative power for this attack specifically.
+  \item \textbf{DoS Slowhttptest and DoS slowloris} show the same pattern, more muted: IForest+Context is the only context model with meaningful detection (AP 0.112 and 0.190), though it still falls far short of Temporal IForest's AP 0.69/0.61 on the same classes. Slow HTTP attacks maintain many concurrent long-duration connections to a single port -- the resulting context signature (elevated \texttt{ctx\_max\_flow\_cnt}, near-zero \texttt{ctx\_max\_port\_rate}) is a tight, isolated cluster that IForest's isolation mechanism targets well, while AE+Context and OC-SVM+Context fail to exploit it, scoring near-zero. The 60-second context window is a partial mismatch here, since Slowloris connections last minutes and many flows fall outside it -- Temporal IForest's explicit per-host chronological ordering still provides the best detection for this attack family.
+\end{itemize}
+
+\paragraph{Largely undetectable regardless of feature set.} FTP-Patator, SSH-Patator, Bot, and the three Web Attack subtypes all score AP $<$ 0.01 across every model, context included. Credential brute-force over legitimate protocols and HTTP-level attacks (SQL injection, XSS) produce flow statistics and host-context activity indistinguishable from normal usage -- detecting them would require failed-authentication counters or payload inspection, neither available in a flow-statistics feature set. Heartbleed (11 samples) and Infiltration (32 samples) are too small to draw strong conclusions from, though IForest+Context's modest edge on Heartbleed (AP 0.093 vs.\ near-zero for the other two context models) is consistent with the same axis-aligned-isolation advantage seen on the slow-DoS classes.
+
+\subsection{Discussion}
+
+\paragraph{Host-context features are the single most impactful addition in this study.} Appending 9 rolling-window per-host activity statistics (\S\ref{sec:preprocessing}) raises AP from 0.79 to 0.95 across the board -- a larger gain than any other modelling choice in this project, larger than the choice of paradigm, and larger than moving from a flat to a temporal view of the same data -- driven primarily by solving the PortScan blind spot that every flat and temporal model shared. No single context model dominates every attack type, even though AE+Context wins on the aggregate AP that is driven by the two largest classes.
+
+\paragraph{A practical ensemble.} No single model or feature set covers every attack class on this dataset. Pairing AE+Context (strong on DDoS and PortScan, the two classes that dominate the test set by volume) with Temporal IForest (strong on the slow-DoS classes and, tentatively, Heartbleed) would cover the widest range of detectable attack classes within this feature set -- a concrete illustration of why the per-attack breakdown in \S\ref{sec:cic-per-attack} matters more than any single aggregate ranking.
+
+\section{Exploratory Data Analysis}
+\label{sec:eda}
+
+This section collects the exploratory plots underlying the dataset-specific claims made in \S\ref{sec:preprocessing} and throughout this chapter.
+
+\subsection{Credit Card Fraud Detection}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{analysis.png}
+\caption{Credit Card Fraud Detection -- transaction amount distribution, V1--V28 correlation structure, mean V-feature value by class, and excess kurtosis per feature (flagging the heavy-tailed PCA components discussed in the Datasets section).}
+\label{fig:eda-cc}
+\end{figure}
+
+\subsection{Yahoo Webscope S5}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{yahoo_analysis.png}
+\caption{Yahoo S5 -- example series per benchmark, per-series anomaly rate, A1 series length distribution, A1 value distribution for normal vs.\ anomalous points, A1 autocorrelation (motivating the use of temporal models over tabular ones), and A1 anomaly count per series.}
+\label{fig:eda-yahoo}
+\end{figure}
+
+\subsection{CIC-IDS2017}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{cicids_temporal_all.png}
+\caption{CIC-IDS2017 -- flow volume over the capture week, stacked by class. BENIGN traffic dominates volume outside the concentrated attack windows visible on Tuesday--Friday.}
+\label{fig:eda-cic-temporal-all}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{cicids_temporal_attacks.png}
+\caption{CIC-IDS2017 -- attack classes over time, individual traces. Each attack occupies a short, distinct time window, confirming that attack classes do not overlap temporally within the capture.}
+\label{fig:eda-cic-temporal-attacks}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{cicids_feature_profiles.png}
+\caption{CIC-IDS2017 -- per-class distributions of six flow-level features (flow duration, forward packet count, flow bytes/s, SYN flag count, forward packet length mean, inter-arrival mean) for BENIGN and five representative attack classes.}
+\label{fig:eda-cic-profiles}
+\end{figure}
+
+\section{Explainability}
+\label{sec:explainability}
+
+This section is a placeholder for the explainability analysis (SHAP attributions, reconstruction-error heatmaps, latent-space visualisation, and related diagnostics), to be filled in as that work is completed.

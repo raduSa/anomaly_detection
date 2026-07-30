@@ -75,11 +75,11 @@ def load_data():
 
 def train(X_train, device):
     n_val = max(1, int(len(X_train) * 0.1))
-    idx   = np.random.default_rng(0).permutation(len(X_train))
+    idx = np.random.default_rng(0).permutation(len(X_train))
     X_val = X_train[idx[:n_val]]
-    X_tr  = X_train[idx[n_val:]]
+    X_tr = X_train[idx[n_val:]]
 
-    loader     = DataLoader(TensorDataset(torch.from_numpy(X_tr)),  batch_size=BATCH_SIZE, shuffle=True)
+    loader = DataLoader(TensorDataset(torch.from_numpy(X_tr)),  batch_size=BATCH_SIZE, shuffle=True)
     val_loader = DataLoader(TensorDataset(torch.from_numpy(X_val)), batch_size=BATCH_SIZE, shuffle=False)
 
     model = BottleneckTransformerAE(

@@ -2,28 +2,21 @@
 
 ## 1. Project Structure
 
+Note: this is the original planning sketch, kept for intuition. The actual layout evolved into a flat, per-dataset structure (no shared `models/`/`experiments/` packages) — see `mds/handoff.md` for the current, accurate tree. Current shape at a glance:
+
 ```
-licenta/
+anomaly_detection/
 ├── data/
-│   ├── raw/          # original downloaded files
-│   └── processed/    # cleaned, split, windowed versions
-├── models/
-│   ├── ocsvm.py
-│   ├── isolation_forest.py
-│   ├── autoencoder.py
-│   └── lstm_ae.py
-├── experiments/
-│   ├── tabular/      # runs on Dataset A
-│   └── timeseries/   # runs on Dataset B
-├── explainability/
-│   ├── shap_analysis.py
-│   ├── reconstruction_heatmap.py
-│   └── attention_weights.py
-├── evaluation/
-│   ├── metrics.py
-│   └── plots.py
-├── notebooks/        # EDA, result exploration
-└── results/          # saved scores, figures, tables
+│   ├── raw/{credit_card,yahoo,cicids2017}/      # original downloaded files
+│   ├── processed_data/processed_{credit_card,yahoo/<Benchmark>,cicids,cicids_temporal,cicids_context}/
+│   ├── models/models_{credit_card,yahoo,cicids}/
+│   ├── results/results_{credit_card,yahoo,cicids}/
+│   └── graphs/{EDA,results}/{credit_card,yahoo,cicids}/
+├── credit_card/      # preprocess_tabular.py + train_*.py (Dataset A)
+├── yahoo/            # preprocess_timeseries.py + ts_train_*.py (Dataset B)
+├── cicids2017/       # preprocess*.py + train_*.py / ts_train_*.py (Dataset C, added after this plan was written)
+├── plot_results.py   # shared evaluation module (sweep_threshold, evaluate, plot_results, ...)
+└── mds/              # planning + handoff docs
 ```
 
 ---

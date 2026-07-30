@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-df = pd.read_csv('data/creditcard.csv')
+df = pd.read_csv('data/raw/credit_card/creditcard.csv')
 
 print('Shape: ', df.shape)
 print('Nulls: ', df.isnull().sum().max())
@@ -11,7 +11,7 @@ print('Stats: ', df[['Time', 'Amount', 'Class']].describe())
 
 fraud = df[df['Class'] == 1]
 legit = df[df['Class'] == 0]
-print(f'legit: {len(legit)} ({round(len(legit) / len(df) * 100, 2)}%)  '
+print(f'legit: {len(legit)} ({round(len(legit) / len(df) * 100, 2)}%)'
       f'fraud: {len(fraud)} ({round(len(fraud) / len(df) * 100, 2)}%)')
 
 # Analysis plot
@@ -63,9 +63,14 @@ ax.set_xticklabels(v_cols[::4], rotation=45)
 ax.set_title('V1–V28 Excess Kurtosis (|k|>1 flagged red)')
 ax.set_ylabel('Excess Kurtosis')
 
-axes[1, 2].set_visible(False)
+amount_kurt = df['Amount'].kurtosis()
+ax = axes[1, 2]
+ax.bar(['Amount'], [amount_kurt], color='crimson' if abs(amount_kurt) > 1.0 else 'steelblue')
+ax.axhline(0, color='black', linewidth=0.8)
+ax.set_title(f'Amount Excess Kurtosis ({amount_kurt:.1f})')
+ax.set_ylabel('Excess Kurtosis')
 
 plt.tight_layout()
-plt.savefig('data/analysis.png', dpi=150)
+plt.savefig('data/graphs/EDA/credit_card/analysis.png', dpi=150)
 plt.show()
 print("\nPlot saved to data/analysis.png")
