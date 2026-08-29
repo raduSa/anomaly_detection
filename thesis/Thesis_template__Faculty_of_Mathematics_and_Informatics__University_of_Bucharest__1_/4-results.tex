@@ -1,0 +1,58 @@
+\chapter{Experimental Results}
+\label{ch:results}
+
+% One subsection tree per dataset. Each dataset section follows the same
+% internal shape for comparability: summary table -> per-model discussion ->
+% dataset-specific takeaway. Cross-dataset synthesis (which paradigm wins
+% where, and why) is saved for the Discussion/Conclusion chapter, not here --
+% keep this chapter to "what happened", not "what it means for the thesis".
+
+\section{Credit Card Fraud Detection (Dataset A)}
+% Source docs: data/results/results_credit_card/*_report.txt
+
+\subsection{Overall Comparison}
+% Summary table: model x {ROC-AUC, Average Precision}, all 8 models
+% (IForest, OC-SVM, MLP AE, Predictive LSTM, LSTM AE, Bottleneck Transformer,
+% Causal Transformer... note: no causal transformer implementation exists
+% for credit card, per architecture_diffs.md).
+
+\subsection{Discussion}
+% Expected narrative: classical / reconstruction models >= sequential models,
+% since the 29 PCA features have no meaningful temporal order. Note the
+% "pseudo-sequence" caveat for LSTM/LSTM-AE/Transformer on this dataset.
+
+\section{Yahoo Webscope S5 (Dataset B)}
+% Source docs: yahoo/results_notes.md, data/results/results_yahoo/*_report.txt
+
+\subsection{A1 -- Point Anomalies (Real Server Metrics)}
+\subsection{A3 -- Contextual/Seasonal Anomalies}
+\subsection{A4 -- Level-Shift Anomalies}
+% Per-benchmark: summary table, then the key finding already established in
+% results_notes.md (e.g. A3: Predictive LSTM dominates via implicit phase
+% tracking; A4: expected reconstruction-model reversal did not materialize).
+
+\subsection{Trivial Baseline Sanity Check}
+% \|w\|_2 baseline (Kim et al. 2022, Case 2) confirming A3 gains are real
+% signal, not window-magnitude artifacts.
+
+\subsection{Discussion}
+% The 2x2 paradigm x architecture finding: predictive necessary but not
+% sufficient; LSTM's recurrent hidden state as phase accumulator vs. causal
+% attention. Note A2 as future/incomplete work if it stays that way.
+
+\section{CIC-IDS2017 (Dataset C)}
+% Source docs: cicids2017/results_analysis.md
+
+\subsection{Flat vs. Temporal vs. Host-Context Features}
+% Summary table across all 13 models. Lead with the context-feature finding:
+% PortScan AP 0.07-0.28 (flat/temporal) -> 0.84 (AE+Context).
+
+\subsection{Per-Attack-Type Breakdown}
+% Per-class AP heatmap discussion (DDoS, PortScan, slow DoS, etc.) --
+% which model/feature-set handles which attack family.
+
+\subsection{Discussion}
+% Reconstruction-based > prediction-based (attack traffic more predictable
+% than benign); context dominates; temporal windowing adds limited value
+% given arbitrary intra-window flow ordering. Flag known re-run needed:
+% Bottleneck Transformer with corrected LATENT_DIM=32.

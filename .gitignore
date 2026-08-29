@@ -2,4 +2,3 @@ data/models/*
 data/raw/*
 data/processed_data/*
 __pycache__/*
-thesis/*

@@ -1,0 +1,44 @@
+\xpg@aux {}{romanian}
+\xpg@aux {}{romanian}
+\xpg@aux {}{romanian}
+\xpg@aux {}{english}
+\xpg@aux {}{romanian}
+\contentsline {chapter}{\numberline {1}Introducere}{5}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Lorem ipsum}{5}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Dolor sit amet}{6}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Quis tellus vitae}{6}{subsection.1.2.1}%
+\contentsline {chapter}{\numberline {2}Preliminarii}{7}{chapter.2}%
+\contentsline {chapter}{\numberline {3}Methods and Experimental Setup}{8}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Anomaly Detection Paradigms}{9}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}One-Class SVM}{9}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Isolation Forest}{9}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}Feedforward Autoencoder}{9}{subsection.3.1.3}%
+\contentsline {subsection}{\numberline {3.1.4}LSTM Autoencoder}{9}{subsection.3.1.4}%
+\contentsline {subsection}{\numberline {3.1.5}Predictive LSTM}{9}{subsection.3.1.5}%
+\contentsline {subsection}{\numberline {3.1.6}Transformer-Based Autoencoders}{9}{subsection.3.1.6}%
+\contentsline {section}{\numberline {3.2}Datasets}{9}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Credit Card Fraud Detection (Dataset A)}{9}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Yahoo Webscope S5 (Dataset B)}{9}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}CIC-IDS2017 (Dataset C)}{9}{subsection.3.2.3}%
+\contentsline {section}{\numberline {3.3}Preprocessing}{9}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Tabular Preprocessing (Credit Card)}{9}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Time-Series Windowing (Yahoo S5)}{9}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Network Flow Preprocessing (CIC-IDS2017)}{9}{subsection.3.3.3}%
+\contentsline {section}{\numberline {3.4}Hyperparameter Choices and Architecture Standardization}{9}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Evaluation Protocol}{9}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Experimental Results}{10}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Credit Card Fraud Detection (Dataset A)}{10}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Overall Comparison}{10}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Discussion}{10}{subsection.4.1.2}%
+\contentsline {section}{\numberline {4.2}Yahoo Webscope S5 (Dataset B)}{10}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}A1 -- Point Anomalies (Real Server Metrics)}{10}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}A3 -- Contextual/Seasonal Anomalies}{10}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}A4 -- Level-Shift Anomalies}{10}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Trivial Baseline Sanity Check}{10}{subsection.4.2.4}%
+\contentsline {subsection}{\numberline {4.2.5}Discussion}{10}{subsection.4.2.5}%
+\contentsline {section}{\numberline {4.3}CIC-IDS2017 (Dataset C)}{10}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Flat vs. Temporal vs. Host-Context Features}{10}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Per-Attack-Type Breakdown}{10}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Discussion}{10}{subsection.4.3.3}%
+\contentsline {chapter}{\numberline {5}Concluzii}{11}{chapter.5}%
+\contentsline {chapter}{Bibliografie}{12}{chapter*.2}%

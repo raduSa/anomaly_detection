@@ -1,0 +1,193 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Explainability Case Studies}{35}{chapter.5}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{ch:explainability}{{5}{35}{Explainability Case Studies}{chapter.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Reconstruction-Error Localization on Yahoo A3}{35}{section.5.1}\protected@file@percent }
+\newlabel{sec:explain-yahoo}{{5.1}{35}{Reconstruction-Error Localization on Yahoo A3}{section.5.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}Initial Assumption}{35}{subsection.5.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}Qualitative Check: Per-Timestep Error Heatmaps}{36}{subsection.5.1.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces LSTM Autoencoder -- per-timestep squared reconstruction error on 300 randomly sampled anomalous A3 windows (one row per window, left). Elevated error appears as sparse, punctate points rather than as a uniform band, but a visibly larger share of rows carry a low-level elevated baseline across most of their width compared to the Transformer.}}{36}{figure.5.1}\protected@file@percent }
+\newlabel{fig:explain-lstm-heatmap}{{5.1}{36}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces LSTM Autoencoder -- per-timestep squared reconstruction error on 300 randomly sampled anomalous A3 windows (one row per window, left). Elevated error appears as sparse, punctate points rather than as a uniform band, but a visibly larger share of rows carry a low-level elevated baseline across most of their width compared to the Transformer}{figure.5.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces Transformer Bottleneck Autoencoder -- per-timestep squared reconstruction error on the same 300 anomalous A3 windows, same row order and colour scale convention as Figure~\ref {fig:explain-lstm-heatmap} (right). Error is visibly more sparse and confined to isolated timesteps.}}{36}{figure.5.2}\protected@file@percent }
+\newlabel{fig:explain-transformer-heatmap}{{5.2}{36}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Transformer Bottleneck Autoencoder -- per-timestep squared reconstruction error on the same 300 anomalous A3 windows, same row order and colour scale convention as Figure~\ref {fig:explain-lstm-heatmap} (right). Error is visibly more sparse and confined to isolated timesteps}{figure.5.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}Quantitative Verification: Gini Coefficient of Error Concentration}{37}{subsection.5.1.3}\protected@file@percent }
+\newlabel{eq:gini}{{5.1}{37}{Quantitative Verification: Gini Coefficient of Error Concentration}{equation.5.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces Distribution of per-window Gini coefficients across all 14{,}449 anomalous A3 windows. The Transformer's distribution is unimodal and shifted toward high concentration (Gini $>0.6$); the LSTM Autoencoder's distribution is bimodal, with a majority clustered near the Transformer's range but a distinct secondary population spread across low Gini values (error genuinely smeared across the window).}}{38}{figure.5.3}\protected@file@percent }
+\newlabel{fig:explain-gini}{{5.3}{38}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Distribution of per-window Gini coefficients across all 14{,}449 anomalous A3 windows. The Transformer's distribution is unimodal and shifted toward high concentration (Gini $>0.6$); the LSTM Autoencoder's distribution is bimodal, with a majority clustered near the Transformer's range but a distinct secondary population spread across low Gini values (error genuinely smeared across the window)}{figure.5.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Pseudo-Sequence Reconstruction Error on Credit Card Fraud}{38}{section.5.2}\protected@file@percent }
+\newlabel{sec:explain-cc}{{5.2}{38}{Pseudo-Sequence Reconstruction Error on Credit Card Fraud}{section.5.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}Initial Assumption}{39}{subsection.5.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}Qualitative Check: Per-Feature-Position Error Heatmaps}{39}{subsection.5.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces LSTM Autoencoder -- per-feature-position squared reconstruction error on 300 randomly sampled fraud transactions (one row per sample, columns V1--V28 then Amount, left).}}{40}{figure.5.4}\protected@file@percent }
+\newlabel{fig:explain-cc-lstm-heatmap}{{5.4}{40}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces LSTM Autoencoder -- per-feature-position squared reconstruction error on 300 randomly sampled fraud transactions (one row per sample, columns V1--V28 then Amount, left)}{figure.5.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces Transformer Bottleneck Autoencoder -- per-feature-position squared reconstruction error on the same 300 fraud transactions, same row order and column convention as Figure~\ref {fig:explain-cc-lstm-heatmap} (right).}}{40}{figure.5.5}\protected@file@percent }
+\newlabel{fig:explain-cc-transformer-heatmap}{{5.5}{40}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Transformer Bottleneck Autoencoder -- per-feature-position squared reconstruction error on the same 300 fraud transactions, same row order and column convention as Figure~\ref {fig:explain-cc-lstm-heatmap} (right)}{figure.5.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.3}Quantitative Verification: Column-Shuffle Feature-Identity Check}{41}{subsection.5.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Disjoint Feature Regimes: AE+Context vs.\ Temporal IForest}{42}{section.5.3}\protected@file@percent }
+\newlabel{sec:explain-disjoint-regime}{{5.3}{42}{Disjoint Feature Regimes: AE+Context vs.\ Temporal IForest}{section.5.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.1}Temporal IForest: Initial Assumption}{42}{subsection.5.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.2}Temporal IForest: Score Validity Under Last-Flow Labeling}{42}{subsection.5.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.3}Temporal IForest: SHAP Attribution Across the Window}{43}{subsection.5.3.3}\protected@file@percent }
+\newlabel{sec:explain-temporal-window}{{5.3.3}{43}{Temporal IForest: SHAP Attribution Across the Window}{subsection.5.3.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.6}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces Temporal IForest -- mean SHAP value per timestep for the six most-attributed features, DDoS windows (left) and DoS slowloris windows (right). In both cases attribution is negative (anomalous), recurs at consistent sign across most of the 16 timesteps, and does not concentrate at the final flow (dashed red line) -- the flow paired with AE+Context's score in the proposed ensemble.}}{43}{figure.5.6}\protected@file@percent }
+\newlabel{fig:explain-temporal-shap}{{5.6}{43}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Temporal IForest -- mean SHAP value per timestep for the six most-attributed features, DDoS windows (left) and DoS slowloris windows (right). In both cases attribution is negative (anomalous), recurs at consistent sign across most of the 16 timesteps, and does not concentrate at the final flow (dashed red line) -- the flow paired with AE+Context's score in the proposed ensemble}{figure.5.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.7}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces Temporal IForest -- mean $|\text  {SHAP}|$ summed over features, per timestep, DDoS windows (left) and DoS slowloris windows (right). The final timestep (red bar, 15) -- the flow paired with AE+Context's score in the proposed ensemble -- carries no more attribution mass than any other position in the window, confirming the summary statistic reported below.}}{43}{figure.5.7}\protected@file@percent }
+\newlabel{fig:explain-temporal-position-concentration}{{5.7}{43}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Temporal IForest -- mean $|\text {SHAP}|$ summed over features, per timestep, DDoS windows (left) and DoS slowloris windows (right). The final timestep (red bar, 15) -- the flow paired with AE+Context's score in the proposed ensemble -- carries no more attribution mass than any other position in the window, confirming the summary statistic reported below}{figure.5.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.8}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces Temporal IForest -- SHAP beeswarm per feature, DDoS windows (left) and DoS slowloris windows (right), collapsing the 16-timestep axis by summing each feature's SHAP contribution across the window and coloring by that feature's mean value across the window. DoS slowloris shows a clean monotonic relationship -- high inter-arrival-time values drive strongly negative (anomalous) SHAP, low values push near zero -- consistent with the slow, connection-holding behaviour the attack is named for. DDoS shows a noisier value-to-sign relationship for its backward-packet-length features, and a wider per-window spread than the mean-only view in Figure~\ref {fig:explain-temporal-shap} suggests on its own.}}{44}{figure.5.8}\protected@file@percent }
+\newlabel{fig:explain-temporal-beeswarm}{{5.8}{44}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Temporal IForest -- SHAP beeswarm per feature, DDoS windows (left) and DoS slowloris windows (right), collapsing the 16-timestep axis by summing each feature's SHAP contribution across the window and coloring by that feature's mean value across the window. DoS slowloris shows a clean monotonic relationship -- high inter-arrival-time values drive strongly negative (anomalous) SHAP, low values push near zero -- consistent with the slow, connection-holding behaviour the attack is named for. DDoS shows a noisier value-to-sign relationship for its backward-packet-length features, and a wider per-window spread than the mean-only view in Figure~\ref {fig:explain-temporal-shap} suggests on its own}{figure.5.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.4}AE+Context: SHAP Dominated by Host-Context Features}{44}{subsection.5.3.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.9}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces AE+Context -- SHAP summary plot, PortScan samples. \texttt  {ctx\_min\_port\_cnt} dominates with a tight, uniformly positive-SHAP cluster well separated from every other feature; the remaining top rows are almost entirely \texttt  {ctx\_*} host-context features, with ordinary flow features only appearing near the bottom of the ranking.}}{45}{figure.5.9}\protected@file@percent }
+\newlabel{fig:explain-ae-context-portscan-shap}{{5.9}{45}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces AE+Context -- SHAP summary plot, PortScan samples. \texttt {ctx\_min\_port\_cnt} dominates with a tight, uniformly positive-SHAP cluster well separated from every other feature; the remaining top rows are almost entirely \texttt {ctx\_*} host-context features, with ordinary flow features only appearing near the bottom of the ranking}{figure.5.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.5}Building the Combined Score}{46}{subsection.5.3.5}\protected@file@percent }
+\newlabel{sec:explain-ensemble-build}{{5.3.5}{46}{Building the Combined Score}{subsection.5.3.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.6}Two Fusion Rules, Two Normalizations}{46}{subsection.5.3.6}\protected@file@percent }
+\newlabel{sec:explain-ensemble-fusion}{{5.3.6}{46}{Two Fusion Rules, Two Normalizations}{subsection.5.3.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.7}Per-Class Coverage vs.\ Aggregate AP}{47}{subsection.5.3.7}\protected@file@percent }
+\newlabel{sec:explain-ensemble-results}{{5.3.7}{47}{Per-Class Coverage vs.\ Aggregate AP}{subsection.5.3.7}{}}
+\@setckpt{5-explainability}{
+\setcounter{page}{49}
+\setcounter{equation}{1}
+\setcounter{enumi}{5}
+\setcounter{enumii}{0}
+\setcounter{enumiii}{0}
+\setcounter{enumiv}{0}
+\setcounter{footnote}{0}
+\setcounter{mpfootnote}{0}
+\setcounter{part}{0}
+\setcounter{chapter}{5}
+\setcounter{section}{3}
+\setcounter{subsection}{7}
+\setcounter{subsubsection}{0}
+\setcounter{paragraph}{0}
+\setcounter{subparagraph}{0}
+\setcounter{figure}{9}
+\setcounter{table}{0}
+\setcounter{tabx@nest}{0}
+\setcounter{listtotal}{0}
+\setcounter{listcount}{0}
+\setcounter{liststart}{0}
+\setcounter{liststop}{0}
+\setcounter{citecount}{0}
+\setcounter{citetotal}{0}
+\setcounter{multicitecount}{0}
+\setcounter{multicitetotal}{0}
+\setcounter{instcount}{0}
+\setcounter{maxnames}{3}
+\setcounter{minnames}{1}
+\setcounter{maxitems}{3}
+\setcounter{minitems}{1}
+\setcounter{citecounter}{0}
+\setcounter{maxcitecounter}{0}
+\setcounter{savedcitecounter}{0}
+\setcounter{uniquelist}{0}
+\setcounter{uniquename}{0}
+\setcounter{refsection}{0}
+\setcounter{refsegment}{0}
+\setcounter{maxextratitle}{0}
+\setcounter{maxextratitleyear}{0}
+\setcounter{maxextraname}{0}
+\setcounter{maxextradate}{0}
+\setcounter{maxextraalpha}{0}
+\setcounter{abbrvpenalty}{50}
+\setcounter{highnamepenalty}{50}
+\setcounter{lownamepenalty}{25}
+\setcounter{maxparens}{3}
+\setcounter{parenlevel}{0}
+\setcounter{blx@maxsection}{0}
+\setcounter{mincomprange}{10}
+\setcounter{maxcomprange}{100000}
+\setcounter{mincompwidth}{1}
+\setcounter{afterword}{0}
+\setcounter{savedafterword}{0}
+\setcounter{annotator}{0}
+\setcounter{savedannotator}{0}
+\setcounter{author}{0}
+\setcounter{savedauthor}{0}
+\setcounter{bookauthor}{0}
+\setcounter{savedbookauthor}{0}
+\setcounter{commentator}{0}
+\setcounter{savedcommentator}{0}
+\setcounter{editor}{0}
+\setcounter{savededitor}{0}
+\setcounter{editora}{0}
+\setcounter{savededitora}{0}
+\setcounter{editorb}{0}
+\setcounter{savededitorb}{0}
+\setcounter{editorc}{0}
+\setcounter{savededitorc}{0}
+\setcounter{foreword}{0}
+\setcounter{savedforeword}{0}
+\setcounter{holder}{0}
+\setcounter{savedholder}{0}
+\setcounter{introduction}{0}
+\setcounter{savedintroduction}{0}
+\setcounter{namea}{0}
+\setcounter{savednamea}{0}
+\setcounter{nameb}{0}
+\setcounter{savednameb}{0}
+\setcounter{namec}{0}
+\setcounter{savednamec}{0}
+\setcounter{translator}{0}
+\setcounter{savedtranslator}{0}
+\setcounter{shortauthor}{0}
+\setcounter{savedshortauthor}{0}
+\setcounter{shorteditor}{0}
+\setcounter{savedshorteditor}{0}
+\setcounter{labelname}{0}
+\setcounter{savedlabelname}{0}
+\setcounter{institution}{0}
+\setcounter{savedinstitution}{0}
+\setcounter{lista}{0}
+\setcounter{savedlista}{0}
+\setcounter{listb}{0}
+\setcounter{savedlistb}{0}
+\setcounter{listc}{0}
+\setcounter{savedlistc}{0}
+\setcounter{listd}{0}
+\setcounter{savedlistd}{0}
+\setcounter{liste}{0}
+\setcounter{savedliste}{0}
+\setcounter{listf}{0}
+\setcounter{savedlistf}{0}
+\setcounter{location}{0}
+\setcounter{savedlocation}{0}
+\setcounter{organization}{0}
+\setcounter{savedorganization}{0}
+\setcounter{origlocation}{0}
+\setcounter{savedoriglocation}{0}
+\setcounter{origpublisher}{0}
+\setcounter{savedorigpublisher}{0}
+\setcounter{publisher}{0}
+\setcounter{savedpublisher}{0}
+\setcounter{language}{0}
+\setcounter{savedlanguage}{0}
+\setcounter{origlanguage}{0}
+\setcounter{savedoriglanguage}{0}
+\setcounter{pageref}{0}
+\setcounter{savedpageref}{0}
+\setcounter{textcitecount}{0}
+\setcounter{textcitetotal}{0}
+\setcounter{textcitemaxnames}{0}
+\setcounter{biburlbigbreakpenalty}{100}
+\setcounter{biburlbreakpenalty}{200}
+\setcounter{biburlnumpenalty}{0}
+\setcounter{biburlucpenalty}{0}
+\setcounter{biburllcpenalty}{0}
+\setcounter{smartand}{1}
+\setcounter{bbx:relatedcount}{0}
+\setcounter{bbx:relatedtotal}{0}
+\setcounter{float@type}{8}
+\setcounter{lstnumber}{1}
+\setcounter{section@level}{2}
+\setcounter{Item}{12}
+\setcounter{Hfootnote}{2}
+\setcounter{Hy@AnnotLevel}{0}
+\setcounter{bookmark@seq@number}{61}
+\setcounter{parentequation}{0}
+\setcounter{@pps}{0}
+\setcounter{@ppsavesec}{0}
+\setcounter{@ppsaveapp}{0}
+\setcounter{lstlisting}{0}
+}

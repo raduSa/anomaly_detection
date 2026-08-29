@@ -1,0 +1,138 @@
+\chapter{Alegeri legate de Hiperparametri și Antrenare}
+\label{sec:architecture}
+
+Două decizii principale se aplică uniform pentru toate modelele și seturile de date:
+
+\begin{itemize}
+  \item \textbf{Optimizator.} Toate rețelele neuronale sunt antrenate cu Adam, la o rată de învățare fixă de $10^{-3}$, uniform pentru fiecare model și set de date.
+  \item \textbf{Fără căutare de hiperparametri.} Dacă un model a avut performanțe neașteptat de slabe, rata sa de învățare a fost verificată suplimentar cu $\{10^{-4}, 10^{-3}, 3\times10^{-3}\}$ înainte de a trage vreo concluzie din acel rezultat.
+  \item \textbf{Partiție de validare doar pentru monitorizare.} Fiecare rețea neuronală reține aleator 10\% din datele de antrenare exclusiv pentru a trasa o curbă de pierdere (\emph{loss}) de antrenare/validare per rulare, ca verificare că antrenarea decurge corect. Această partiție nu este niciodată folosită pentru oprire timpurie (\emph{early stopping}) sau selecția modelului: antrenarea rulează întotdeauna pentru numărul fix de epoci de mai jos, iar rezultatele raportate pe setul de testare folosesc ponderile modelului din epoca finală.
+\end{itemize}
+
+\section{Isolation Forest}
+
+\begin{center}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+ & CIC flat & CIC context & Yahoo & Credit card \\
+\midrule
+N\_ESTIMATORS & 150 & 150 & 150 & 150 \\
+MAX\_SAMPLES & 300{,}000 & 300{,}000 & $\min(n, 50{,}000)$ & 200{,}000 \\
+Dimensiunea setului de antrenare & $\sim$371k & $\sim$371k & câteva mii & $\sim$227k \\
+\% din antrenare folosit & $\sim$81\% & $\sim$81\% & $\sim$100\% & $\sim$88\% \\
+RANDOM\_SEED & 123 & 123 & 123 & 123 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\texttt{MAX\_SAMPLES} este singura diferență semnificativă și este setat cât mai ridicat posibil, practic, pentru fiecare set de date (acuratețea crește odată cu mai multe eșantioane per arbore, cu randamente descrescânde;
+problema de \enquote{swamping} al arborilor nu apare aici, întrucât datele de antrenare sunt întotdeauna exclusiv benigne). Plafonul de 50.000 pentru Yahoo nu este atins niciodată în practică și este păstrat doar ca limită de siguranță.
+
+\section{One-Class SVM}
+
+\begin{center}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+ & CIC flat & CIC context & Yahoo & Credit card \\
+\midrule
+NU & 0.01 & 0.01 & 0.01 & 0.01 \\
+KERNEL & rbf & rbf & rbf & rbf \\
+GAMMA & scale & scale & scale & scale \\
+SUBSAMPLE & 50{,}000 & 50{,}000 & niciunul (complet) & niciunul (complet) \\
+\% din antrenare folosit & $\sim$13.5\% & $\sim$13.5\% & $\sim$100\% & $\sim$100\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Toți parametrii kernel/nu sunt uniformi pe seturile de date. Subeșantionarea este aplicată doar acolo unde setul de antrenare este suficient de mare încât un OC-SVM pe toate datele ar deveni mult prea lent; credit card ($\sim$227k rânduri) a fost antrenat pe tot setul, fără subeșantionare.
+
+\section{Autoencoder Feedforward (MLP)}
+
+\begin{center}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+ & CIC flat & CIC context & Yahoo & Credit card \\
+\midrule
+Dimensiune intrare & 77 & 86 & 64 (fereastră aplatizată) & $\sim$30 (PCA) \\
+Dimensiuni ascunse & [64, 32, 16] & [64, 32, 16] & [32, 16] & [16, 8] \\
+Raport bottleneck & 0.21 & 0.19 & 0.25 & $\sim$0.27 \\
+Activare finală & Sigmoid & Sigmoid & Linear & Linear \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Lățimile straturilor sunt scalate în funcție de dimensiunea intrării, astfel încât raportul de compresie al bottleneck-ului să rămână aproximativ constant ($\sim$0.20--0.27) pe toate seturile de date. Activarea finală diferă întrucât CIC folosește \texttt{MinMaxScaler} (mărginit la $[0,1]$, potrivit pentru o ieșire sigmoid), în timp ce Yahoo și credit card folosesc scalere nemărginite (ieșire liniară).
+
+\section{LSTM Predictiv}
+
+\begin{center}
+\begin{tabular}{@{}llll@{}}
+\toprule
+ & CIC & Yahoo & Credit card \\
+\midrule
+INPUT\_SIZE & 77 & 1 & 1 \\
+HIDDEN\_DIM & 128 & 64 & 64 \\
+NUM\_LAYERS & 1 & 1 & 1 \\
+EPOCHS & 20 & 20 & 50 \\
+BATCH\_SIZE & 256 & 256 & 512 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\texttt{HIDDEN\_DIM} este scalat în funcție de dimensiunea intrării pentru CIC (o extindere de $\sim$1.66$\times$ față de cele 77 de caracteristici de intrare); ambele seturi de date univariate folosesc 64, o capacitate suficientă pentru un semnal scalar. Credit card folosește mai multe epoci (50) întrucât curba sa de pierdere continuă să scadă și după epoca 30 -- probabil o consecință directă a tratării celor 29 de caracteristici PCA netemporale ca pseudo-secvență, ceea ce face optimizarea mai zgomotoasă decât pe date cu adevărat temporale. CIC și Yahoo converg până la epoca $\sim$5, deci 20 de epoci este deja o alegere conservatoare pentru acestea.
+
+\section{Autoencoder LSTM}
+
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+ & CIC & Yahoo & Credit card \\
+\midrule
+INPUT\_SIZE & 77 & 1 & 1 \\
+HIDDEN\_DIM & 128 & 64 & 64 \\
+NUM\_LAYERS & 1 & 1 & 1 \\
+EPOCHS & 50 & 30 & 50 \\
+BATCH\_SIZE & 256 & 256 & 512 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Atât CIC, cât și credit card au necesitat 50 de epoci pentru a atinge un platou; Yahoo converge până la epoca $\sim$5, deci 30 este deja generos.
+
+\section{Bottleneck Transformer Autoencoder}
+
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+ & CIC & Yahoo & Credit card \\
+\midrule
+D\_MODEL & 64 & 64 & 64 \\
+NHEAD & 4 & 4 & 4 \\
+NUM\_LAYERS & 2 & 2 & 2 \\
+DIM\_FF & 256 & 256 & 256 \\
+LATENT\_DIM & 32 & 32 & 32 \\
+EPOCHS & 50 & 20 & 20 \\
+BATCH\_SIZE & 256 & 256 & 512 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\texttt{LATENT\_DIM=32} oferă o compresie uniformă de 50\% față de \texttt{D\_MODEL=64}, pe toate cele trei seturi de date.
+
+\section{Causal Transformer}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+ & CIC & Yahoo \\
+\midrule
+D\_MODEL & 64 & 64 \\
+NHEAD & 4 & 4 \\
+NUM\_LAYERS & 2 & 2 \\
+DIM\_FF & 256 & 256 \\
+DROPOUT & 0.1 & 0.1 \\
+EPOCHS & 30 & 30 \\
+BATCH\_SIZE & 256 & 256 \\
+\bottomrule
+\end{tabular}
+\end{center}

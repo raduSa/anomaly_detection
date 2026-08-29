@@ -1,0 +1,96 @@
+\chapter{Methods and Experimental Setup}
+\label{ch:methodology}
+
+% This chapter explains every model and every shared experimental choice
+% (preprocessing, hyperparameters, evaluation protocol) that applies across
+% all three datasets. Dataset-specific preprocessing details that don't
+% generalize (e.g. exact feature counts, window lengths) can either stay
+% here at a high level or move into the per-dataset Results subsections --
+% decide per case once the prose is drafted.
+
+Hiperparametrii și alegerile legate de antrenare, per model (optimizator, număr de epoci, lățimi ale straturilor și toate celelalte detalii de arhitectură, câte un tabel per model pentru cele patru variante de set de date/set de caracteristici), sunt prezentate în Anexa~\ref{sec:architecture}.
+
+\section{Preprocesare}
+\label{sec:preprocessing}
+
+Două principii se aplică la toate cele trei pipeline-uri:
+În primul rând, fiecare model este antrenat exclusiv pe eșantioane benigne/normale (\emph{novelty detection}):
+partiția de antrenare nu conține niciodată o anomalie, iar toate scalerele/normalizatoarele sunt \emph{potrivite} (\emph{fit}) doar pe partiția de antrenare, apoi aplicate neschimbate pe partiția de testare -- astfel evităm probleme de data leakage.
+În al doilea rând, partiția de testare conține întotdeauna ambele clase, evaluate cu protocolul descris în \S\ref{sec:eval-protocol}.
+
+\subsection{Preprocesare Tabelară (Credit Card)}
+
+\begin{enumerate}
+  \item \texttt{Time} este eliminat (nu reprezintă informație semnificativă, întrucât este doar timpul de la prima tranzacție din setul de date).
+  \item Rândurile sunt împărțite pe clase: toate rândurile benigne (\texttt{Class=0}) sunt reunite, apoi împărțite 80/20 în antrenare și test-benign. Setul de antrenare este partiția de 80\%, conținând doar rânduri benigne ($\sim$227{,}451 rânduri).
+  \item Setul de testare este format din restul de 20\% rânduri benigne, plus \emph{toate} cele 492 de rânduri de fraudă.
+  \item Scalarea este asimetrică, pe grupuri de caracteristici: \texttt{V1--V28} trec \textbf{nescalate} implicit (\texttt{V\_SCALING = 'none'} -- întrucât acestea sunt deja caracteristici PCA), cu \texttt{'standard'} încercat de asemenea în unele rulări, fără o diferență reală între modele. \texttt{Amount} este scalat independent cu un \texttt{RobustScaler} (bazat pe mediană/IQR), ales pentru robustețea sa la coada dreaptă accentuată, urmând același raționament ca notebook-ul exploratoriu citat în \S\ref{ch:preliminarii}.
+\end{enumerate}
+
+\subsection{Crearea de Ferestre pentru Serii de Timp (Yahoo S5)}
+
+\begin{enumerate}
+  \item Fiecare serie este împărțită 70/30 de-a lungul axei temporale (\texttt{TRAIN\_FRAC=0.70}) -- o împărțire temporală și nu o amestecare aleatoare. Nu vrem ca vreo informație din viitor să se scurgă în antrenare.
+  \item Un \texttt{MinMaxScaler} este potrivit \emph{per serie}, folosind doar punctele neanormale din partiția de antrenare a acelei serii, apoi aplicat atât partiției de antrenare, cât și celei de testare ale aceleiași serii.
+  \item Se aplică o fereastră glisantă de lungime \texttt{WINDOW=64}: pas 4 pentru ferestrele de antrenare (subeșantionate, păstrându-se pentru antrenare doar ferestrele complet normale) și pas 1 pentru ferestrele de testare (dens -- este evaluată fiecare poziție posibilă a ferestrei).
+  \item Eticheta unei ferestre urmează regula \enquote{oricare}: pozitivă dacă cel puțin unul dintre cei 64 de pași de timp este anormal. Aceasta este totuși o sursă de \enquote{estompare} a etichetelor -- de exemplu, pe A1, o rată de anomalii la nivel de punct de $1.76\%$ devine o rată la nivel de fereastră de $\sim$17--18\%, întrucât un singur punct anormal contaminează până la 64 de ferestre suprapuse. O fereastră mai mică ar reduce această estompare, lucru care ar putea merita încercat în viitor.
+  \item Ferestrele din toate seriile unui benchmark (reamintesc că fiecare benchmark este alcătuit din mai multe serii univariate) sunt reunite în array-uri unice.
+\end{enumerate}
+
+\paragraph{Comparație cu DeepAnt.} DeepAnt (Munir et al., 2019) a fost folosit ca referință pentru evaluarea unui predictor neural al pasului următor pe Yahoo S5, deși mai multe alegeri metodologice diferă de cele ale acestui proiect:
+
+\begin{itemize}
+  \item \textbf{Predicție many-to-one, nu many-to-many.} Predictorul propus de DeepAnt este o rețea convoluțională; varianta LSTM raportată de aceștia ca referință de comparație (două straturi suprapuse, de câte 32 de unități) este mai îngustă și mai puțin adâncă decât LSTM-ul de 64 de unități folosit aici pentru LSTM Predictiv. Mai important, ambele prezic doar un singur pas de timp următor dintr-o fereastră (many-to-one), în loc de fiecare pas $t{+}1$ din $0..t$ simultan, așa cum fac modelele predictive ale acestui proiect (\S\ref{ch:preliminarii}).
+  \item \textbf{Antrenare per serie vs.\ antrenare reunită.} DeepAnt antrenează și evaluează un model separat pentru fiecare serie de timp individuală (o împărțire 40/60 antrenare/test per serie, scorul F calculat per serie și apoi mediat per sub-benchmark), ceea ce permite fiecărui model să se specializeze pe o singură frecvență. Acest proiect reunește în schimb ferestrele din toate cele $\sim$100 de serii ale unui benchmark într-un singur model comun, antrenat pe o împărțire 70/30 -- în principal din motive de simplitate a implementării.
+\end{itemize}
+
+\subsection{Preprocesarea Fluxurilor de Rețea (CIC-IDS2017)}
+
+Există trei implementări pentru acest set de date, toate având la bază aceiași pași de curățare (eliminarea \texttt{Flow ID}/\texttt{Src IP}/\texttt{Dst IP}/\texttt{Timestamp}/\texttt{Src Port}; codificare one-hot pentru \texttt{Protocol}; înlocuirea \texttt{Inf} cu \texttt{NaN}; imputare cu mediana, calculată pe setul de antrenare; eliminarea coloanelor cu varianță zero, măsurată pe setul de antrenare; \texttt{MinMaxScaler} potrivit doar pe setul de antrenare), dar diferind prin unitatea de observație:
+
+\paragraph{Plat} Un rând = un flux. Setul de antrenare este format din toate fluxurile benigne din ziua de luni (371{,}749 rânduri); setul de testare conține toate fluxurile benigne de marți--vineri, plus toate fluxurile de atac reale (fluxurile \texttt{-- Attempted}, adică atacuri fără încărcătură observată, sunt excluse complet). Filtrarea coloanelor cu varianță zero pe datele de luni elimină cele trei coloane de flag URG, rămânând 77 din cele 80 de caracteristici originale.
+
+\paragraph{Temporal} Un rând = o fereastră de \texttt{WINDOW=16} fluxuri consecutive de la aceeași adresă IP sursă, sortate după timestamp.
+Această alegere de grupare -- după IP sursă, nu după sesiunea individuală de flux (identificată printr-un 5-tuplu: IP sursă, IP destinație, port sursă, port destinație și protocol -- cei cinci identificatori pe baza cărora CICFlowMeter definește o conexiune individuală) -- corespunde cheii de grupare folosite și pentru calculul caracteristicilor de context de gazdă de mai jos.
+Ambele pipeline-uri tratează \enquote{o entitate} drept fluxul de activitate ordonat al unei gazde sursă, nu o conexiune 5-tuplu, întrucât comportamentul la nivel de gazdă (multe conexiuni scurte, în rafală) caracterizează atacuri precum PortScan sau DoS, mai degrabă decât structura internă a unei singure conexiuni. Împărțirea este pe zile (luni antrenare, marți--vineri testare), din același motiv ca la pipeline-ul plat.
+
+\paragraph{Context de gazdă} Aceeași curățare plată, per flux, ca mai sus, dar fiecare flux este suplimentat cu 9 caracteristici construite, calculate dintr-o fereastră temporală glisantă de 60 de secunde, per IP gazdă: numărul de fluxuri, numărul de porturi unice, rata de diversitate a porturilor, un indicator de port nou, precum și asimetria sursă/destinație a fiecăreia. Acestea sunt calculate cauzal (doar din activitatea \emph{anterioară} fluxului curent) și nu necesită etichete de atac, urmând adaptarea nesupervizată a lui Raskovalov et al.\ (2024). Numărul final de caracteristici: $77 + 9 = 86$. Această variantă a fost introdusă special pentru a rezolva o slăbiciune comună pipeline-urilor plat și temporal, pe clasa de atac PortScan (vezi \S\ref{ch:results}).
+
+
+\section{Evaluation Protocol}
+\label{sec:eval-protocol}
+
+At test time, each model produces a scalar anomaly score per sample -- never a hard label directly -- and this label is obtained by thresholding that score, following the procedure described below.
+
+\subsection{Metrics Reported}
+
+Every run produces a text report containing the following:
+
+\begin{center}
+\begin{tabular}{@{}p{4cm}p{9.5cm}@{}}
+\toprule
+Metric & Notes \\
+\midrule
+Precision / Recall / F1 (per class) & Via \texttt{sklearn.classification\_report}, reported for both the normal and anomaly class, plus accuracy and macro/weighted averages. \\
+ROC-AUC & Reported for completeness / comparability with prior literature; not the primary ranking metric under class imbalance. \\
+Average Precision (PR-AUC) & Threshold-independent; the standard choice under severe class imbalance, since ROC-AUC can look deceptively good when negatives vastly outnumber positives. \\
+Balanced Accuracy & $\frac{1}{2}(\text{sensitivity} + \text{specificity})$ at the selected operating threshold. \\
+F1 (positive/attack class) & At the selected operating threshold. \\
+Confusion matrix counts & Raw TP/TN/FP/FN at the selected threshold. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+For CIC-IDS2017 specifically, \texttt{evaluate\_per\_class()} additionally reports Average Precision broken down per attack type (treating each attack class against all benign samples in isolation) -- this is what supports the per-attack-type discussion in \S\ref{ch:results}.
+
+PR-AUC (Average Precision) is treated as the primary metric for model comparison throughout this thesis, rather than F1 or ROC-AUC. This follows Kim et al.\ (2022), who observe that pre-defining a decision threshold without access to the test set is impractical, and that existing time-series anomaly detection methods instead report F1 at whichever threshold happens to maximize it -- making reported results threshold-dependent by construction. In their Discussion, they conclude that \enquote{additional metrics with the reduced dependency such as AUROC or area under precision-recall (AUPR) curve will help in rigorous evaluation}, which is the justification adopted here for ranking models by PR-AUC rather than by threshold-dependent F1.
+
+\subsection{Threshold Selection}
+
+A single decision threshold is still chosen per model/dataset to report the secondary threshold-dependent metrics (F1, balanced accuracy, confusion matrix) discussed above: it scans all thresholds on the precision-recall curve and picks the one maximizing $F_\beta$ with $\beta=2$, weighting recall twice as heavily as precision. The exact value of $\beta$ is not tuned -- any $\beta>1$ would express the same operationally reasonable preference for an anomaly/fraud-detection setting, where a missed anomaly is typically costlier than a false alarm; $\beta=2$ was simply fixed as a representative choice.
+
+This is an \emph{oracle} threshold: it is selected using the test set's own precision-recall curve, which would not be available at deployment time. This is acceptable here because the object of study is relative model/paradigm comparison at the best achievable operating point, not deployment readiness -- and because PR-AUC, the primary metric, does not depend on threshold selection at all. The F2/F1/balanced-accuracy figures at the oracle threshold should be read as secondary, illustrative numbers.
+
+\subsection{No Point Adjustment}
+
+Many time-series anomaly detection papers apply \emph{Point Adjustment} (PA): if any point within a contiguous ground-truth anomaly segment is flagged, the entire segment is retroactively counted as detected. Kim et al.\ (2022) show this can inflate F1 to near-1 even for random scores when anomaly segments are long, and that PA-adjusted F1 is nearly uncorrelated with the un-adjusted F1 (Pearson $r=-0.59$ on the SWaT dataset in their study). No PA is applied anywhere in this project: window/flow labels are fixed at preprocessing time and predictions are scored exactly as thresholded, with no retroactive adjustment.

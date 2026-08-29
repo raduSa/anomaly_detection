@@ -1,0 +1,87 @@
+\xpg@aux {}{english}
+\contentsline {chapter}{\numberline {1}Methods and Experimental Setup}{3}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Research Design and Approach}{3}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Anomaly Detection Algorithms}{4}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}One-Class SVM}{4}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Isolation Forest}{5}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.3}Feedforward (MLP) Autoencoder}{5}{subsection.1.2.3}%
+\contentsline {subsection}{\numberline {1.2.4}LSTM Autoencoder}{5}{subsection.1.2.4}%
+\contentsline {subsection}{\numberline {1.2.5}Predictive LSTM}{6}{subsection.1.2.5}%
+\contentsline {subsection}{\numberline {1.2.6}Transformer-Based Autoencoders}{6}{subsection.1.2.6}%
+\contentsline {section}{\numberline {1.3}Datasets}{7}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}Credit Card Fraud Detection (Dataset A)}{7}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}Yahoo Webscope S5 (Dataset B)}{8}{subsection.1.3.2}%
+\contentsline {subsection}{\numberline {1.3.3}CIC-IDS2017 (Dataset C)}{8}{subsection.1.3.3}%
+\contentsline {section}{\numberline {1.4}Preprocessing}{9}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}Tabular Preprocessing (Credit Card)}{9}{subsection.1.4.1}%
+\contentsline {subsection}{\numberline {1.4.2}Time-Series Windowing (Yahoo S5)}{10}{subsection.1.4.2}%
+\contentsline {paragraph}{Comparison with DeepAnt.}{10}{section*.2}%
+\contentsline {subsection}{\numberline {1.4.3}Network Flow Preprocessing (CIC-IDS2017)}{11}{subsection.1.4.3}%
+\contentsline {paragraph}{Flat (\texttt {preprocess.py}).}{11}{section*.3}%
+\contentsline {paragraph}{Temporal (\texttt {preprocess\_temporal.py}).}{11}{section*.4}%
+\contentsline {paragraph}{Host-context (\texttt {preprocess\_context.py}).}{12}{section*.5}%
+\contentsline {section}{\numberline {1.5}Hyperparameter and Training-Related Choices}{12}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}Isolation Forest}{12}{subsection.1.5.1}%
+\contentsline {subsection}{\numberline {1.5.2}One-Class SVM}{13}{subsection.1.5.2}%
+\contentsline {subsection}{\numberline {1.5.3}Feedforward (MLP) Autoencoder}{13}{subsection.1.5.3}%
+\contentsline {subsection}{\numberline {1.5.4}Predictive LSTM}{13}{subsection.1.5.4}%
+\contentsline {subsection}{\numberline {1.5.5}LSTM Autoencoder}{14}{subsection.1.5.5}%
+\contentsline {subsection}{\numberline {1.5.6}Bottleneck Transformer Autoencoder}{14}{subsection.1.5.6}%
+\contentsline {subsection}{\numberline {1.5.7}Causal Transformer}{14}{subsection.1.5.7}%
+\contentsline {section}{\numberline {1.6}Evaluation Protocol}{15}{section.1.6}%
+\contentsline {subsection}{\numberline {1.6.1}Metrics Reported}{15}{subsection.1.6.1}%
+\contentsline {subsection}{\numberline {1.6.2}Threshold Selection}{15}{subsection.1.6.2}%
+\contentsline {subsection}{\numberline {1.6.3}No Point Adjustment}{16}{subsection.1.6.3}%
+\contentsline {chapter}{\numberline {2}Experimental Results}{17}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Credit Card Fraud Detection (Dataset A)}{17}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Overall Comparison}{17}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Discussion}{17}{subsection.2.1.2}%
+\contentsline {paragraph}{No genuine sequence exists in this dataset.}{17}{section*.6}%
+\contentsline {paragraph}{Impact on results.}{18}{section*.7}%
+\contentsline {paragraph}{Paradigm-level notes.}{18}{section*.8}%
+\contentsline {paragraph}{Sanity check.}{18}{section*.9}%
+\contentsline {section}{\numberline {2.2}Yahoo Webscope S5 (Dataset B)}{19}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}A1 -- Point Anomalies (Real Server Metrics)}{19}{subsection.2.2.1}%
+\contentsline {paragraph}{Discussion.}{19}{section*.10}%
+\contentsline {subsection}{\numberline {2.2.2}A3 -- Contextual/Seasonal Anomalies}{19}{subsection.2.2.2}%
+\contentsline {paragraph}{Discussion.}{19}{section*.11}%
+\contentsline {subsection}{\numberline {2.2.3}A4 -- Level-Shift Anomalies}{20}{subsection.2.2.3}%
+\contentsline {paragraph}{Discussion.}{20}{section*.12}%
+\contentsline {subsection}{\numberline {2.2.4}Trivial Baseline Sanity Check (Yahoo Only)}{21}{subsection.2.2.4}%
+\contentsline {subsection}{\numberline {2.2.5}Discussion}{22}{subsection.2.2.5}%
+\contentsline {paragraph}{Paradigm and architecture both matter.}{22}{section*.13}%
+\contentsline {paragraph}{Per-anomaly-type summary.}{22}{section*.14}%
+\contentsline {section}{\numberline {2.3}CIC-IDS2017 (Dataset C)}{23}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Overall Comparison}{23}{subsection.2.3.1}%
+\contentsline {paragraph}{Host-context features dominate.}{25}{section*.15}%
+\contentsline {paragraph}{Temporal windowing alone does not help.}{25}{section*.16}%
+\contentsline {paragraph}{Reconstruction beats prediction.}{26}{section*.17}%
+\contentsline {subsection}{\numberline {2.3.2}Per-Attack-Type Breakdown}{26}{subsection.2.3.2}%
+\contentsline {paragraph}{Consistently well-detected.}{26}{section*.18}%
+\contentsline {paragraph}{Mixed context response for application-layer DoS.}{27}{section*.19}%
+\contentsline {paragraph}{Largely undetectable regardless of feature set.}{27}{section*.20}%
+\contentsline {subsection}{\numberline {2.3.3}Discussion}{28}{subsection.2.3.3}%
+\contentsline {paragraph}{Host-context features are the single most impactful addition in this study.}{28}{section*.21}%
+\contentsline {paragraph}{A practical ensemble.}{28}{section*.22}%
+\contentsline {section}{\numberline {2.4}Exploratory Data Analysis}{28}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Credit Card Fraud Detection}{29}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Yahoo Webscope S5}{30}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}CIC-IDS2017}{31}{subsection.2.4.3}%
+\contentsline {section}{\numberline {2.5}Explainability}{32}{section.2.5}%
+\contentsline {chapter}{\numberline {3}Explainability Case Studies}{33}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Reconstruction-Error Localization on Yahoo A3}{33}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Initial Assumption}{33}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Qualitative Check: Per-Timestep Error Heatmaps}{34}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}Quantitative Verification: Gini Coefficient of Error Concentration}{35}{subsection.3.1.3}%
+\contentsline {section}{\numberline {3.2}Pseudo-Sequence Reconstruction Error on Credit Card Fraud}{36}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Initial Assumption}{37}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Qualitative Check: Per-Feature-Position Error Heatmaps}{37}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Quantitative Verification: Column-Shuffle Feature-Identity Check}{39}{subsection.3.2.3}%
+\contentsline {section}{\numberline {3.3}Disjoint Feature Regimes: AE+Context vs.\ Temporal IForest}{40}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Temporal IForest: Initial Assumption}{40}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Temporal IForest: Score Validity Under Last-Flow Labeling}{40}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Temporal IForest: SHAP Attribution Across the Window}{41}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}AE+Context: SHAP Dominated by Host-Context Features}{42}{subsection.3.3.4}%
+\contentsline {subsection}{\numberline {3.3.5}Building the Combined Score}{44}{subsection.3.3.5}%
+\contentsline {subsection}{\numberline {3.3.6}Two Fusion Rules, Two Normalizations}{44}{subsection.3.3.6}%
+\contentsline {subsection}{\numberline {3.3.7}Per-Class Coverage vs.\ Aggregate AP}{45}{subsection.3.3.7}%

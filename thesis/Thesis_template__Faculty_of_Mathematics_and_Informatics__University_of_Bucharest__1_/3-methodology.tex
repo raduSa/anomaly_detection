@@ -1,0 +1,77 @@
+\chapter{Methods and Experimental Setup}
+\label{ch:methodology}
+
+% This chapter explains every model and every shared experimental choice
+% (preprocessing, hyperparameters, evaluation protocol) that applies across
+% all three datasets. Dataset-specific preprocessing details that don't
+% generalize (e.g. exact feature counts, window lengths) can either stay
+% here at a high level or move into the per-dataset Results subsections --
+% decide per case once the prose is drafted.
+
+\section{Anomaly Detection Paradigms}
+% Short framing paragraph: novelty detection (train on benign only) vs.
+% outlier detection, and the four paradigms under comparison --
+% boundary-based, partition-based, reconstruction-based, temporal (predictive
+% and reconstruction).
+
+\subsection{One-Class SVM}
+% Hypersphere/boundary intuition, nu-SVM formulation, kernel choice.
+
+\subsection{Isolation Forest}
+% Partition-based isolation, path length as anomaly score.
+
+\subsection{Feedforward Autoencoder}
+% Reconstruction-based, bottleneck compression, MSE score.
+
+\subsection{LSTM Autoencoder}
+% Sequence-to-vector-to-sequence reconstruction; contrast with predictive LSTM below.
+
+\subsection{Predictive LSTM}
+% Next-step prediction objective; prediction residual as anomaly score.
+% Note explicitly how this differs in objective (not just architecture)
+% from the LSTM Autoencoder above -- this distinction is a key result later.
+
+\subsection{Transformer-Based Autoencoders}
+% Two variants used: bottleneck transformer (global-average-pool + squeeze/expand
+% bottleneck) and causal transformer (masked self-attention, predictive objective).
+% Mention the originally-planned masked/token-reconstruction transformer
+% (IMPLEMENTATION_PLAN.md \S2.5) and its current status (not yet run on Yahoo).
+
+\section{Datasets}
+% One short paragraph per dataset here (name, size, source, why chosen),
+% deferring full preprocessing detail to \S\ref{sec:preprocessing} and
+% deferring results/discussion to Chapter~\ref{ch:results}.
+
+\subsection{Credit Card Fraud Detection (Dataset A)}
+\subsection{Yahoo Webscope S5 (Dataset B)}
+\subsection{CIC-IDS2017 (Dataset C)}
+
+\section{Preprocessing}
+\label{sec:preprocessing}
+% Shared principles first (train-on-benign-only split, scaler fit on train
+% only, no leakage), then one subsection per dataset for the concrete pipeline.
+
+\subsection{Tabular Preprocessing (Credit Card)}
+\subsection{Time-Series Windowing (Yahoo S5)}
+\subsection{Network Flow Preprocessing (CIC-IDS2017)}
+% Include the flat / temporal / host-context variants and why context
+% features were introduced.
+
+\section{Hyperparameter Choices and Architecture Standardization}
+% Pull directly from mds/architecture_diffs.md: table per model (OC-SVM,
+% IForest, MLP AE, LSTM, LSTM AE, Bottleneck Transformer, Causal Transformer)
+% showing the values used per dataset, plus the justification for why values
+% differ (e.g. bottleneck ratio kept constant, not absolute width).
+% State explicitly: no hyperparameter sweeping was performed by design --
+% goal is paradigm comparison under principled, fixed configurations, not
+% per-model optimality.
+
+\section{Evaluation Protocol}
+% Metrics: PR-AUC (Average Precision) as primary metric, ROC-AUC for
+% comparability, F2-maximizing threshold via sweep\_threshold() as secondary/
+% operational metric. Justify PR-AUC choice under class imbalance.
+% State the "no Point Adjustment" methodological choice and cite Kim et al.
+% (2022) critique of PA-adjusted F1.
+% State the oracle-threshold limitation (threshold selected from the test
+% set's own PR curve) and why it's acceptable for a comparison-only study.
+% Mention the trivial baseline (\|w\|\_2) sanity check used on Yahoo.
