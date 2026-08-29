@@ -57,39 +57,27 @@ Ambele pipeline-uri tratează \enquote{o entitate} drept fluxul de activitate or
 \paragraph{Context de gazdă} Aceeași curățare plată, per flux, ca mai sus, dar fiecare flux este suplimentat cu 9 caracteristici construite, calculate dintr-o fereastră temporală glisantă de 60 de secunde, per IP gazdă: numărul de fluxuri, numărul de porturi unice, rata de diversitate a porturilor, un indicator de port nou, precum și asimetria sursă/destinație a fiecăreia. Acestea sunt calculate cauzal (doar din activitatea \emph{anterioară} fluxului curent) și nu necesită etichete de atac, urmând adaptarea nesupervizată a lui Raskovalov et al.\ (2024). Numărul final de caracteristici: $77 + 9 = 86$. Această variantă a fost introdusă special pentru a rezolva o slăbiciune comună pipeline-urilor plat și temporal, pe clasa de atac PortScan (vezi \S\ref{ch:results}).
 
 
-\section{Evaluation Protocol}
+\section{Protocolul de Evaluare}
 \label{sec:eval-protocol}
 
-At test time, each model produces a scalar anomaly score per sample -- never a hard label directly -- and this label is obtained by thresholding that score, following the procedure described below.
+La testare, fiecare model produce un scor scalar de anomalie per eșantion -- niciodată o etichetă directă -- iar această etichetă este obținută prin aplicarea unui prag asupra scorului, urmând procedura descrisă mai jos.
 
-\subsection{Metrics Reported}
+\subsection{Metrici Raportate}
 
-Every run produces a text report containing the following:
+Lista completă a metricilor raportate de fiecare rulare, precum și rezultatele complete pe toate aceste metrici pentru fiecare model și set de date, sunt prezentate în Anexa~\ref{sec:eval-metrics}.
 
-\begin{center}
-\begin{tabular}{@{}p{4cm}p{9.5cm}@{}}
-\toprule
-Metric & Notes \\
-\midrule
-Precision / Recall / F1 (per class) & Via \texttt{sklearn.classification\_report}, reported for both the normal and anomaly class, plus accuracy and macro/weighted averages. \\
-ROC-AUC & Reported for completeness / comparability with prior literature; not the primary ranking metric under class imbalance. \\
-Average Precision (PR-AUC) & Threshold-independent; the standard choice under severe class imbalance, since ROC-AUC can look deceptively good when negatives vastly outnumber positives. \\
-Balanced Accuracy & $\frac{1}{2}(\text{sensitivity} + \text{specificity})$ at the selected operating threshold. \\
-F1 (positive/attack class) & At the selected operating threshold. \\
-Confusion matrix counts & Raw TP/TN/FP/FN at the selected threshold. \\
-\bottomrule
-\end{tabular}
-\end{center}
+PR-AUC (Precizia Medie) este tratată drept metrica principală pentru compararea modelelor pe tot parcursul acestei lucrări, în locul F1 sau ROC-AUC. Aceasta urmează raționamentul lui Kim et al.\ (2022), care observă că prestabilirea unui prag de decizie fără acces la setul de testare nu este practică, și că metodele existente de detecție a anomaliilor în serii de timp raportează în schimb F1 la orice prag care se întâmplă să îl maximizeze -- ceea ce face ca rezultatele raportate să fie dependente de prag prin construcție. În secțiunea de Discuții, aceștia concluzionează că \enquote{metrici suplimentare cu dependență redusă, precum AUROC sau aria de sub curba precizie-recall (AUPR), vor ajuta la o evaluare riguroasă}, ceea ce reprezintă justificarea adoptată aici pentru clasificarea modelelor după PR-AUC, în loc de F1 dependent de prag.
 
-For CIC-IDS2017 specifically, \texttt{evaluate\_per\_class()} additionally reports Average Precision broken down per attack type (treating each attack class against all benign samples in isolation) -- this is what supports the per-attack-type discussion in \S\ref{ch:results}.
+ROC-AUC - raportat de asemenea în capitolul următor, mai mult pentru completitudine / comparabilitate cu literatura anterioară.
 
-PR-AUC (Average Precision) is treated as the primary metric for model comparison throughout this thesis, rather than F1 or ROC-AUC. This follows Kim et al.\ (2022), who observe that pre-defining a decision threshold without access to the test set is impractical, and that existing time-series anomaly detection methods instead report F1 at whichever threshold happens to maximize it -- making reported results threshold-dependent by construction. In their Discussion, they conclude that \enquote{additional metrics with the reduced dependency such as AUROC or area under precision-recall (AUPR) curve will help in rigorous evaluation}, which is the justification adopted here for ranking models by PR-AUC rather than by threshold-dependent F1.
+Pentru CIC-IDS2017 în mod specific, este raportată suplimentar Precizia Medie defalcată pe tip de atac (tratând fiecare clasă de atac izolat, față de toate eșantioanele benigne), pentru a susține discuția per-tip-de-atac din \S\ref{ch:results}.
 
-\subsection{Threshold Selection}
+\subsection{Selecția Pragului}
 
-A single decision threshold is still chosen per model/dataset to report the secondary threshold-dependent metrics (F1, balanced accuracy, confusion matrix) discussed above: it scans all thresholds on the precision-recall curve and picks the one maximizing $F_\beta$ with $\beta=2$, weighting recall twice as heavily as precision. The exact value of $\beta$ is not tuned -- any $\beta>1$ would express the same operationally reasonable preference for an anomaly/fraud-detection setting, where a missed anomaly is typically costlier than a false alarm; $\beta=2$ was simply fixed as a representative choice.
+Se alege totuși un singur prag de decizie per model/set de date pentru a raporta metricile secundare, dependente de prag (F1, acuratețe echilibrată, matrice de confuzie) discutate mai sus: se baleiază toate pragurile de pe curba precizie-recall și se alege cel care maximizează $F_\beta$ cu $\beta=2$, ponderând recall-ul de două ori mai mult decât precizia. Valoarea exactă a lui $\beta$ nu este reglată -- orice $\beta>1$ ar exprima aceeași preferință rezonabilă din punct de vedere operațional pentru un scenariu de detecție a anomaliilor/fraudelor, în care o anomalie ratată este de obicei mai costisitoare decât o alarmă falsă; $\beta=2$ a fost pur și simplu fixat ca o alegere reprezentativă.
 
-This is an \emph{oracle} threshold: it is selected using the test set's own precision-recall curve, which would not be available at deployment time. This is acceptable here because the object of study is relative model/paradigm comparison at the best achievable operating point, not deployment readiness -- and because PR-AUC, the primary metric, does not depend on threshold selection at all. The F2/F1/balanced-accuracy figures at the oracle threshold should be read as secondary, illustrative numbers.
+Acesta este un prag de tip \emph{oracol}: este selectat folosind chiar curba precizie-recall a setului de testare, care nu ar fi mereu disponibilă în realitate.
+Însă, am considerat acceptabil în acest caz întrucât obiectul de studiu este comparația relativă între modele/paradigme la cel mai bun punct de operare atins, iar PR-AUC, metrica principală, nu depinde deloc de selecția pragului. Așadar, cifrele F2/F1/acuratețe echilibrată la pragul oracol trebuie citite drept cifre secundare, ilustrative.
 
 \subsection{No Point Adjustment}
 

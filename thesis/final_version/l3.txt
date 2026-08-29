@@ -170,28 +170,14 @@ Package mathtools Warning: For best results, please load mathtools *before*
 (C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/appendix\appendix.
 sty)
 (C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/fancyhdr\fancyhdr.
-sty) (main.aux (0-title.aux) (0-abstract.aux) (1-introducere.aux)
-(2-preliminarii.aux) (3-methodology.aux) (4-results.aux) (5-explainability.aux)
-(6-concluzii.aux) (7-anexe.aux)
-
-! LaTeX Error: Missing \begin{document}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.20 7
-      }
-! Extra }, or forgotten \endgroup.
-l.20 7}
-       
-)
+sty) (main.aux (0-title.aux) (0-abstract.aux))
 (C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/lbx\ameri
 can.lbx
 (C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/lbx\engli
 sh.lbx)
 (C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/lbx\engli
-sh.lbx)) (romanian.lbx) (main.bbl)
+sh.lbx)) (romanian.lbx)
+No file main.bbl.
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
 
@@ -200,65 +186,77 @@ sh.lbx)) (romanian.lbx) (main.bbl)
 (C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color
 .cfg)
 (C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor
-.ltx)) (main.out) (main.out) [1] (0-title.tex [1]) (0-abstract.tex [2])
-(main.toc [3] [4]) [5] (1-introducere.tex
+.ltx)) (main.out) (main.out) (0-title.tex [1]) (0-abstract.tex [2]) (main.toc
+[3] [4]) [5] (1-introducere.tex
 Capitolul 1.
-[6]) [7] (2-preliminarii.tex
+[6]) (2-preliminarii.tex
 Capitolul 2.
-[8]
+[7] [8]
 Overfull \hbox (21.02393pt too wide) in paragraph at lines 45--48
 []\TU/lmr/m/n/12 Autoencoder Feedforward este bazat pe reconstrucție: o pereche
  simetrică encoder/decoder
-[9] [10] [11]
+[9] [10]
 Overfull \hbox (22.00592pt too wide) in paragraph at lines 85--85
 [][][][][]$[][][][][] [] [] [] [][][] [] [][][][][][] [] [][][] [] [][][][] [] 
 [][][][][][][][][][][][][] [] [][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][][][][][][][][][][][][][][][][][][][][][][][]$[][]| 
-[12]) [13] (3-methodology.tex
+[11]) (3-methodology.tex
 Capitolul 3.
-[14] [15] [16]
+[12] [13] [14] [15]
 Underfull \hbox (badness 10000) in paragraph at lines 76--76
 []\TU/lmr/m/n/12 Average Precision
 
 Underfull \hbox (badness 10000) in paragraph at lines 78--78
 []\TU/lmr/m/n/12 F1 (positive/attack
-[17]) [18] (4-results.tex
+[16] [17]) (4-results.tex
 Capitolul 4.
 
 Overfull \hbox (67.64001pt too wide) in paragraph at lines 19--31
  [][] 
-[19] [20]
+[18] [19] [20]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[21] [22] [23] [24] [25] [26]
+[21] [22] [23] [24]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[25] [26]
 Overfull \hbox (12.16873pt too wide) in paragraph at lines 250--251
  []\TU/lmr/bx/n/12 Reconstruction beats prediction.[] \TU/lmr/m/n/12 Among the 
 temporal-feature models, reconstruction-
-[27] [28] [29] [30] [31] [32] [33]) [34] (5-explainability.tex
+[27] [28] [29] [30] [31] [32] [33]) (5-explainability.tex
 Capitolul 5.
-[35] [36] [37] [38] [39] [40]
+[34] [35] [36] [37] [38] [39] [40]
 Overfull \hbox (4.49731pt too wide) in paragraph at lines 93--93
 []\TU/lmr/bx/n/14.4 Quantitative Verification: Column-Shuffle Feature-Identity
-[41] [42] [43] [44] [45] [46] [47]) [48] (6-concluzii.tex
+[41] [42] [43] [44] [45] [46] [47]) (6-concluzii.tex
 Capitolul 6.
-) [49] (7-anexe.tex
-Anexa A.
-[50] [51] [52] [53]
-Anexa B.
-
-Overfull \hbox (3.35617pt too wide) in paragraph at lines 153--164
+) (7-anexe.tex
+Anexa 1.
+[48]
+Overfull \hbox (3.35617pt too wide) in paragraph at lines 15--26
  [] 
-[54]
-Overfull \hbox (4.07999pt too wide) in paragraph at lines 171--182
+
+Overfull \hbox (4.07999pt too wide) in paragraph at lines 34--45
  [] 
-[55] [56]) [57]
+[49] [50]
+Anexa 2.
+[51]
+Underfull \hbox (badness 1048) in paragraph at lines 153--154
+[]\TU/lmr/m/n/12 Prin \TU/lmtt/m/n/12 sklearn.classification_report\TU/lmr/m/n/
+12 , raportate
 
-LaTeX Warning: Empty bibliography on input line 145.
+Underfull \hbox (badness 1609) in paragraph at lines 155--155
+[]\TU/lmr/m/n/12 Precizie Medie (PR-
 
-(main.aux (0-title.aux) (0-abstract.aux) (1-introducere.aux)
-(2-preliminarii.aux) (3-methodology.aux) (4-results.aux) (5-explainability.aux)
-(6-concluzii.aux) (7-anexe.aux)) )
+Underfull \hbox (badness 10000) in paragraph at lines 157--157
+[]\TU/lmr/m/n/12 F1 (clasa poziti-
+[52] [53])
+
+LaTeX Warning: Empty bibliography on input line 178.
+
+[54] (main.aux (0-title.aux) (0-abstract.aux)) )
 (see the transcript file for additional information)
-Output written on main.pdf (58 pages).
+Output written on main.pdf (54 pages).
 Transcript written on main.log.

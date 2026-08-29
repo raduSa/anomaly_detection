@@ -93,12 +93,44 @@
 % Stiluri diferite de headere și footere
 \usepackage{fancyhdr}
 
+% Permite modificarea comenzii \chapter (eliminarea saltului de pagină)
+\usepackage{etoolbox}
+
 % Metadate
 \title{Analiza paradigmelor de anomaly detection pe diferite seturi de date}
 \author{Savin Radu-Andrei}
 
 % Generează variabilele cu @
 \makeatletter
+
+% Împiedică \chapter să înceapă întotdeauna pe o pagină nouă. Se înlocuiește
+% saltul de pagină cu \par (nu se elimină complet), altfel titlul de capitol
+% se lipește de sfârșitul paragrafului anterior, pe aceeași linie.
+\patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{\par}{}{%
+  \typeout{Nu s-a putut elimina saltul de pagină din \string\chapter.}%
+}
+
+% Reduce spațiul vertical din titlul de capitol (implicit gândit pentru
+% începutul unei pagini noi -- \vspace*{50pt} înainte, \vskip 40pt după --
+% ceea ce lasă un gol mare, nepotrivit, în mijlocul paginii acum că
+% \chapter nu mai forțează o pagină nouă). Se patchează valorile de
+% spațiere direct în interiorul macro-urilor existente, fără a le
+% rescrie complet.
+\patchcmd{\@makechapterhead}{\vspace*{50\p@}}{\vspace*{10\p@}}{}{%
+  \typeout{Nu s-a putut reduce \string\vspace* de dinaintea titlului de capitol (numerotat).}%
+}
+\patchcmd{\@makechapterhead}{\vskip 20\p@}{\vskip 6\p@}{}{%
+  \typeout{Nu s-a putut reduce \string\vskip dintre numărul și titlul capitolului.}%
+}
+\patchcmd{\@makechapterhead}{\vskip 40\p@}{\vskip 15\p@}{}{%
+  \typeout{Nu s-a putut reduce \string\vskip de după titlul de capitol (numerotat).}%
+}
+\patchcmd{\@makeschapterhead}{\vspace*{50\p@}}{\vspace*{10\p@}}{}{%
+  \typeout{Nu s-a putut reduce \string\vspace* de dinaintea titlului de capitol (nenumerotat).}%
+}
+\patchcmd{\@makeschapterhead}{\vskip 40\p@}{\vskip 15\p@}{}{%
+  \typeout{Nu s-a putut reduce \string\vskip de după titlul de capitol (nenumerotat).}%
+}
 
 \begin{document}
 
@@ -132,15 +164,16 @@
 \pagestyle{main}
 \let\ps@plain\ps@main
 
-\include{1-introducere}
-\include{2-preliminarii}
-\include{3-methodology}
-\include{4-results}
-\include{5-explainability}
-\include{6-concluzii}
+\input{1-introducere}
+\input{2-preliminarii}
+\input{3-methodology}
+\input{4-results}
+\input{5-explainability}
+\input{6-concluzii}
 
 \appendix
-\include{7-anexe}
+\renewcommand{\thechapter}{\arabic{chapter}}
+\input{7-anexe}
 
 \printbibliography[heading=bibintoc]
 
