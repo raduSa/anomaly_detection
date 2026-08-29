@@ -1,0 +1,12 @@
+Column-shuffle feature-identity check (permutation seed=42, top 10, 492 fraud samples)
+Shuffled column order: ['V8', 'V17', 'V25', 'V24', 'V19', 'V6', 'Amount', 'V26', 'V11', 'V20', 'V21', 'V10', 'V7', 'V22', 'V4', 'V1', 'V16', 'V18', 'V23', 'V13', 'V12', 'V15', 'V28', 'V3', 'V5', 'V27', 'V2', 'V14', 'V9']
+
+LSTM AE
+  Top 10 (original column order): V8 (47.7432), V17 (24.5189), V7 (19.7423), V14 (18.3552), V21 (14.3793), V11 (12.6157), V12 (11.9797), V1 (11.3539), V3 (11.1838), V15 (10.9507)
+  Top 10 (shuffled column order):  V7 (71.6523), V3 (67.3459), V4 (66.0013), V1 (52.7610), V2 (51.6064), V10 (51.1070), V17 (48.9528), V14 (46.0876), V8 (33.8397), Amount (33.0910)
+  Overlap: 6/10 features in common -> ['V1', 'V14', 'V17', 'V3', 'V7', 'V8']
+
+Transformer Bottleneck AE
+  Top 10 (original column order): V2 (12.9385), V21 (11.6802), V17 (9.8943), V8 (8.1619), V10 (7.7270), Amount (6.9164), V14 (6.6002), V7 (5.8678), V20 (5.4609), V3 (5.0850)
+  Top 10 (shuffled column order):  V17 (136.8007), V8 (115.5628), V3 (98.7925), V28 (90.8105), V7 (67.4772), V14 (59.1234), V25 (49.4248), V9 (48.6655), V22 (47.0113), V2 (41.4726)
+  Overlap: 6/10 features in common -> ['V14', 'V17', 'V2', 'V3', 'V7', 'V8']

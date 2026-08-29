@@ -1,0 +1,16 @@
+
+Ensemble (soft-vote w=0.3, rank) eval
+              precision    recall  f1-score   support
+
+       Legit     0.9836    0.5491    0.7048   1285654
+       Fraud     0.4214    0.9729    0.5881    433962
+
+    accuracy                         0.6561   1719616
+   macro avg     0.7025    0.7610    0.6464   1719616
+weighted avg     0.8417    0.6561    0.6753   1719616
+
+ROC-AUC          : 0.9043
+Avg Precision    : 0.8206
+Balanced Accuracy: 0.7610
+F1 (fraud)       : 0.5881
+TP=422193  TN=705975  FP=579679  FN=11769

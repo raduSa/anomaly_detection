@@ -1,0 +1,7 @@
+AE+Context — top-15 features by mean |SHAP|, disjoint-feature-regime check:
+
+PortScan (n_ctx_in_top15 = 0/15):
+  Dst Port                       mean|SHAP|=0.00468
+
+DDoS (n_ctx_in_top15 = 0/15):
+  Dst Port                       mean|SHAP|=0.00582

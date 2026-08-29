@@ -1,0 +1,35 @@
+AE+Context — top-15 features by mean |SHAP|, disjoint-feature-regime check:
+
+PortScan (n_ctx_in_top15 = 8/15):
+  ctx_min_port_cnt               mean|SHAP|=0.32727 [ctx]
+  ctx_min_flow_cnt               mean|SHAP|=0.03027 [ctx]
+  ctx_abs_port_diff              mean|SHAP|=0.00507 [ctx]
+  ctx_max_port_cnt               mean|SHAP|=0.00505 [ctx]
+  ctx_new_port                   mean|SHAP|=0.00476 [ctx]
+  ctx_max_flow_cnt               mean|SHAP|=0.00439 [ctx]
+  ctx_max_port_rate              mean|SHAP|=0.00312 [ctx]
+  Proto_6                        mean|SHAP|=0.00244
+  Fwd Seg Size Min               mean|SHAP|=0.00235
+  ctx_abs_flow_diff              mean|SHAP|=0.00138 [ctx]
+  Proto_17                       mean|SHAP|=0.00101
+  Dst Port                       mean|SHAP|=0.00089
+  Flow Duration                  mean|SHAP|=0.00081
+  FWD Init Win Bytes             mean|SHAP|=0.00077
+  Fwd IAT Total                  mean|SHAP|=0.00075
+
+DDoS (n_ctx_in_top15 = 7/15):
+  ctx_min_port_cnt               mean|SHAP|=0.23428 [ctx]
+  ctx_min_flow_cnt               mean|SHAP|=0.15630 [ctx]
+  Bwd Packet Length Std          mean|SHAP|=0.03490
+  ctx_abs_port_diff              mean|SHAP|=0.00989 [ctx]
+  Packet Length Std              mean|SHAP|=0.00879
+  ctx_max_port_cnt               mean|SHAP|=0.00840 [ctx]
+  Proto_6                        mean|SHAP|=0.00830
+  ctx_max_flow_cnt               mean|SHAP|=0.00566 [ctx]
+  ctx_max_port_rate              mean|SHAP|=0.00524 [ctx]
+  Subflow Bwd Bytes              mean|SHAP|=0.00500
+  ctx_abs_flow_diff              mean|SHAP|=0.00469 [ctx]
+  Packet Length Max              mean|SHAP|=0.00279
+  Bwd Packet Length Max          mean|SHAP|=0.00268
+  Bwd Packet Length Mean         mean|SHAP|=0.00263
+  Bwd Segment Size Avg           mean|SHAP|=0.00258

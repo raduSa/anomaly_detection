@@ -1,0 +1,16 @@
+
+Ensemble (max-rule, rank) eval
+              precision    recall  f1-score   support
+
+       Legit     0.9912    0.9632    0.9770   1285654
+       Fraud     0.8993    0.9747    0.9355    433962
+
+    accuracy                         0.9661   1719616
+   macro avg     0.9452    0.9689    0.9562   1719616
+weighted avg     0.9680    0.9661    0.9665   1719616
+
+ROC-AUC          : 0.9861
+Avg Precision    : 0.9429
+Balanced Accuracy: 0.9689
+F1 (fraud)       : 0.9355
+TP=422965  TN=1238284  FP=47370  FN=10997

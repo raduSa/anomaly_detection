@@ -1,0 +1,17 @@
+Overall AP (row-aligned ensemble set):
+  zscore: AE+Context (standalone)               AP=0.9473
+  zscore: Temporal IForest (standalone)         AP=0.7615
+  zscore: max-rule                              AP=0.9457
+  zscore: soft-vote w=0.3                       AP=0.9555
+  zscore: soft-vote w=0.4                       AP=0.9534
+  zscore: soft-vote w=0.5                       AP=0.9517
+  zscore: soft-vote w=0.6                       AP=0.9505
+  zscore: soft-vote w=0.7                       AP=0.9496
+  rank: AE+Context (standalone)                 AP=0.9414
+  rank: Temporal IForest (standalone)           AP=0.7613
+  rank: max-rule                                AP=0.9429
+  rank: soft-vote w=0.3                         AP=0.8206
+  rank: soft-vote w=0.4                         AP=0.8408
+  rank: soft-vote w=0.5                         AP=0.8593
+  rank: soft-vote w=0.6                         AP=0.8762
+  rank: soft-vote w=0.7                         AP=0.8924

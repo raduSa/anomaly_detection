@@ -8,7 +8,27 @@
 % here at a high level or move into the per-dataset Results subsections --
 % decide per case once the prose is drafted.
 
+\section{Research Design and Approach}
+\label{sec:approach}
+
+This project is organized around a single question: how does the way a model represents the \emph{latent structure} of "normal" data determine what kinds of anomalies it can and cannot detect? Rather than optimizing one architecture for one dataset, the approach taken here is deliberately comparative along two axes at once.
+
+The first axis is \textbf{paradigm}: the seven models evaluated (\S\ref{sec:algorithms}) were chosen specifically to cover four structurally distinct ways of representing what "normal" looks like -- a \textbf{boundary} carved out in kernel space (One-Class SVM), a \textbf{partitioning} of the feature space by random splits (Isolation Forest), a learned \textbf{compression bottleneck} that must discard everything but the dominant structure of normal data (the three reconstruction-based autoencoders), and a \textbf{predictive} model of how normal data evolves one step at a time (Predictive LSTM, Causal Transformer). These are not arbitrary choices or a convenience sample of popular architectures: each paradigm encodes a different implicit assumption about what makes a point anomalous, and the central empirical question throughout this thesis is which assumption matches which kind of anomaly.
+
+The second axis is \textbf{dataset}: Credit Card Fraud, Yahoo Webscope S5, and CIC-IDS2017 (\S\ref{sec:datasets}) were selected to span a deliberate spectrum of temporal structure -- from a purely tabular dataset with no meaningful ordering between rows, through genuinely sequential time series, to network flow data that admits flat, temporal, and host-context views of the same underlying events. Running every model paradigm against every point on this spectrum is what makes it possible to attribute a given result to the \emph{paradigm} (does this kind of anomaly need a predictive objective, or a bottleneck, or neither?) rather than to some idiosyncrasy of a single dataset.
+
+The resulting experimental method follows a fixed three-stage cycle, repeated per dataset in Chapter~\ref{ch:results}:
+
+\begin{enumerate}
+  \item \textbf{Measure.} Train every applicable model exclusively on benign data and evaluate all of them under the same protocol (\S\ref{sec:eval-protocol}), producing a ranked comparison table and, where the data supports it, a breakdown by anomaly type or attack class.
+  \item \textbf{Explain.} Read the resulting performance gaps -- not just which model wins, but which paradigm wins where -- and propose a concrete mechanistic explanation grounded in each model's architecture (e.g.\ "the LSTM Autoencoder's pooled hidden state destroys the phase information a seasonal anomaly needs").
+  \item \textbf{Verify.} Treat that explanation as a falsifiable claim and test it directly with a targeted diagnostic -- reconstruction-error localization, SHAP attribution, or a controlled perturbation of the input -- rather than letting the aggregate metrics alone stand as evidence for the mechanism. Chapter~\ref{ch:explainability} is dedicated entirely to this stage, and its findings are reported honestly as confirming, complicating, or refining the claims made in Chapter~\ref{ch:results}, not merely as illustrations of them.
+\end{enumerate}
+
+This cycle is what separates the thesis's contribution from a plain benchmark comparison: the goal is not only to report which of seven models scores highest on which of three datasets, but to build and test an explanation of \emph{why}, at the level of paradigm rather than individual model.
+
 \section{Anomaly Detection Algorithms}
+\label{sec:algorithms}
 
 All models below are used for \emph{novelty detection}, not outlier detection: each is fit exclusively on benign/normal data and never sees an anomaly during training, so "normal" is whatever the training distribution looked like. At test time each model produces a scalar anomaly score per sample (never a hard label directly), and the label is obtained by thresholding that score with the procedure in \S\ref{sec:eval-protocol}. The seven models fall into four paradigms: \textbf{boundary-based} (One-Class SVM), \textbf{partition-based} (Isolation Forest), \textbf{reconstruction-based} (Feedforward Autoencoder, LSTM Autoencoder, Bottleneck Transformer Autoencoder), and \textbf{temporal-predictive} (Predictive LSTM, Causal Transformer).
 
@@ -46,6 +66,7 @@ Both variants deliberately use a single \texttt{TransformerEncoder} stack rather
 No Causal Transformer implementation exists for the credit card dataset (\S\ref{ch:results}).
 
 \section{Datasets}
+\label{sec:datasets}
 
 Three datasets were selected to span a deliberate spectrum of temporal structure: Dataset A is purely tabular, with no meaningful temporal ordering between rows; Datasets B and C are genuinely temporal, with Dataset C additionally admitting both a flat/tabular and a temporal view of the same underlying data. This lets the same four modeling paradigms be evaluated under progressively harder conditions for the "does temporal order matter" question.
 

@@ -1,0 +1,19 @@
+Per-class AP, focus classes only (rows=variant, cols=class):
+
+variant                                                    DDoS          PortScan     DoS GoldenEye  DoS Slowhttptest     DoS slowloris
+zscore: AE+Context (standalone)                          0.9504            0.9084            0.2150            0.0131            0.0250
+zscore: Temporal IForest (standalone)                    0.9515            0.1234            0.6265            0.6849            0.6077
+zscore: max-rule                                         0.9504            0.9081            0.2150            0.0236            0.0430
+zscore: soft-vote w=0.3                                  0.9836            0.9090            0.2156            0.0372            0.0678
+zscore: soft-vote w=0.4                                  0.9743            0.9088            0.2154            0.0329            0.0594
+zscore: soft-vote w=0.5                                  0.9672            0.9086            0.2153            0.0281            0.0515
+zscore: soft-vote w=0.6                                  0.9619            0.9086            0.2152            0.0244            0.0446
+zscore: soft-vote w=0.7                                  0.9579            0.9085            0.2152            0.0214            0.0385
+rank: AE+Context (standalone)                            0.8820            0.9239            0.2922            0.0131            0.0252
+rank: Temporal IForest (standalone)                      0.9563            0.1234            0.6106            0.5778            0.5599
+rank: max-rule                                           0.8817            0.9235            0.2920            0.0600            0.0828
+rank: soft-vote w=0.3                                    0.9765            0.1909            0.7905            0.2296            0.3459
+rank: soft-vote w=0.4                                    0.9767            0.2280            0.8015            0.2053            0.3192
+rank: soft-vote w=0.5                                    0.9770            0.2675            0.8100            0.1851            0.2973
+rank: soft-vote w=0.6                                    0.9771            0.3100            0.8157            0.1632            0.2748
+rank: soft-vote w=0.7                                    0.9772            0.3579            0.8206            0.1396            0.2449

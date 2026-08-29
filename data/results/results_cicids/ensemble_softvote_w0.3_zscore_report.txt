@@ -1,0 +1,16 @@
+
+Ensemble (soft-vote w=0.3, zscore) eval
+              precision    recall  f1-score   support
+
+       Legit     0.9919    0.9772    0.9845   1285654
+       Fraud     0.9354    0.9764    0.9554    433962
+
+    accuracy                         0.9770   1719616
+   macro avg     0.9637    0.9768    0.9700   1719616
+weighted avg     0.9776    0.9770    0.9772   1719616
+
+ROC-AUC          : 0.9842
+Avg Precision    : 0.9555
+Balanced Accuracy: 0.9768
+F1 (fraud)       : 0.9554
+TP=423707  TN=1256395  FP=29259  FN=10255

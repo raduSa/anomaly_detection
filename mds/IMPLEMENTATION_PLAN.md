@@ -365,6 +365,16 @@ This enables a cross-model comparison: "all four paradigms agree feature V14 is 
 - Attention is not Explanation (Jain & Wallace, 2019): https://arxiv.org/abs/1902.10186
 - Attention is not not Explanation (Wiegreffe & Pinter, 2019): https://arxiv.org/abs/1908.04626
 
+### 8.8 Soft-Voting Ensemble SHAP (CIC-IDS2017 context models) — idea, not yet claimed or built
+
+Not motivated by an existing `results.tex` claim, so it doesn't fit the current explainability chapter's "test a stated claim" structure as-is — would need the claim added first (see below) before implementing.
+
+The three top CIC context models (IForest+Context, OC-SVM+Context, AE+Context) disagree sharply on some attack classes (e.g.\ DoS GoldenEye: IForest+Context AP 0.655 vs.\ AE+Context/OC-SVM+Context $\sim$0.22 — see `results.tex` "Mixed context response for application-layer DoS"). The "A practical ensemble" paragraph in `results.tex`'s CIC Discussion already gestures at combining models for coverage, but proposes AE+Context + Temporal IForest (different feature sets), not a same-feature-set soft vote over the three context models.
+
+**Claim to add first, if pursued:** does soft-voting across the three context models on GoldenEye-like disagreement cases average away IForest+Context's detection (net loss) or preserve it (net gain), and does the ensemble's SHAP attribution reflect a genuine blend of the members' feature importances or get dominated by whichever member has the largest score magnitude?
+
+**How to compute ensemble SHAP without training a new explainer for a black-box ensemble:** a soft-voting score is a weighted average of the (normalized) member scores, and SHAP is additive under linear combination of the underlying score functions. So reuse the SHAP values already computed per member (`TreeExplainer` for IForest, `GradientExplainer`-wrapped reconstruction error for AE — both already implemented in `explainability/cicids_shap.py` / `shap_utils.py`), add one `KernelExplainer` pass for OC-SVM (not tree- or gradient-based), then take the same weighted average of the three SHAP arrays used for the vote itself. Avoids the slow/expensive route of running `KernelExplainer` directly on the ensemble's `predict()` as a black box over 86 features.
+
 ---
 
 ## 9. Suggested Thesis Narrative Arc

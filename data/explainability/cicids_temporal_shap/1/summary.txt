@@ -1,0 +1,5 @@
+Temporal IForest � position-concentration summary (last-flow labeling):
+  DDoS                 n=200  last-timestep share=8.33%  top features=[np.str_('Bwd Segment Size Avg'), np.str_('Bwd Packet Length Std'), np.str_('Bwd Packet Length Mean'), np.str_('Packet Length Variance'), np.str_('Bwd Packet Length Max'), np.str_('Packet Length Max')]
+  DoS GoldenEye        n=200  last-timestep share=6.98%  top features=[np.str_('Bwd Packet Length Std'), np.str_('Bwd Segment Size Avg'), np.str_('Bwd Packet Length Mean'), np.str_('Packet Length Max'), np.str_('Bwd Packet Length Max'), np.str_('Packet Length Variance')]
+  DoS Slowhttptest     n=200  last-timestep share=5.76%  top features=[np.str_('Bwd IAT Std'), np.str_('Fwd IAT Std'), np.str_('Bwd IAT Max'), np.str_('Fwd IAT Max'), np.str_('Flow IAT Max'), np.str_('Idle Mean')]
+  DoS slowloris        n=200  last-timestep share=5.85%  top features=[np.str_('Bwd IAT Mean'), np.str_('Bwd IAT Max'), np.str_('Flow IAT Max'), np.str_('Fwd IAT Max'), np.str_('Idle Max'), np.str_('Bwd IAT Min')]

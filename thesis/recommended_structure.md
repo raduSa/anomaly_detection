@@ -46,3 +46,14 @@ o Sunt opționale și nu fac parte propriu-zisă din lucrare
 o Conţin informaţii utile pentru parcurgerea lucrării, dar care, prin specificul lor, nu se
 încadrează în corpul propriu-zis al acesteia
 o Se numerotează distinct de secțiunile lucrării: Anexa 1, Anexa 2, etc.
+
+
+
+Rezumat (RO|EN)
+ 
+1. Introducere: motivație, scop, obiective, notații, organizarea lucrării
+2. Stadiu actual: metode, algoritmi, tehnologii existente ce au legătura cu tema lucrării
+3. Metodologie: metodele alese din stadiu actual, cum le-ați legat, algoritm rezultat
+4. Implementare: limbaje, tehnologii alese pentru implementarea metodologiei.
+5. Rezultate: experimente, comparații cu metode din stadiu actual, evaluarea performanței
+6. Concluzii și direcții viitoare: ce ați făcut și ce nu ați apucat să faceți, limitări ale soluției propuse

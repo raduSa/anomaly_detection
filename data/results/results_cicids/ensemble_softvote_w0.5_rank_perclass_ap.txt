@@ -1,0 +1,14 @@
+Per-class Average Precision:
+  Bot                                                 AP=0.0006  n=738
+  DDoS                                                AP=0.9770  n=95123
+  DoS GoldenEye                                       AP=0.8100  n=7567
+  DoS Slowhttptest                                    AP=0.1851  n=1742
+  DoS slowloris                                       AP=0.2973  n=4001
+  FTP-Patator                                         AP=0.0048  n=3958
+  Heartbleed                                          AP=0.0076  n=11
+  Infiltration                                        AP=0.0016  n=32
+  PortScan                                            AP=0.2675  n=159151
+  SSH-Patator                                         AP=0.0046  n=2980
+  Web Attack - Brute Force                            AP=0.0009  n=151
+  Web Attack - Sql Injection                          AP=0.0001  n=12
+  Web Attack - XSS                                    AP=0.0005  n=27
