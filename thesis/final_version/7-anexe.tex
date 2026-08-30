@@ -162,12 +162,11 @@ Numărători din matricea de confuzie & TP/TN/FP/FN brute, la pragul selectat. \
 \label{tab:eval-metrics-def}
 \end{table}
 
-\paragraph{Notă privind consistența numerelor.} Tabelele~\ref{tab:eval-full-cc}--\ref{tab:eval-full-cic} de mai jos completează Capitolul~\ref{ch:results} cu detaliul complet (precizie/recall pe clasa pozitivă, matrice de confuzie) pentru fiecare model. Coloanele ROC-AUC / Precizie Medie / Acuratețe Echilibrată / F1 reproduc exact valorile deja publicate în Capitolul~\ref{ch:results}, pentru consistență. Pentru un număr de modele -- în special pe CIC-IDS2017, unde reevaluări ulterioare (precum corecția \texttt{LATENT\_DIM} discutată în \S\ref{sec:architecture}) au schimbat scorurile -- raportul brut de evaluare disponibil nu mai corespunde exact valorilor publicate. În aceste cazuri, rândul din tabel afișează doar metricile agregate deja publicate, iar precizia/recall-ul pe clasa pozitivă și matricea de confuzie sunt marcate cu \enquote{--} în loc să fie preluate dintr-o rulare inconsistentă cu textul principal.
+\paragraph{Notă privind consistența numerelor.} Tabelele~\ref{tab:eval-full-cc}--\ref{tab:eval-full-cic} de mai jos completează Capitolul~\ref{ch:results} cu detaliul complet (precizie/recall pe clasa pozitivă, matrice de confuzie) pentru fiecare model. 
+Coloanele ROC-AUC / Precizie Medie / Acuratețe Echilibrată / F1 reproduc exact valorile deja publicate în Capitolul~\ref{ch:results}, pentru consistență. Pentru un număr de modele -- în special pe CIC-IDS2017, unde reevaluări ulterioare au schimbat scorurile -- nu toate metricile au mai fost calculate. În aceste cazuri, rândul din tabel afișează doar metricile agregate deja publicate.
 
 \section{Rezultate Complete -- Credit Card Fraud Detection}
 \label{sec:eval-full-cc}
-
-Toate cele șase modele evaluate au raportul brut consistent cu valorile publicate în \S\ref{ch:results}; tabelul de mai jos este deci complet, fără rânduri marcate.
 
 \begin{table}[H]
 \centering
@@ -191,8 +190,6 @@ Predictive LSTM           & 0.3992 & 0.7642 & 0.5244 & 0.9581 & 0.5190 & 0.8771 
 
 \section{Rezultate Complete -- Yahoo Webscope S5}
 \label{sec:eval-full-yahoo}
-
-Pentru A1 este marcat un rând (MLP Autoencoder: raportul brut indică Precizie Medie 0.636, față de 0.611 publicat în \S\ref{ch:results}). Pentru A3 sunt marcate trei rânduri (LSTM Predictiv, Transformer Bottleneck AE, Causal Transformer). Pentru A4 este marcat un rând (MLP Autoencoder).
 
 \begin{table}[H]
 \centering
@@ -234,8 +231,6 @@ LSTM Autoencoder           & 0.2644 & 0.9979 & 0.4181 & 0.502 & 0.252 & 0.5127 &
 
 \section{Rezultate Complete -- CIC-IDS2017}
 \label{sec:eval-full-cic}
-
-Opt din cele treisprezece combinații model/set-de-caracteristici au un raport brut care nu mai corespunde exact valorii de Precizie Medie publicate în \S\ref{ch:results} (majoritatea reevaluate ulterior scrierii textului -- vezi nota din \S\ref{sec:eval-metrics} privind reevaluările pe acest set de date, inclusiv corecția \texttt{LATENT\_DIM} pentru Transformer Bottleneck AE, deja documentată în \S\ref{sec:architecture}); pentru acestea sunt afișate doar coloanele agregate deja publicate.
 
 \begin{table}[H]
 \centering

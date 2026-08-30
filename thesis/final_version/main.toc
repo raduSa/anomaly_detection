@@ -8,16 +8,17 @@
 \contentsline {section}{\numberline {1.2}Structura Lucrării}{7}{section.1.2}%
 \contentsline {chapter}{\numberline {2}Preliminarii}{7}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Proiectarea și Abordarea Cercetării}{7}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Ipoteze și Comportament Așteptat}{8}{subsection.2.1.1}%
 \contentsline {section}{\numberline {2.2}Algoritmi de Detecție a Anomaliilor}{8}{section.2.2}%
 \contentsline {subsection}{\numberline {2.2.1}One-Class SVM}{8}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Isolation Forest}{8}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.2}Isolation Forest}{9}{subsection.2.2.2}%
 \contentsline {subsection}{\numberline {2.2.3}Autoencoder Feedforward (MLP)}{9}{subsection.2.2.3}%
-\contentsline {subsection}{\numberline {2.2.4}Autoencoder LSTM}{9}{subsection.2.2.4}%
+\contentsline {subsection}{\numberline {2.2.4}Autoencoder LSTM}{10}{subsection.2.2.4}%
 \contentsline {subsection}{\numberline {2.2.5}LSTM Predictiv}{10}{subsection.2.2.5}%
 \contentsline {subsection}{\numberline {2.2.6}Autoencodere Bazate pe Transformer}{10}{subsection.2.2.6}%
 \contentsline {section}{\numberline {2.3}Seturile de Date}{11}{section.2.3}%
 \contentsline {subsection}{\numberline {2.3.1}Credit Card Fraud Detection (Setul de Date A)}{11}{subsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.3.2}Yahoo Webscope S5 (Setul de Date B)}{11}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.2}Yahoo Webscope S5 (Setul de Date B)}{12}{subsection.2.3.2}%
 \contentsline {subsection}{\numberline {2.3.3}CIC-IDS2017 (Setul de Date C)}{12}{subsection.2.3.3}%
 \contentsline {chapter}{\numberline {3}Methods and Experimental Setup}{13}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Preprocesare}{13}{section.3.1}%
@@ -27,43 +28,43 @@
 \contentsline {subsection}{\numberline {3.1.3}Preprocesarea Fluxurilor de Rețea (CIC-IDS2017)}{15}{subsection.3.1.3}%
 \contentsline {paragraph}{Plat}{15}{section*.3}%
 \contentsline {paragraph}{Temporal}{15}{section*.4}%
-\contentsline {paragraph}{Context de gazdă}{15}{section*.5}%
+\contentsline {paragraph}{Context de gazdă}{16}{section*.5}%
 \contentsline {section}{\numberline {3.2}Protocolul de Evaluare}{16}{section.3.2}%
 \contentsline {subsection}{\numberline {3.2.1}Metrici Raportate}{16}{subsection.3.2.1}%
 \contentsline {subsection}{\numberline {3.2.2}Selecția Pragului}{16}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}No Point Adjustment}{17}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.3}Fără Protocolul \emph {Point Adjustment}}{17}{subsection.3.2.3}%
 \contentsline {chapter}{\numberline {4}Experimental Results}{17}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Credit Card Fraud Detection (Dataset A)}{17}{section.4.1}%
 \contentsline {subsection}{\numberline {4.1.1}Overall Comparison}{17}{subsection.4.1.1}%
 \contentsline {subsection}{\numberline {4.1.2}Discussion}{18}{subsection.4.1.2}%
 \contentsline {paragraph}{No genuine sequence exists in this dataset.}{18}{section*.6}%
 \contentsline {paragraph}{Impact on results.}{18}{section*.7}%
-\contentsline {paragraph}{Paradigm-level notes.}{18}{section*.8}%
+\contentsline {paragraph}{Paradigm-level notes.}{19}{section*.8}%
 \contentsline {paragraph}{Sanity check.}{19}{section*.9}%
 \contentsline {section}{\numberline {4.2}Yahoo Webscope S5 (Dataset B)}{19}{section.4.2}%
 \contentsline {subsection}{\numberline {4.2.1}A1 -- Point Anomalies (Real Server Metrics)}{19}{subsection.4.2.1}%
-\contentsline {paragraph}{Discussion.}{19}{section*.10}%
+\contentsline {paragraph}{Discussion.}{20}{section*.10}%
 \contentsline {subsection}{\numberline {4.2.2}A3 -- Contextual/Seasonal Anomalies}{20}{subsection.4.2.2}%
 \contentsline {paragraph}{Discussion.}{20}{section*.11}%
-\contentsline {subsection}{\numberline {4.2.3}A4 -- Level-Shift Anomalies}{20}{subsection.4.2.3}%
-\contentsline {paragraph}{Discussion.}{20}{section*.12}%
+\contentsline {subsection}{\numberline {4.2.3}A4 -- Level-Shift Anomalies}{21}{subsection.4.2.3}%
+\contentsline {paragraph}{Discussion.}{21}{section*.12}%
 \contentsline {subsection}{\numberline {4.2.4}Trivial Baseline Sanity Check (Yahoo Only)}{21}{subsection.4.2.4}%
 \contentsline {subsection}{\numberline {4.2.5}Discussion}{22}{subsection.4.2.5}%
 \contentsline {paragraph}{Paradigm and architecture both matter.}{22}{section*.13}%
-\contentsline {paragraph}{Per-anomaly-type summary.}{22}{section*.14}%
+\contentsline {paragraph}{Per-anomaly-type summary.}{23}{section*.14}%
 \contentsline {section}{\numberline {4.3}CIC-IDS2017 (Dataset C)}{23}{section.4.3}%
 \contentsline {subsection}{\numberline {4.3.1}Overall Comparison}{23}{subsection.4.3.1}%
 \contentsline {paragraph}{Host-context features dominate.}{25}{section*.15}%
-\contentsline {paragraph}{Temporal windowing alone does not help.}{25}{section*.16}%
+\contentsline {paragraph}{Temporal windowing alone does not help.}{26}{section*.16}%
 \contentsline {paragraph}{Reconstruction beats prediction.}{26}{section*.17}%
 \contentsline {subsection}{\numberline {4.3.2}Per-Attack-Type Breakdown}{26}{subsection.4.3.2}%
 \contentsline {paragraph}{Consistently well-detected.}{26}{section*.18}%
 \contentsline {paragraph}{Mixed context response for application-layer DoS.}{27}{section*.19}%
-\contentsline {paragraph}{Largely undetectable regardless of feature set.}{27}{section*.20}%
+\contentsline {paragraph}{Largely undetectable regardless of feature set.}{28}{section*.20}%
 \contentsline {subsection}{\numberline {4.3.3}Discussion}{28}{subsection.4.3.3}%
 \contentsline {paragraph}{Host-context features are the single most impactful addition in this study.}{28}{section*.21}%
 \contentsline {paragraph}{A practical ensemble.}{28}{section*.22}%
-\contentsline {section}{\numberline {4.4}Exploratory Data Analysis}{28}{section.4.4}%
+\contentsline {section}{\numberline {4.4}Exploratory Data Analysis}{29}{section.4.4}%
 \contentsline {subsection}{\numberline {4.4.1}Credit Card Fraud Detection}{29}{subsection.4.4.1}%
 \contentsline {subsection}{\numberline {4.4.2}Yahoo Webscope S5}{30}{subsection.4.4.2}%
 \contentsline {subsection}{\numberline {4.4.3}CIC-IDS2017}{31}{subsection.4.4.3}%

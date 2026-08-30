@@ -301,6 +301,9 @@ Web Attack subtypes  & 12--151   & \multicolumn{3}{l}{near-zero AP everywhere (B
 
 \paragraph{A practical ensemble.} No single model or feature set covers every attack class on this dataset. Pairing AE+Context (strong on DDoS and PortScan, the two classes that dominate the test set by volume) with Temporal IForest (strong on the slow-DoS classes and, tentatively, Heartbleed) would cover the widest range of detectable attack classes within this feature set -- a concrete illustration of why the per-attack breakdown in \S\ref{sec:cic-per-attack} matters more than any single aggregate ranking. This premise, and a combined-score ensemble built and evaluated against it, are tested directly in \S\ref{sec:explain-disjoint-regime}: the two models' evidence is confirmed genuinely disjoint, but combining their scores turns out to trade PortScan detection quality for gains on the slow-DoS classes rather than covering both for free.
 
+
+
+
 \section{Exploratory Data Analysis}
 \label{sec:eda}
 

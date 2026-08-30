@@ -10,6 +10,15 @@ Prima axă este \textbf{paradigma}: cele șapte modele evaluate (\S\ref{sec:para
 
 A doua axă este \textbf{setul de date}: Credit Card Fraud, Yahoo Webscope S5 și CIC-IDS2017 (\S\ref{sec:datasets-overview}) au fost alese pentru a acoperi un spectru de structură temporală -- de la un set de date pur tabelar, fără o ordonare semnificativă între rânduri, trecând prin serii de timp cu adevărat secvențiale, până la date de flux de rețea care admit atât o perspectivă plată, cât și una temporală asupra acelorași evenimente. Rularea fiecărei paradigme de model pe fiecare punct al acestui spectru este ceea ce face posibilă atribuirea unui rezultat dat \emph{paradigmei}.
 
+\subsection{Ipoteze și Comportament Așteptat}
+\label{sec:expected-behaviour}
+
+Pe baza acestor două axe, anticipez două tipare în rezultate.
+
+În primul rând, mă aștept ca paradigmele care oferă modelului o structură temporală inerentă a datelor -- prin construcție, nu doar prin faptul că le sunt oferite ferestre de intrare -- să performeze în general mai bine pe seturile de date cu adevărat secvențiale (Yahoo S5 și, într-o măsură mai mică, varianta temporală a CIC-IDS2017), comparativ cu paradigmele care tratează fiecare eșantion ca independent.
+
+În al doilea rând, mă aștept ca diferite paradigme să fie mai bine adaptate la a detecta diferite \emph{tipuri} de anomalii, chiar în cadrul aceluiași set de date. Dacă această presupunere este corectă, atunci compunerea mai multor paradigme complementare într-un ansamblu ar trebui să ducă la o îmbunătățire a performanței față de oricare model individual, atâta timp cât modelele componente exploatează relații diferite din date, și nu doar variații ale aceleiași relații. Această a doua ipoteză este testată direct atât prin analiza pe tip de atac din \S\ref{ch:results} (în special pentru CIC-IDS2017, unde este disponibilă eticheta tipului de atac), cât și prin studiul de caz al modelului ansamblu din \S\ref{ch:explainability}.
+
 În următoarele secțiuni vor fi prezentate detaliile algoritmilor și seturilor de date alese.
 
 % \section{Current State of Anomaly Detection Research}
