@@ -28,76 +28,72 @@
 \contentsline {subsection}{\numberline {3.1.3}Preprocesarea Fluxurilor de Rețea (CIC-IDS2017)}{15}{subsection.3.1.3}%
 \contentsline {paragraph}{Plat}{15}{section*.3}%
 \contentsline {paragraph}{Temporal}{15}{section*.4}%
-\contentsline {paragraph}{Context de gazdă}{16}{section*.5}%
+\contentsline {paragraph}{Context de gazdă}{15}{section*.5}%
 \contentsline {section}{\numberline {3.2}Protocolul de Evaluare}{16}{section.3.2}%
 \contentsline {subsection}{\numberline {3.2.1}Metrici Raportate}{16}{subsection.3.2.1}%
 \contentsline {subsection}{\numberline {3.2.2}Selecția Pragului}{16}{subsection.3.2.2}%
 \contentsline {subsection}{\numberline {3.2.3}Fără Protocolul \emph {Point Adjustment}}{17}{subsection.3.2.3}%
 \contentsline {chapter}{\numberline {4}Experimental Results}{17}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Credit Card Fraud Detection (Dataset A)}{17}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Overall Comparison}{17}{subsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.1.2}Discussion}{18}{subsection.4.1.2}%
-\contentsline {paragraph}{No genuine sequence exists in this dataset.}{18}{section*.6}%
-\contentsline {paragraph}{Impact on results.}{18}{section*.7}%
-\contentsline {paragraph}{Paradigm-level notes.}{19}{section*.8}%
+\contentsline {section}{\numberline {4.1}Detectarea Fraudei cu Cardul de Credit (Setul de Date A)}{17}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Comparație Generală}{17}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Discuție}{17}{subsection.4.1.2}%
+\contentsline {paragraph}{Nu există o secvență autentică în acest set de date.}{17}{section*.6}%
+\contentsline {paragraph}{Impact asupra rezultatelor.}{18}{section*.7}%
+\contentsline {paragraph}{Observații la nivel de paradigmă.}{18}{section*.8}%
 \contentsline {paragraph}{Sanity check.}{19}{section*.9}%
-\contentsline {section}{\numberline {4.2}Yahoo Webscope S5 (Dataset B)}{19}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}A1 -- Point Anomalies (Real Server Metrics)}{19}{subsection.4.2.1}%
-\contentsline {paragraph}{Discussion.}{20}{section*.10}%
-\contentsline {subsection}{\numberline {4.2.2}A3 -- Contextual/Seasonal Anomalies}{20}{subsection.4.2.2}%
-\contentsline {paragraph}{Discussion.}{20}{section*.11}%
-\contentsline {subsection}{\numberline {4.2.3}A4 -- Level-Shift Anomalies}{21}{subsection.4.2.3}%
-\contentsline {paragraph}{Discussion.}{21}{section*.12}%
-\contentsline {subsection}{\numberline {4.2.4}Trivial Baseline Sanity Check (Yahoo Only)}{21}{subsection.4.2.4}%
-\contentsline {subsection}{\numberline {4.2.5}Discussion}{22}{subsection.4.2.5}%
-\contentsline {paragraph}{Paradigm and architecture both matter.}{22}{section*.13}%
-\contentsline {paragraph}{Per-anomaly-type summary.}{23}{section*.14}%
-\contentsline {section}{\numberline {4.3}CIC-IDS2017 (Dataset C)}{23}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Overall Comparison}{23}{subsection.4.3.1}%
-\contentsline {paragraph}{Host-context features dominate.}{25}{section*.15}%
-\contentsline {paragraph}{Temporal windowing alone does not help.}{26}{section*.16}%
-\contentsline {paragraph}{Reconstruction beats prediction.}{26}{section*.17}%
-\contentsline {subsection}{\numberline {4.3.2}Per-Attack-Type Breakdown}{26}{subsection.4.3.2}%
-\contentsline {paragraph}{Consistently well-detected.}{26}{section*.18}%
-\contentsline {paragraph}{Mixed context response for application-layer DoS.}{27}{section*.19}%
-\contentsline {paragraph}{Largely undetectable regardless of feature set.}{28}{section*.20}%
-\contentsline {subsection}{\numberline {4.3.3}Discussion}{28}{subsection.4.3.3}%
-\contentsline {paragraph}{Host-context features are the single most impactful addition in this study.}{28}{section*.21}%
-\contentsline {paragraph}{A practical ensemble.}{28}{section*.22}%
-\contentsline {section}{\numberline {4.4}Exploratory Data Analysis}{29}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Credit Card Fraud Detection}{29}{subsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.4.2}Yahoo Webscope S5}{30}{subsection.4.4.2}%
-\contentsline {subsection}{\numberline {4.4.3}CIC-IDS2017}{31}{subsection.4.4.3}%
-\contentsline {section}{\numberline {4.5}Explainability}{32}{section.4.5}%
-\contentsline {chapter}{\numberline {5}Explainability Case Studies}{32}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Reconstruction-Error Localization on Yahoo A3}{32}{section.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}Initial Assumption}{33}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}Qualitative Check: Per-Timestep Error Heatmaps}{33}{subsection.5.1.2}%
-\contentsline {subsection}{\numberline {5.1.3}Quantitative Verification: Gini Coefficient of Error Concentration}{35}{subsection.5.1.3}%
-\contentsline {section}{\numberline {5.2}Pseudo-Sequence Reconstruction Error on Credit Card Fraud}{36}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Initial Assumption}{37}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Qualitative Check: Per-Feature-Position Error Heatmaps}{37}{subsection.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}Quantitative Verification: Column-Shuffle Feature-Identity Check}{39}{subsection.5.2.3}%
-\contentsline {section}{\numberline {5.3}Disjoint Feature Regimes: AE+Context vs.\ Temporal IForest}{40}{section.5.3}%
-\contentsline {subsection}{\numberline {5.3.1}Temporal IForest: Initial Assumption}{40}{subsection.5.3.1}%
-\contentsline {subsection}{\numberline {5.3.2}Temporal IForest: Score Validity Under Last-Flow Labeling}{40}{subsection.5.3.2}%
-\contentsline {subsection}{\numberline {5.3.3}Temporal IForest: SHAP Attribution Across the Window}{41}{subsection.5.3.3}%
-\contentsline {subsection}{\numberline {5.3.4}AE+Context: SHAP Dominated by Host-Context Features}{42}{subsection.5.3.4}%
-\contentsline {subsection}{\numberline {5.3.5}Building the Combined Score}{44}{subsection.5.3.5}%
-\contentsline {subsection}{\numberline {5.3.6}Two Fusion Rules, Two Normalizations}{44}{subsection.5.3.6}%
-\contentsline {subsection}{\numberline {5.3.7}Per-Class Coverage vs.\ Aggregate AP}{45}{subsection.5.3.7}%
-\contentsline {chapter}{\numberline {6}Concluzii}{46}{chapter.6}%
-\contentsline {chapter}{\numberline {1}Alegeri legate de Hiperparametri și Antrenare}{46}{appendix.A}%
-\contentsline {section}{\numberline {1.1}Isolation Forest}{47}{appendix.A.1}%
-\contentsline {section}{\numberline {1.2}One-Class SVM}{47}{appendix.A.2}%
-\contentsline {section}{\numberline {1.3}Autoencoder Feedforward (MLP)}{48}{appendix.A.3}%
-\contentsline {section}{\numberline {1.4}LSTM Predictiv}{48}{appendix.A.4}%
-\contentsline {section}{\numberline {1.5}Autoencoder LSTM}{49}{appendix.A.5}%
-\contentsline {section}{\numberline {1.6}Bottleneck Transformer Autoencoder}{49}{appendix.A.6}%
-\contentsline {section}{\numberline {1.7}Causal Transformer}{49}{appendix.A.7}%
-\contentsline {chapter}{\numberline {2}Protocolul de Evaluare: Metrici și Rezultate Complete}{50}{appendix.B}%
-\contentsline {section}{\numberline {2.1}Metrici Raportate}{50}{appendix.B.1}%
-\contentsline {paragraph}{Notă privind consistența numerelor.}{50}{section*.23}%
-\contentsline {section}{\numberline {2.2}Rezultate Complete -- Credit Card Fraud Detection}{51}{appendix.B.2}%
-\contentsline {section}{\numberline {2.3}Rezultate Complete -- Yahoo Webscope S5}{51}{appendix.B.3}%
-\contentsline {section}{\numberline {2.4}Rezultate Complete -- CIC-IDS2017}{52}{appendix.B.4}%
+\contentsline {section}{\numberline {4.2}Yahoo Webscope S5 (Setul de Date B)}{19}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}A1 -- Anomalii Punctuale (Metrici Reale de Server)}{19}{subsection.4.2.1}%
+\contentsline {paragraph}{Discuție.}{19}{section*.10}%
+\contentsline {subsection}{\numberline {4.2.2}A3 -- Anomalii Contextuale/Sezoniere}{20}{subsection.4.2.2}%
+\contentsline {paragraph}{Discuție.}{20}{section*.11}%
+\contentsline {subsection}{\numberline {4.2.3}A4 -- Anomalii de Tip Schimbare-de-Nivel}{20}{subsection.4.2.3}%
+\contentsline {paragraph}{Discuție.}{20}{section*.12}%
+\contentsline {subsection}{\numberline {4.2.4}Verificare de Referință Trivială (Doar Yahoo)}{21}{subsection.4.2.4}%
+\contentsline {subsection}{\numberline {4.2.5}Discuție}{22}{subsection.4.2.5}%
+\contentsline {paragraph}{Atât paradigma, cât și arhitectura contează.}{22}{section*.13}%
+\contentsline {paragraph}{Rezumat pe tip de anomalie.}{22}{section*.14}%
+\contentsline {section}{\numberline {4.3}CIC-IDS2017 (Setul de Date C)}{23}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Comparație Generală}{23}{subsection.4.3.1}%
+\contentsline {paragraph}{Caracteristicile de context al gazdei domină.}{24}{section*.15}%
+\contentsline {paragraph}{Adăugarea ferestrelor temporale, singură, nu ajută.}{24}{section*.16}%
+\contentsline {paragraph}{Reconstrucția depășește predicția.}{24}{section*.17}%
+\contentsline {subsection}{\numberline {4.3.2}Detaliere pe Tip de Atac}{25}{subsection.4.3.2}%
+\contentsline {paragraph}{Detectate constant.}{25}{section*.18}%
+\contentsline {paragraph}{Răspuns mixt la caracteristici de context pentru DoS la nivel de aplicație.}{26}{section*.19}%
+\contentsline {paragraph}{În mare parte nedetectabile, indiferent de setul de caracteristici.}{26}{section*.20}%
+\contentsline {subsection}{\numberline {4.3.3}Discuție}{26}{subsection.4.3.3}%
+\contentsline {paragraph}{Caracteristicile de context al gazdei sunt cea mai impactantă adăugare din acest studiu.}{26}{section*.21}%
+\contentsline {paragraph}{Un ansamblu practic.}{26}{section*.22}%
+\contentsline {section}{\numberline {4.4}Exploratory Data Analysis}{27}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Credit Card Fraud Detection}{27}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Yahoo Webscope S5}{28}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}CIC-IDS2017}{29}{subsection.4.4.3}%
+\contentsline {chapter}{\numberline {5}Explainability Case Studies}{30}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Reconstruction-Error Localization on Yahoo A3}{30}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Initial Assumption}{31}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Qualitative Check: Per-Timestep Error Heatmaps}{31}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}Quantitative Verification: Gini Coefficient of Error Concentration}{33}{subsection.5.1.3}%
+\contentsline {section}{\numberline {5.2}Disjoint Feature Regimes: AE+Context vs.\ Temporal IForest}{34}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Temporal IForest: Initial Assumption}{35}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Temporal IForest: Score Validity Under Last-Flow Labeling}{35}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Temporal IForest: SHAP Attribution Across the Window}{35}{subsection.5.2.3}%
+\contentsline {subsection}{\numberline {5.2.4}AE+Context: SHAP Dominated by Host-Context Features}{37}{subsection.5.2.4}%
+\contentsline {subsection}{\numberline {5.2.5}Building the Combined Score}{39}{subsection.5.2.5}%
+\contentsline {subsection}{\numberline {5.2.6}Two Fusion Rules, Two Normalizations}{39}{subsection.5.2.6}%
+\contentsline {subsection}{\numberline {5.2.7}Per-Class Coverage vs.\ Aggregate AP}{40}{subsection.5.2.7}%
+\contentsline {chapter}{\numberline {6}Concluzii}{41}{chapter.6}%
+\contentsline {chapter}{\numberline {1}Alegeri legate de Hiperparametri și Antrenare}{41}{appendix.A}%
+\contentsline {section}{\numberline {1.1}Isolation Forest}{42}{appendix.A.1}%
+\contentsline {section}{\numberline {1.2}One-Class SVM}{42}{appendix.A.2}%
+\contentsline {section}{\numberline {1.3}Autoencoder Feedforward (MLP)}{43}{appendix.A.3}%
+\contentsline {section}{\numberline {1.4}LSTM Predictiv}{43}{appendix.A.4}%
+\contentsline {section}{\numberline {1.5}Autoencoder LSTM}{44}{appendix.A.5}%
+\contentsline {section}{\numberline {1.6}Bottleneck Transformer Autoencoder}{44}{appendix.A.6}%
+\contentsline {section}{\numberline {1.7}Causal Transformer}{44}{appendix.A.7}%
+\contentsline {chapter}{\numberline {2}Protocolul de Evaluare: Metrici și Rezultate Complete}{45}{appendix.B}%
+\contentsline {section}{\numberline {2.1}Metrici Raportate}{45}{appendix.B.1}%
+\contentsline {paragraph}{Notă privind consistența numerelor.}{45}{section*.23}%
+\contentsline {section}{\numberline {2.2}Rezultate Complete -- Credit Card Fraud Detection}{46}{appendix.B.2}%
+\contentsline {section}{\numberline {2.3}Rezultate Complete -- Yahoo Webscope S5}{46}{appendix.B.3}%
+\contentsline {section}{\numberline {2.4}Rezultate Complete -- CIC-IDS2017}{47}{appendix.B.4}%
+\contentsline {chapter}{\numberline {3}Compoziția pe Clase de Atac a Setului de Test Temporal CIC-IDS2017}{47}{appendix.C}%

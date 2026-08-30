@@ -232,6 +232,8 @@ LSTM Autoencoder           & 0.2644 & 0.9979 & 0.4181 & 0.502 & 0.252 & 0.5127 &
 \section{Rezultate Complete -- CIC-IDS2017}
 \label{sec:eval-full-cic}
 
+Compoziția pe clase de atac a setului de test temporal (analoagă Tabelului~\ref{tab:cic-composition} din Capitolul~\ref{ch:results} pentru setul flat/context) este detaliată separat, în Capitolul~\ref{ch:cic-composition-temporal}.
+
 \begin{table}[H]
 \centering
 \resizebox{\textwidth}{!}{%
@@ -257,4 +259,37 @@ Predictive LSTM            & Temporal & -- & -- & -- & 0.6126 & 0.4472 & 0.5475 
 }
 \caption{CIC-IDS2017 -- toate metricile raportate, pentru toate cele treisprezece combinații model/set-de-caracteristici, ordonate ca în Tabelul din \S\ref{ch:results}.}
 \label{tab:eval-full-cic}
+\end{table}
+
+\chapter{Compoziția pe Clase de Atac a Setului de Test Temporal CIC-IDS2017}
+\label{ch:cic-composition-temporal}
+
+Tabelul~\ref{tab:cic-composition-temporal} detaliază pe clase ferestrele de atac agregate din setul de test al pipeline-ului temporal, analog Tabelului~\ref{tab:cic-composition} din Capitolul~\ref{ch:results} pentru setul flat/context. DoS Hulk este inclus aici din același motiv discutat acolo: fluxurile sale rămân parte a clasei pozitive pentru orice metrică agregată, deși este exclus din detalierea pe clasă din secțiunea~\ref{sec:cic-per-attack}.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Clasă de atac & $n$ (ferestre) & \% din grupul de atacuri \\
+\midrule
+PortScan            & 159{,}160 & 36.42\% \\
+DoS Hulk            & 158{,}469 & 36.27\% \\
+DDoS                & 95{,}131  & 21.77\% \\
+DoS GoldenEye       & 7{,}575   & 1.73\%  \\
+DoS slowloris       & 4{,}001   & 0.92\%  \\
+FTP-Patator         & 3{,}966   & 0.91\%  \\
+Bot                 & 3{,}320   & 0.76\%  \\
+SSH-Patator         & 2{,}980   & 0.68\%  \\
+DoS Slowhttptest    & 1{,}742   & 0.40\%  \\
+Infiltration        & 445       & 0.10\%  \\
+Web Attack -- Brute Force & 151 & 0.03\%  \\
+Web Attack -- XSS    & 26        & 0.01\%  \\
+Web Attack -- SQL Injection & 20 & $<$0.01\% \\
+Heartbleed          & 19        & $<$0.01\% \\
+\midrule
+BENIGN              & 1{,}282{,}611 & -- \\
+\bottomrule
+\end{tabular}
+\caption{CIC-IDS2017 -- compoziția pe clase de atac a ferestrelor de atac agregate din setul de test temporal (1{,}719{,}616 ferestre în total, rată de atac de 25.41\%).}
+\label{tab:cic-composition-temporal}
 \end{table}

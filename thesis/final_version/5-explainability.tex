@@ -63,54 +63,8 @@ Transformer Bottleneck Autoencoder & 0.721 & 0.724 \\
 
 This confirms the initial assumption on average: the Transformer's error is more concentrated than the LSTM Autoencoder's across the full anomalous population, not merely in the handful of examples a heatmap happens to display. But the distribution in Figure~\ref{fig:explain-gini} reveals a detail the aggregate means alone would miss -- the LSTM Autoencoder's Gini values are \emph{bimodal}, not uniformly shifted down. A majority of its windows cluster in essentially the same high-concentration range as the Transformer's (Gini $\approx 0.6$, comparable localization ability), while a distinct secondary population of windows sits at low Gini ($<0.4$), where the error genuinely is smeared close to evenly across the full window. This indicates the phase-destruction mechanism is not a uniform property of every LSTM Autoencoder reconstruction, but a failure mode affecting a specific subset of windows -- and it is this subpopulation, not a general degradation across all anomalous windows, that is responsible for dragging the LSTM Autoencoder's aggregate AP and ROC-AUC below the Transformer's, since on the remaining majority of windows the two models localize error comparably well.
 
-\section{Pseudo-Sequence Reconstruction Error on Credit Card Fraud}
-\label{sec:explain-cc}
 
-The Credit Card Discussion in Chapter~\ref{ch:results} argues that the three "temporal" architectures (Predictive LSTM, LSTM Autoencoder, Transformer Bottleneck Autoencoder) do not see a genuine sequence: each reshapes a row's 29 independent, decorrelated PCA features into an artificial sequence of 29 scalar steps, in whatever order the columns happen to appear in the source CSV. Predictive LSTM's poor performance (AP 0.519) is attributed directly to this -- "adjacent PCA components are orthogonal/decorrelated by construction, so there is no real next-step signal to learn." This section tests the reconstruction-based half of that claim (LSTM Autoencoder, Transformer Bottleneck Autoencoder) with the same per-position error diagnostic used in \S\ref{sec:explain-yahoo}.
 
-\subsection{Initial Assumption}
-
-If the 29 column positions genuinely carry no meaningful order, per-position reconstruction error on fraud samples should look like unstructured noise: no column should consistently accumulate more error than any other across the fraud population, for either model. A structured, repeated pattern -- specific columns lighting up across many fraud samples -- would complicate that picture and call for a follow-up explanation.
-
-\subsection{Qualitative Check: Per-Feature-Position Error Heatmaps}
-
-Both trained models were reconstructed on the full fraud test population (492 samples), and the per-column squared error was plotted as a heatmap (one row per sample, one column per of the 29 feature positions), with a random subsample of 300 fraud samples used to keep the rendered image legible. Figures~\ref{fig:explain-cc-lstm-heatmap} and~\ref{fig:explain-cc-transformer-heatmap} show the result.
-
-\begin{figure}[H]
-\centering
-\includegraphics[height=0.55\textheight,keepaspectratio]{../../data/explainability/credit_card_lstm_vs_transformer/5/lstm_ae_error_heatmap.png}%
-\hspace{0.04\textwidth}%
-\includegraphics[height=0.55\textheight,keepaspectratio]{../../data/explainability/credit_card_lstm_vs_transformer/5/transformer_bottleneck_error_heatmap.png}
-
-\caption{LSTM Autoencoder -- per-feature-position squared reconstruction error on 300 randomly sampled fraud transactions (one row per sample, columns V1--V28 then Amount, left).}
-\label{fig:explain-cc-lstm-heatmap}
-\caption{Transformer Bottleneck Autoencoder -- per-feature-position squared reconstruction error on the same 300 fraud transactions, same row order and column convention as Figure~\ref{fig:explain-cc-lstm-heatmap} (right).}
-\label{fig:explain-cc-transformer-heatmap}
-\end{figure}
-
-Contrary to the initial assumption, both heatmaps show a visibly structured, repeated pattern: a handful of column positions accumulate elevated error across many fraud rows, rather than error being scattered evenly across all 29 positions. This does not by itself contradict the "no real sequence" claim -- it does not show that the models exploit \emph{order}, only that error is not uniformly distributed across \emph{columns}. Two distinct explanations are consistent with a structured heatmap: either specific PCA features are simply harder to reconstruct on fraud rows regardless of where they sit in the row (a feature-\emph{identity} effect, fully compatible with "no real sequence"), or the models are exploiting some incidental adjacency between specific neighbouring columns in this one fixed ordering (a position effect, which would nuance but not overturn the claim, since that adjacency is still arbitrary and non-causal). The heatmap alone cannot distinguish these.
-
-\subsection{Quantitative Verification: Column-Shuffle Feature-Identity Check}
-
-To separate the two explanations, the same 492 fraud rows were re-run through both models with a fixed random permutation of the 29 columns applied first (seed 42), and the per-column error was re-ranked. If the same underlying features dominate the top-error positions in both the original and the shuffled column order, the effect is feature-identity-driven; if overall error also changes substantially after shuffling, position/adjacency plays a role too.
-
-\begin{center}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{@{}lccl@{}}
-\toprule
- & Overlap (top 10, orig.\ vs.\ shuffled) & Top-error magnitude, orig.\ $\to$ shuffled & Stable top features (in both orderings) \\
-\midrule
-LSTM Autoencoder & 6/10 & 47.7 $\to$ 71.7 & V1, V3, V7, V8, V14, V17 \\
-Transformer Bottleneck AE & 6/10 & 12.9 $\to$ 136.8 & V2, V3, V7, V8, V14, V17 \\
-\bottomrule
-\end{tabular}%
-}
-\end{center}
-
-Both effects are present. Six of the top 10 highest-error features are the same before and after shuffling, for both models -- well above the $\sim$3--4 expected in common between two independent random top-10 draws out of 29 features under a pure-noise null. \textbf{V14 and V17 are stable top accumulators for both models under both orderings}, and both are independently singled out by the community exploratory notebook cited in Chapter~\ref{ch:methodology} as its two strongest negative correlates with the fraud label -- an external check that these two features genuinely carry fraud-relevant signal, not an artifact of this experiment. At the same time, overall error rose substantially after shuffling for both models (LSTM Autoencoder's top value: 47.7 $\to$ 71.7; Transformer's: 12.9 $\to$ 136.8), which only makes sense if both encoders were also leaning on some incidental adjacency between specific neighbouring columns in the fixed, original CSV order.
-
-Taken together, this confirms the core claim with a refinement the aggregate metrics could not surface on their own: the reconstruction-based architectures did learn to depend on the one fixed, arbitrary column ordering supplied at preprocessing time, beyond what a pure feature-identity effect would predict. The fact that error went up means the models had implicitly learned something that depended on which value sat next to which in the specific column arrangement the CSV happens to use, even though that adjacency is meaningless (it's just PCA-component arbitrary order)
- - not evidence of a hidden causal sequence in the data, but more like the models overfit to an arbitrary but fixed layout
 
 \section{Disjoint Feature Regimes: AE+Context vs.\ Temporal IForest}
 \label{sec:explain-disjoint-regime}

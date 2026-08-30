@@ -51,7 +51,7 @@ Parametrul \texttt{contamination} este lăsat la valoarea implicită, \texttt{'a
 
 \subsection{Autoencoder Feedforward (MLP)}
 
-Autoencoder Feedforward este bazat pe reconstrucție: o pereche simetrică encoder/decoder de straturi complet conectate \texttt{Linear}+\texttt{ReLU} (cu dropout între straturile ascunse) comprimă vectorul de caracteristici de intrare printr-un bottleneck de dimensionalitate strict redusă, apoi îl extinde înapoi la dimensiunea originală, fiind antrenat integral pentru a minimiza eroarea medie pătratică de reconstrucție față de propria intrare.
+Autoencoder Feedforward este bazat pe reconstrucție: o pereche simetrică encoder\slash decoder de straturi complet conectate \texttt{Linear} + \texttt{ReLU} (cu dropout între straturile ascunse) comprimă vectorul de caracteristici de intrare printr-un bottleneck de dimensionalitate strict redusă, apoi îl extinde înapoi la dimensiunea originală, fiind antrenat integral pentru a minimiza eroarea medie pătratică de reconstrucție față de propria intrare.
 Deoarece bottleneck-ul este mai îngust decât intrarea, rețeaua nu poate învăța pur și simplu funcția identitate; este forțată să învețe o reprezentare comprimată care surprinde structura dominantă specifică datelor \emph{benigne}.
 La testare, scorul de anomalie este eroarea medie pătratică per eșantion dintre intrare și reconstrucția sa: eșantioanele benigne, care seamănă cu distribuția de antrenare în jurul căreia a fost modelat bottleneck-ul, se reconstruiesc cu eroare mică, în timp ce eșantioanele anormale -- pe care bottleneck-ul nu a fost niciodată antrenat să le reprezinte -- se reconstruiesc slab.
 
