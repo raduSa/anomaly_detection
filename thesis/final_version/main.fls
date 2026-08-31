@@ -163,6 +163,8 @@ INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex\latex\rerunfilecheck
 INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex\latex\rerunfilecheck\rerunfilecheck.sty
 INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex\generic\uniquecounter\uniquecounter.sty
 INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex\generic\uniquecounter\uniquecounter.sty
+INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex\latex\xurl\xurl.sty
+INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex\latex\xurl\xurl.sty
 INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex\latex\unicode-math\unicode-math.sty
 INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex\latex\unicode-math\unicode-math.sty
 INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex\latex\unicode-math\unicode-math-xetex.sty
@@ -203,24 +205,6 @@ INPUT 0-title.aux
 INPUT .\0-abstract.aux
 INPUT .\0-abstract.aux
 INPUT 0-abstract.aux
-INPUT .\1-introducere.aux
-INPUT .\1-introducere.aux
-INPUT 1-introducere.aux
-INPUT .\2-preliminarii.aux
-INPUT .\2-preliminarii.aux
-INPUT 2-preliminarii.aux
-INPUT .\3-methodology.aux
-INPUT .\3-methodology.aux
-INPUT 3-methodology.aux
-INPUT .\4-results.aux
-INPUT .\4-results.aux
-INPUT 4-results.aux
-INPUT .\5-explainability.aux
-INPUT .\5-explainability.aux
-INPUT 5-explainability.aux
-INPUT .\6-concluzii.aux
-INPUT .\6-concluzii.aux
-INPUT 6-concluzii.aux
 OUTPUT main.aux
 INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex\latex\biblatex\lbx\american.lbx
 INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex\latex\biblatex\lbx\american.lbx
@@ -282,41 +266,26 @@ INPUT main.toc
 OUTPUT main.toc
 INPUT .\1-introducere.tex
 INPUT .\1-introducere.tex
-OUTPUT 1-introducere.aux
 INPUT .\1-introducere.tex
 INPUT .\1-introducere.tex
 INPUT 1-introducere.tex
 INPUT .\2-preliminarii.tex
 INPUT .\2-preliminarii.tex
-OUTPUT 2-preliminarii.aux
 INPUT .\2-preliminarii.tex
 INPUT .\2-preliminarii.tex
 INPUT 2-preliminarii.tex
 INPUT .\3-methodology.tex
 INPUT .\3-methodology.tex
-OUTPUT 3-methodology.aux
 INPUT .\3-methodology.tex
 INPUT .\3-methodology.tex
 INPUT 3-methodology.tex
 INPUT .\4-results.tex
 INPUT .\4-results.tex
-OUTPUT 4-results.aux
 INPUT .\4-results.tex
 INPUT .\4-results.tex
 INPUT 4-results.tex
-INPUT ..\..\data\graphs\EDA\credit_card\analysis.png
-INPUT ..\..\data\graphs\EDA\credit_card\analysis.png
-INPUT ..\..\data\graphs\EDA\yahoo\yahoo_analysis.png
-INPUT ..\..\data\graphs\EDA\yahoo\yahoo_analysis.png
-INPUT ..\..\data\graphs\EDA\cicids\cicids_temporal_all.png
-INPUT ..\..\data\graphs\EDA\cicids\cicids_temporal_all.png
-INPUT ..\..\data\graphs\EDA\cicids\cicids_temporal_attacks.png
-INPUT ..\..\data\graphs\EDA\cicids\cicids_temporal_attacks.png
-INPUT ..\..\data\graphs\EDA\cicids\cicids_feature_profiles.png
-INPUT ..\..\data\graphs\EDA\cicids\cicids_feature_profiles.png
 INPUT .\5-explainability.tex
 INPUT .\5-explainability.tex
-OUTPUT 5-explainability.aux
 INPUT .\5-explainability.tex
 INPUT .\5-explainability.tex
 INPUT 5-explainability.tex
@@ -329,12 +298,6 @@ INPUT ..\..\data\explainability\yahoo_A3Benchmark_lstm_vs_transformer\5\transfor
 INPUT ..\..\data\explainability\yahoo_A3Benchmark_lstm_vs_transformer\5\gini_comparison.png
 INPUT ..\..\data\explainability\yahoo_A3Benchmark_lstm_vs_transformer\5\gini_comparison.png
 INPUT ..\..\data\explainability\yahoo_A3Benchmark_lstm_vs_transformer\5\gini_comparison.png
-INPUT ..\..\data\explainability\credit_card_lstm_vs_transformer\5\lstm_ae_error_heatmap.png
-INPUT ..\..\data\explainability\credit_card_lstm_vs_transformer\5\lstm_ae_error_heatmap.png
-INPUT ..\..\data\explainability\credit_card_lstm_vs_transformer\5\lstm_ae_error_heatmap.png
-INPUT ..\..\data\explainability\credit_card_lstm_vs_transformer\5\transformer_bottleneck_error_heatmap.png
-INPUT ..\..\data\explainability\credit_card_lstm_vs_transformer\5\transformer_bottleneck_error_heatmap.png
-INPUT ..\..\data\explainability\credit_card_lstm_vs_transformer\5\transformer_bottleneck_error_heatmap.png
 INPUT ..\..\data\explainability\cicids_temporal_shap\1\ddos_top_feature_profiles.png
 INPUT ..\..\data\explainability\cicids_temporal_shap\1\ddos_top_feature_profiles.png
 INPUT ..\..\data\explainability\cicids_temporal_shap\1\ddos_top_feature_profiles.png
@@ -358,10 +321,17 @@ INPUT ..\..\data\explainability\cicids_shap_portscan\5\autoencoder_context_ports
 INPUT ..\..\data\explainability\cicids_shap_portscan\5\autoencoder_context_portscan_shap.png
 INPUT .\6-concluzii.tex
 INPUT .\6-concluzii.tex
-OUTPUT 6-concluzii.aux
 INPUT .\6-concluzii.tex
 INPUT .\6-concluzii.tex
 INPUT 6-concluzii.tex
+INPUT .\7-anexe.tex
+INPUT .\7-anexe.tex
+INPUT .\7-anexe.tex
+INPUT .\7-anexe.tex
+INPUT 7-anexe.tex
+INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmmi12.tfm
+INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmmi12.tfm
+INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmmi12.tfm
 INPUT main.aux
 INPUT .\0-title.aux
 INPUT .\0-title.aux
@@ -369,24 +339,6 @@ INPUT 0-title.aux
 INPUT .\0-abstract.aux
 INPUT .\0-abstract.aux
 INPUT 0-abstract.aux
-INPUT .\1-introducere.aux
-INPUT .\1-introducere.aux
-INPUT 1-introducere.aux
-INPUT .\2-preliminarii.aux
-INPUT .\2-preliminarii.aux
-INPUT 2-preliminarii.aux
-INPUT .\3-methodology.aux
-INPUT .\3-methodology.aux
-INPUT 3-methodology.aux
-INPUT .\4-results.aux
-INPUT .\4-results.aux
-INPUT 4-results.aux
-INPUT .\5-explainability.aux
-INPUT .\5-explainability.aux
-INPUT 5-explainability.aux
-INPUT .\6-concluzii.aux
-INPUT .\6-concluzii.aux
-INPUT 6-concluzii.aux
 INPUT .\main.out
 INPUT .\main.out
 INPUT main.run.xml

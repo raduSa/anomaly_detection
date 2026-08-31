@@ -1,11 +1,9 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.7.20)  31 AUG 2026 19:08
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.7.20)  31 AUG 2026 19:48
 entering extended mode
  restricted \write18 enabled.
- file:line:error style messages enabled.
  %&-line parsing enabled.
-**"c:/Users/Radu Savin/facultate/anomaly_detection/thesis/final_version/main.te
-x"
-(c:/Users/Radu Savin/facultate/anomaly_detection/thesis/final_version/main.tex
+**./main.tex
+(main.tex
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-06-18>
 (C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/base\report.cls
@@ -1586,17 +1584,17 @@ Overfull \hbox (16.08733pt too wide) in paragraph at lines 169--180
 Capitolul 6.
 ) (7-anexe.tex
 Anexa 1.
-
+[35]
 Overfull \hbox (3.35617pt too wide) in paragraph at lines 15--26
  [] 
  []
 
-[35]
+
 Overfull \hbox (4.07999pt too wide) in paragraph at lines 34--45
  [] 
  []
 
-[36] [37]
+[36] [37] [38]
 Anexa 2.
 
 Underfull \hbox (badness 1048) in paragraph at lines 155--156
@@ -1614,11 +1612,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 159--159
 []\TU/lmr/m/n/12 F1 (clasa poziti-
  []
 
-[38] [39]
+[39] [40]
 Anexa 3.
-[40]
-Anexa 4.
 [41]
+Anexa 4.
+[42]
 Anexa 5.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
 (Font)              scaled to size 24.88266pt on input line 324.
@@ -1632,11 +1630,11 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 (Font)              scaled to size 20.73778pt on input line 324.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 (Font)              scaled to size 17.27815pt on input line 324.
-[42])
+[43])
 
 LaTeX Warning: Empty bibliography on input line 182.
 
-[43] (main.aux (0-title.aux) (0-abstract.aux))
+[44] (main.aux (0-title.aux) (0-abstract.aux))
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-06-18>
@@ -1648,12 +1646,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 26784 strings out of 402629
- 509813 string characters out of 5438092
- 1506073 words of memory out of 5000000
+ 26783 strings out of 402629
+ 509608 string characters out of 5438092
+ 1505096 words of memory out of 5000000
  55527 multiletter control sequences out of 15000+600000
  632327 words of font info for 96 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 86i,13n,107p,1370b,5749s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 86i,13n,107p,1301b,5749s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main.pdf (43 pages).
+Output written on main.xdv (44 pages, 993620 bytes).
