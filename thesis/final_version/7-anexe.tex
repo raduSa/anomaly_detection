@@ -137,6 +137,8 @@ BATCH\_SIZE & 256 & 256 \\
 \end{tabular}
 \end{center}
 
+
+
 \chapter{Protocolul de Evaluare: Metrici și Rezultate Complete}
 \label{sec:eval-metrics}
 
@@ -261,6 +263,8 @@ Predictive LSTM            & Temporal & -- & -- & -- & 0.6126 & 0.4472 & 0.5475 
 \label{tab:eval-full-cic}
 \end{table}
 
+
+
 \chapter{Compoziția pe Clase de Atac a Setului de Test Temporal CIC-IDS2017}
 \label{ch:cic-composition-temporal}
 
@@ -293,3 +297,36 @@ BENIGN              & 1{,}282{,}611 & -- \\
 \caption{CIC-IDS2017 -- compoziția pe clase de atac a ferestrelor de atac agregate din setul de test temporal (1{,}719{,}616 ferestre în total, rată de atac de 25.41\%).}
 \label{tab:cic-composition-temporal}
 \end{table}
+
+\chapter{Validarea Scorului Temporal IForest Sub Etichetare pe Ultimul Flux}
+\label{ch:temporal-iforest-last-flow-validation}
+
+Cifrele de AP per clasă arătate inițial folosesc o etichetă de fereastră "oricare-din-16", adică o fereastră este pozitivă dacă oricare din cele 16 fluxuri ale sale este un atac, etichetată cu tipul de atac majoritar.
+Aceasta este mai permisivă decât etichetarea per flux față de care este evaluat AE+Context. Fiecare fereastră de test existentă a fost reetichetată în schimb cu eticheta reală proprie a fluxului \emph{ultim}, iar AP-ul per clasă a fost recalculat față de modelul deja antrenat, neschimbat, și scorurile sale existente.
+
+\begin{center}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+ & AP (oricare-din-16) & AP (ultimul flux) & $n$ (ultimul flux) \\
+\midrule
+DDoS              & 0.9518 & 0.9515 & 95{,}123 \\
+DoS GoldenEye     & 0.6278 & 0.6265 & 7{,}567 \\
+DoS Slowhttptest  & 0.6851 & 0.6849 & 1{,}742 \\
+DoS slowloris     & 0.6091 & 0.6077 & 4{,}001 \\
+Heartbleed        & 0.5927 & 0.2892 & 11 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Se observă că AP-ul rămâne practic neschimbat pentru toate cele patru clase țintă sub etichetarea mai strictă, confirmând că scorul este informativ despre statusul propriu al ultimului flux, nu un artefact al etichetării mai permisive.
+Heartbleed scade brusc, dar pe doar 11 fluxuri reale -- întreaga sa populație de test -- deci este exclus din ansamblu și tratat ca provizoriu, consistent cu tratamentul său rezervat din Capitolul~\ref{ch:results}.
+
+\chapter{Alinierea Scorurilor și Eșecul Standardizării \texorpdfstring{$z$}{z} pentru Ansamblul AE+Context + Temporal IForest}
+\label{ch:ensemble-score-alignment}
+
+Întrucât cele două pipeline-uri de preprocesare reordonează fluxurile diferit înainte de a-și salva propriile array-uri de test (AE+Context sortează global după marca temporală; Temporal IForest sortează per gazdă IP sursă), cele două array-uri de scoruri nu sunt aliniate index-cu-index și trebuie realiniate după identitatea fluxului, recuperând poziția originală a rândului fiecărui flux în intrarea comună, pre-sortare, a ambelor pipeline-uri.
+
+
+Prima normalizare încercată, standardizarea $z$ (z-scoring) față de media și deviația standard proprii de antrenare benignă ale fiecărui model, s-a dovedit a fi o fundătură, nu un test autentic al niciunei reguli de combinare. Scorurile $z$ de eroare de reconstrucție ale lui AE+Context au cozi extrem de grele (maxim $z \approx 2366$ pe setul de test, cu percentila 99.9 a fluxurilor \emph{benigne} singure deja la $z \approx 227$), în timp ce scorurile $z$ ale lui Temporal IForest rămân strâns mărginite (maxim $z \approx 21$). Sub normalizarea $z$, o mână de valori extreme ale lui AE+Context domină orice combinație liniară sau maxim, indiferent de ponderea alocată lui Temporal IForest: atât regula maximului, cât și fiecare pondere de votare testată au reprodus aproape exact clasamentul propriu al lui AE+Context per clasă (de exemplu, AP-ul GoldenEye a rămas la $0.215$--$0.216$ pe toate cele cinci ponderi, față de $0.215$ al lui AE+Context singur), fără a arăta nicio influență din scorul de sine stătător mult mai puternic al lui Temporal IForest, $0.627$, pe acea clasă. Acesta este un artefact de normalizare, nu o dovadă că metoda combinării nu ajută -- nu testează de fapt ipoteza ansamblului.
+
+Înlocuirea standardizării $z$ cu normalizarea pe rang -- mapând fiecare scor de test la percentila sa în distribuția scorurilor proprii de antrenare benignă ale acelui model, prin funcția de distribuție cumulativă empirică (CDF) -- elimină această problemă prin construcție: fiecare scor normalizat este mărginit la $[0,1]$ indiferent cât de extremă este valoarea brută, deci coada niciunui model nu poate domina coada celuilalt prin simpla magnitudine.

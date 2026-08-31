@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.7.20)  30 AUG 2026 21:41
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.7.20)  31 AUG 2026 19:08
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1444,7 +1444,13 @@ File: ./images/logo-fmi.png Graphic file (type bmp)
 
 
 
-] [4])
+]
+Overfull \hbox (32.59195pt too wide) in paragraph at lines 93--93
+ [] [][][]\TU/lmr/bx/n/12 Alinierea Scorurilor și Eșecul Standardizării $[]$ pe
+ntru Ansamblul AE+Context 
+ []
+
+[4])
 \tf@toc=\write5
 \openout5 = `main.toc'.
 
@@ -1495,25 +1501,14 @@ Overfull \hbox (23.12973pt too wide) in paragraph at lines 284--285
 i tipar, mai atenuat: IForest+Context
  []
 
-[26]
-File: ../../data/graphs/EDA/credit_card/analysis.png Graphic file (type bmp)
-<../../data/graphs/EDA/credit_card/analysis.png>
-File: ../../data/graphs/EDA/yahoo/yahoo_analysis.png Graphic file (type bmp)
-<../../data/graphs/EDA/yahoo/yahoo_analysis.png>
- [27]
-File: ../../data/graphs/EDA/cicids/cicids_temporal_all.png Graphic file (type b
-mp)
-<../../data/graphs/EDA/cicids/cicids_temporal_all.png>
- [28]
-File: ../../data/graphs/EDA/cicids/cicids_temporal_attacks.png Graphic file (ty
-pe bmp)
-<../../data/graphs/EDA/cicids/cicids_temporal_attacks.png>
-File: ../../data/graphs/EDA/cicids/cicids_feature_profiles.png Graphic file (ty
-pe bmp)
-<../../data/graphs/EDA/cicids/cicids_feature_profiles.png>
-) (5-explainability.tex [29]
+) (5-explainability.tex [26]
 Capitolul 5.
-[30]
+
+Overfull \hbox (22.20393pt too wide) in paragraph at lines 9--12
+[]\TU/lmr/m/n/12 Discuția despre A3 din Capitolul [][]4[][] atribuie avantajul 
+Transformer Bottleneck Autoencoder-
+ []
+
 File: ../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/lstm_ae
 _error_heatmap.png Graphic file (type bmp)
 <../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/lstm_ae_erro
@@ -1522,12 +1517,23 @@ File: ../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/transfo
 rmer_bottleneck_error_heatmap.png Graphic file (type bmp)
 <../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/transformer_
 bottleneck_error_heatmap.png>
- [31] [32]
+[27]
+Overfull \hbox (14.45993pt too wide) in paragraph at lines 30--32
+[]\TU/lmr/m/n/12 Comparația vizuală este în linii mari consistentă cu ipoteza i
+nițială – eroarea Transformer-
+ []
+
+[28]
 File: ../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/gini_co
 mparison.png Graphic file (type bmp)
 <../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/gini_compari
 son.png>
- [33] [34] [35]
+ [29]
+Overfull \hbox (16.31845pt too wide) in paragraph at lines 72--72
+[]\TU/lmr/bx/n/17.28 Regimuri de Caracteristici Disjuncte: AE+Context
+ []
+
+[30]
 File: ../../data/explainability/cicids_temporal_shap/1/ddos_top_feature_profile
 s.png Graphic file (type bmp)
 <../../data/explainability/cicids_temporal_shap/1/ddos_top_feature_profiles.png
@@ -1550,67 +1556,104 @@ c file (type bmp)
 File: ../../data/explainability/cicids_temporal_shap/2/dos_slowloris_beeswarm.p
 ng Graphic file (type bmp)
 <../../data/explainability/cicids_temporal_shap/2/dos_slowloris_beeswarm.png>
- [36] [37]
+ [31]
+Overfull \hbox (23.69864pt too wide) in paragraph at lines 130--131
+[]\TU/lmr/m/n/12 SHAP a fost calculat cu \TU/lmtt/m/n/12 GradientExplainer \TU/
+lmr/m/n/12 pe eroarea de reconstrucție a lui AE+Context,
+ []
+
 File: ../../data/explainability/cicids_shap_portscan/5/autoencoder_context_port
 scan_shap.png Graphic file (type bmp)
 <../../data/explainability/cicids_shap_portscan/5/autoencoder_context_portscan_
 shap.png>
- [38] [39] [40]) (6-concluzii.tex
+
+Underfull \hbox (badness 7667) in paragraph at lines 135--135
+[]\TU/lmr/m/n/12 Figura 5.7: []AE+Context – diagramă sumară SHAP, eșantioane Po
+rtScan.
+ []
+
+[32]
+Overfull \hbox (3.804pt too wide) in paragraph at lines 140--148
+ [] 
+ []
+
+[33]
+Overfull \hbox (16.08733pt too wide) in paragraph at lines 169--180
+ [] 
+ []
+
+) (6-concluzii.tex [34]
 Capitolul 6.
 ) (7-anexe.tex
 Anexa 1.
-[41]
+
 Overfull \hbox (3.35617pt too wide) in paragraph at lines 15--26
  [] 
  []
 
-
+[35]
 Overfull \hbox (4.07999pt too wide) in paragraph at lines 34--45
  [] 
  []
 
-[42] [43]
+[36] [37]
 Anexa 2.
-[44]
-Underfull \hbox (badness 1048) in paragraph at lines 153--154
+
+Underfull \hbox (badness 1048) in paragraph at lines 155--156
 []\TU/lmr/m/n/12 Prin \TU/lmtt/m/n/12 sklearn.classification_report\TU/lmr/m/n/
 12 , raportate
  []
 
 
-Underfull \hbox (badness 1609) in paragraph at lines 155--155
+Underfull \hbox (badness 1609) in paragraph at lines 157--157
 []\TU/lmr/m/n/12 Precizie Medie (PR-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 157--157
+Underfull \hbox (badness 10000) in paragraph at lines 159--159
 []\TU/lmr/m/n/12 F1 (clasa poziti-
  []
 
-[45] [46]
+[38] [39]
 Anexa 3.
-) [47]
+[40]
+Anexa 4.
+[41]
+Anexa 5.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
+(Font)              scaled to size 24.88266pt on input line 324.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
+(Font)              scaled to size 20.74222pt on input line 324.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
+(Font)              scaled to size 17.28183pt on input line 324.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
+(Font)              scaled to size 24.87733pt on input line 324.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
+(Font)              scaled to size 20.73778pt on input line 324.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
+(Font)              scaled to size 17.27815pt on input line 324.
+[42])
 
 LaTeX Warning: Empty bibliography on input line 182.
 
-[48] (main.aux (0-title.aux) (0-abstract.aux))
+[43] (main.aux (0-title.aux) (0-abstract.aux))
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-06-18>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 7B26B280E2E2BDFE9E2A3EAE9D93E44B;15718.
+(rerunfilecheck)             Checksum: 3476CE619408EBF820C10916021A9804;15251.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 26824 strings out of 402629
- 511748 string characters out of 5438092
- 1508044 words of memory out of 5000000
- 55569 multiletter control sequences out of 15000+600000
- 630660 words of font info for 83 fonts, out of 8000000 for 9000
+ 26784 strings out of 402629
+ 509813 string characters out of 5438092
+ 1506073 words of memory out of 5000000
+ 55527 multiletter control sequences out of 15000+600000
+ 632327 words of font info for 96 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 86i,13n,107p,1317b,5749s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 86i,13n,107p,1370b,5749s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main.pdf (48 pages).
+Output written on main.pdf (43 pages).
