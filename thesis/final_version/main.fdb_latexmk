@@ -1,17 +1,17 @@
 # Fdb version 4
-["biber main"] 1788193515.73447 "main.bcf" "main.bbl" "main" 1788194891.57226 0
+["biber main"] 1788193515.73447 "main.bcf" "main.bbl" "main" 1788195435.86873 0
   "bibliography.bib" 1787990034.12811 509 88dcb1b3100756c3d04622b929114175 ""
-  "main.bcf" 1788194888.18563 108558 6dfcb54596ea3a2b1e45e695fd3c8d67 "xelatex"
+  "main.bcf" 1788195432.51788 108558 6dfcb54596ea3a2b1e45e695fd3c8d67 "xelatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["xdvipdfmx"] 1788194888.6592 "main.xdv" "main.pdf" "main" 1788194891.58997 0
-  "main.xdv" 1788194888.20939 993620 dc043627d695aec29fe23d519176e54c "xelatex"
+["xdvipdfmx"] 1788195432.97656 "main.xdv" "main.pdf" "main" 1788195435.88698 0
+  "main.xdv" 1788195432.54305 993984 c50667d1203864276acf1570b4de86b7 "xelatex"
   (generated)
   "main.pdf"
   (rewritten before read)
-["xelatex"] 1788194885.80325 "main.tex" "main.xdv" "main" 1788194891.57313 0
+["xelatex"] 1788195430.1885 "main.tex" "main.xdv" "main" 1788195435.86956 0
   "../../data/explainability/cicids_shap_portscan/5/autoencoder_context_portscan_shap.png" 1787582584.5223 111879 a66561fa9de016eb92d4b1f1793bed59 ""
   "../../data/explainability/cicids_temporal_shap/1/ddos_top_feature_profiles.png" 1787578926.47673 219719 eef9cc582a60b9b0a05ca78ea96b337a ""
   "../../data/explainability/cicids_temporal_shap/1/dos_slowloris_top_feature_profiles.png" 1787578960.28451 179117 264d62ef58fbb110ee0dc83669fac210 ""
@@ -22,15 +22,15 @@
   "../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/gini_comparison.png" 1787150730.65679 42077 30a605f2320a3352fc5311070b9fec16 ""
   "../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/lstm_ae_error_heatmap.png" 1787150731.40735 170912 83c0de6e461e522ab1ca1b3e1f1c1fa9 ""
   "../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/transformer_bottleneck_error_heatmap.png" 1787150732.25475 154785 2c1f571685a99ba35ca8899511426b64 ""
-  "0-abstract.aux" 1788194887.54245 4212 ee2165b7596fa57c03195c1102b4f1a4 "xelatex"
+  "0-abstract.aux" 1788195431.8756 4212 ee2165b7596fa57c03195c1102b4f1a4 "xelatex"
   "0-abstract.tex" 1788193679.8192 2228 ec0dbf32b5e7d04af966c5adb2e6f623 ""
-  "0-title.aux" 1788194887.50506 4050 767c5f7074076520a0a633365eb158c0 "xelatex"
+  "0-title.aux" 1788195431.84231 4050 767c5f7074076520a0a633365eb158c0 "xelatex"
   "0-title.tex" 1787990395.47008 1213 8ca62d4e2d6200496123cee8418ab076 ""
-  "1-introducere.tex" 1788115262.18867 3930 aff26cfdea3d238fdf69294ae01bf1ab ""
+  "1-introducere.tex" 1788195422.08847 3945 5396cea38496c9b4ce21031343a3080d ""
   "2-preliminarii.tex" 1788107718.80883 18531 0dbd1438d702e20be3f203345d8ec314 ""
-  "3-methodology.tex" 1788072548.94645 12387 d8db59a30f472512d0d25e50f2e4d1f8 ""
-  "4-results.tex" 1788192026.16846 29853 03f0c861e20dd5896969a75774f08ccd ""
-  "5-explainability.tex" 1788192513.96401 18586 1605238f31a0cf78da422c717abfeaa9 ""
+  "3-methodology.tex" 1788195417.09232 12394 2edb35c784e85915aa6f5b6b67ddb839 ""
+  "4-results.tex" 1788195418.21991 29856 0f7f4e163582d514f1e8c9cd2a356c4c ""
+  "5-explainability.tex" 1788195418.54722 18591 5fcc5f297f42062ab2573950b00a2ac7 ""
   "6-concluzii.tex" 1788193436.64859 2295 ee626eb92e8e6ae4202fa48ff3a53b26 ""
   "7-anexe.tex" 1788192037.12205 20057 1b16ed279671c0733a0326277c0003f8 ""
   "C:/Users/Radu" 1772809292.84979 12700 dc0e9365ea4ce20f36acef36a1cb2cea ""
@@ -133,12 +133,12 @@
   "C:/Users/Radu Savin/AppData/Local/Programs/MiKTeX/tex/latex/xurl/xurl.sty" 1641733940 4675 e4b8c405820368c2dfb03526e16d725a ""
   "images/logo-fmi.png" 1787990034.24617 31683 56c11fb2ffe327fff3b59ba821e52cbf ""
   "images/logo-ub.png" 1787990034.30565 97709 078bc86249c299bf90bcca17671fe839 ""
-  "main.aux" 1788194888.15702 30348 ae020f4333312e79f677cac309a19ad5 "xelatex"
+  "main.aux" 1788195432.49246 30378 3dc94c852d8ed8a6284ee3cf245efb03 "xelatex"
   "main.bbl" 1788193687.12043 486 e75d7e0db03f09d45b25df2f538bb294 "biber main"
-  "main.out" 1788194888.168 15251 3476ce619408ebf820c10916021a9804 "xelatex"
-  "main.run.xml" 1788194888.19478 2406 136db66cb1590d0aeb159de490b159a3 "xelatex"
+  "main.out" 1788195432.50592 15328 22e005f6b934e47c0bb0e23ef5587356 "xelatex"
+  "main.run.xml" 1788195432.5295 2406 136db66cb1590d0aeb159de490b159a3 "xelatex"
   "main.tex" 1788194880.94836 4964 0c8bc29e7c9e03b95bf7ea7bdb061a5b ""
-  "main.toc" 1788194888.19778 8338 0ebd4ac2db2970b932910b60d163fe06 "xelatex"
+  "main.toc" 1788195432.53189 8353 ccbe719ec54e40164292c778cd116ce2 "xelatex"
   "romanian.lbx" 1787990034.18452 34947 6d14c245c5909849980f7031de346cd7 ""
   (generated)
   "0-abstract.aux"
