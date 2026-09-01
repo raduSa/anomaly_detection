@@ -28,7 +28,7 @@
 \contentsline {subsection}{\numberline {3.1.3}Preprocesarea Fluxurilor de Rețea (CIC-IDS2017)}{15}{subsection.3.1.3}%
 \contentsline {paragraph}{Plat}{15}{section*.3}%
 \contentsline {paragraph}{Temporal}{15}{section*.4}%
-\contentsline {paragraph}{Context de gazdă}{16}{section*.5}%
+\contentsline {paragraph}{Context de gazdă}{15}{section*.5}%
 \contentsline {section}{\numberline {3.2}Protocolul de Evaluare}{16}{section.3.2}%
 \contentsline {subsection}{\numberline {3.2.1}Metrici Raportate}{16}{subsection.3.2.1}%
 \contentsline {subsection}{\numberline {3.2.2}Selecția Pragului}{16}{subsection.3.2.2}%
@@ -36,24 +36,24 @@
 \contentsline {chapter}{\numberline {4}Rezultate Experimentale}{17}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Detectarea Fraudei cu Cardul de Credit (Setul de Date A)}{17}{section.4.1}%
 \contentsline {subsection}{\numberline {4.1.1}Comparație Generală}{17}{subsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.1.2}Discuție}{18}{subsection.4.1.2}%
-\contentsline {paragraph}{Nu există o secvență autentică în acest set de date.}{18}{section*.6}%
+\contentsline {subsection}{\numberline {4.1.2}Discuție}{17}{subsection.4.1.2}%
+\contentsline {paragraph}{Nu există o secvență autentică în acest set de date.}{17}{section*.6}%
 \contentsline {paragraph}{Impact asupra rezultatelor.}{18}{section*.7}%
-\contentsline {paragraph}{Observații la nivel de paradigmă.}{19}{section*.8}%
+\contentsline {paragraph}{Observații la nivel de paradigmă.}{18}{section*.8}%
 \contentsline {paragraph}{Sanity check.}{19}{section*.9}%
 \contentsline {section}{\numberline {4.2}Yahoo Webscope S5 (Setul de Date B)}{19}{section.4.2}%
 \contentsline {subsection}{\numberline {4.2.1}A1 -- Anomalii Punctuale (Metrici Reale de Server)}{19}{subsection.4.2.1}%
 \contentsline {paragraph}{Discuție.}{19}{section*.10}%
-\contentsline {subsection}{\numberline {4.2.2}A3 -- Anomalii Contextuale/Sezoniere}{20}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.2}A3 -- Anomalii Contextuale/Sezoniere}{19}{subsection.4.2.2}%
 \contentsline {paragraph}{Discuție.}{20}{section*.11}%
 \contentsline {subsection}{\numberline {4.2.3}A4 -- Anomalii de Tip Schimbare-de-Nivel}{20}{subsection.4.2.3}%
-\contentsline {paragraph}{Discuție.}{20}{section*.12}%
+\contentsline {paragraph}{Discuție.}{21}{section*.12}%
 \contentsline {subsection}{\numberline {4.2.4}Verificare de Referință Trivială (Doar Yahoo)}{21}{subsection.4.2.4}%
 \contentsline {subsection}{\numberline {4.2.5}Discuție}{22}{subsection.4.2.5}%
 \contentsline {paragraph}{Atât paradigma, cât și arhitectura contează.}{22}{section*.13}%
 \contentsline {paragraph}{Rezumat pe tip de anomalie.}{22}{section*.14}%
-\contentsline {section}{\numberline {4.3}CIC-IDS2017 (Setul de Date C)}{23}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Comparație Generală}{23}{subsection.4.3.1}%
+\contentsline {section}{\numberline {4.3}CIC-IDS2017 (Setul de Date C)}{22}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Comparație Generală}{22}{subsection.4.3.1}%
 \contentsline {paragraph}{Caracteristicile de context al gazdei domină.}{24}{section*.15}%
 \contentsline {paragraph}{Adăugarea ferestrelor temporale, singură, nu ajută.}{24}{section*.16}%
 \contentsline {paragraph}{Reconstrucția depășește predicția.}{24}{section*.17}%
@@ -93,3 +93,4 @@
 \contentsline {chapter}{\numberline {3}Compoziția pe Clase de Atac a Setului de Test Temporal CIC-IDS2017}{43}{appendix.C}%
 \contentsline {chapter}{\numberline {4}Validarea Scorului Temporal IForest Sub Etichetare pe Ultimul Flux}{44}{appendix.D}%
 \contentsline {chapter}{\numberline {5}Alinierea Scorurilor și Eșecul Standardizării $z$ pentru Ansamblul AE+Context + Temporal IForest}{44}{appendix.E}%
+\contentsline {chapter}{Bibliografie}{45}{appendix*.26}%

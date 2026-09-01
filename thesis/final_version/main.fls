@@ -92,6 +92,8 @@ INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex\latex\biblatex\bibla
 INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex\latex\biblatex\biblatex.cfg
 INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex\latex\biblatex\blx-case-expl3.sty
 INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex\latex\biblatex\blx-case-expl3.sty
+INPUT .\romanian.lbx
+INPUT .\romanian.lbx
 INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex\latex\setspace\setspace.sty
 INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex\latex\setspace\setspace.sty
 INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex\latex\geometry\geometry.sty
@@ -215,8 +217,6 @@ INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex\latex\biblatex\lbx\e
 INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex\latex\biblatex\lbx\english.lbx
 INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex\latex\biblatex\lbx\english.lbx
 INPUT C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex\latex\biblatex\lbx\english.lbx
-INPUT .\romanian.lbx
-INPUT .\romanian.lbx
 INPUT romanian.lbx
 OUTPUT main.bcf
 INPUT main.bbl

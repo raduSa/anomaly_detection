@@ -16,5 +16,393 @@
   {}
 \endgroup
 
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{kaggle_creditcard}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=196f09929d97bee5827f7b177221eba3}{%
+           family={{Machine Learning Group -- ULB}},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{196f09929d97bee5827f7b177221eba3}
+      \strng{fullhash}{196f09929d97bee5827f7b177221eba3}
+      \strng{fullhashraw}{196f09929d97bee5827f7b177221eba3}
+      \strng{bibnamehash}{196f09929d97bee5827f7b177221eba3}
+      \strng{authorbibnamehash}{196f09929d97bee5827f7b177221eba3}
+      \strng{authornamehash}{196f09929d97bee5827f7b177221eba3}
+      \strng{authorfullhash}{196f09929d97bee5827f7b177221eba3}
+      \strng{authorfullhashraw}{196f09929d97bee5827f7b177221eba3}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Kaggle}
+      \field{title}{Credit Card Fraud Detection}
+      \field{urlday}{1}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud
+      \endverb
+      \verb{url}
+      \verb https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud
+      \endverb
+    \endentry
+    \entry{kaggle_janiobachmann}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=a442dcb01ef92aa060848c0a08c7fccc}{%
+           family={Bachmann},
+           familyi={B\bibinitperiod},
+           given={Janio},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{a442dcb01ef92aa060848c0a08c7fccc}
+      \strng{fullhash}{a442dcb01ef92aa060848c0a08c7fccc}
+      \strng{fullhashraw}{a442dcb01ef92aa060848c0a08c7fccc}
+      \strng{bibnamehash}{a442dcb01ef92aa060848c0a08c7fccc}
+      \strng{authorbibnamehash}{a442dcb01ef92aa060848c0a08c7fccc}
+      \strng{authornamehash}{a442dcb01ef92aa060848c0a08c7fccc}
+      \strng{authorfullhash}{a442dcb01ef92aa060848c0a08c7fccc}
+      \strng{authorfullhashraw}{a442dcb01ef92aa060848c0a08c7fccc}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Kaggle Notebook}
+      \field{title}{Credit Fraud || Dealing with Imbalanced Datasets}
+      \field{urlday}{1}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.kaggle.com/code/janiobachmann/credit-fraud-dealing-with-imbalanced-datasets
+      \endverb
+      \verb{url}
+      \verb https://www.kaggle.com/code/janiobachmann/credit-fraud-dealing-with-imbalanced-datasets
+      \endverb
+    \endentry
+    \entry{engelen2021troubleshooting}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{hash=96eadf01b764576c2d551a8ff008f008}{%
+           family={Engelen},
+           familyi={E\bibinitperiod},
+           given={Gints},
+           giveni={G\bibinitperiod}}}%
+        {{hash=30383b07c1567b99fd721bc7bbc13db2}{%
+           family={Rimmer},
+           familyi={R\bibinitperiod},
+           given={Vera},
+           giveni={V\bibinitperiod}}}%
+        {{hash=ebb6bf71def119ef341be1fc1974891e}{%
+           family={Joosen},
+           familyi={J\bibinitperiod},
+           given={Wouter},
+           giveni={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{f5d983a3878f56e54f53390de27297fe}
+      \strng{fullhash}{f5d983a3878f56e54f53390de27297fe}
+      \strng{fullhashraw}{f5d983a3878f56e54f53390de27297fe}
+      \strng{bibnamehash}{f5d983a3878f56e54f53390de27297fe}
+      \strng{authorbibnamehash}{f5d983a3878f56e54f53390de27297fe}
+      \strng{authornamehash}{f5d983a3878f56e54f53390de27297fe}
+      \strng{authorfullhash}{f5d983a3878f56e54f53390de27297fe}
+      \strng{authorfullhashraw}{f5d983a3878f56e54f53390de27297fe}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2021 IEEE Security and Privacy Workshops (SPW) -- Workshop on Traffic Measurements for Cybersecurity (WTMC)}
+      \field{title}{Troubleshooting an Intrusion Detection Dataset: the {CICIDS2017} Case Study}
+      \field{year}{2021}
+      \verb{doi}
+      \verb 10.1109/SPW53761.2021.00009
+      \endverb
+    \endentry
+    \entry{munir2019deepant}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=6945d399e7ac6d65de7b69c85b0b2aa3}{%
+           family={Munir},
+           familyi={M\bibinitperiod},
+           given={Mohsin},
+           giveni={M\bibinitperiod}}}%
+        {{hash=74815873173614768c79b41ebcd30fb7}{%
+           family={Siddiqui},
+           familyi={S\bibinitperiod},
+           given={Shoaib\bibnamedelima Ahmed},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=39509991baf1f5b54ef9eede853edd37}{%
+           family={Dengel},
+           familyi={D\bibinitperiod},
+           given={Andreas},
+           giveni={A\bibinitperiod}}}%
+        {{hash=7407b7acfa262023851056a7cd752a26}{%
+           family={Ahmed},
+           familyi={A\bibinitperiod},
+           given={Sheraz},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{5c527ed0217eba4ef93ae08259f4bd16}
+      \strng{fullhash}{35a921f9a172f4d10a70bbaef85e430d}
+      \strng{fullhashraw}{35a921f9a172f4d10a70bbaef85e430d}
+      \strng{bibnamehash}{35a921f9a172f4d10a70bbaef85e430d}
+      \strng{authorbibnamehash}{35a921f9a172f4d10a70bbaef85e430d}
+      \strng{authornamehash}{5c527ed0217eba4ef93ae08259f4bd16}
+      \strng{authorfullhash}{35a921f9a172f4d10a70bbaef85e430d}
+      \strng{authorfullhashraw}{35a921f9a172f4d10a70bbaef85e430d}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Access}
+      \field{title}{{DeepAnT}: A Deep Learning Approach for Unsupervised Anomaly Detection in Time Series}
+      \field{volume}{7}
+      \field{year}{2019}
+      \field{pages}{1991\bibrangedash 2005}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.1109/ACCESS.2018.2886457
+      \endverb
+    \endentry
+    \entry{raskovalov2024nids}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=cc39cfda44b9fe12f02d5f7efc6ab476}{%
+           family={Raskovalov},
+           familyi={R\bibinitperiod},
+           given={Anton},
+           giveni={A\bibinitperiod}}}%
+        {{hash=21602c3f5db230f95b85074e603f7296}{%
+           family={Gabdullin},
+           familyi={G\bibinitperiod},
+           given={Nikita},
+           giveni={N\bibinitperiod}}}%
+        {{hash=98292b887107d0f36a2c972f6aeeb84b}{%
+           family={Androsov},
+           familyi={A\bibinitperiod},
+           given={Ilya},
+           giveni={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{4f2791f35ca97204ec9bcc459c486476}
+      \strng{fullhash}{4f2791f35ca97204ec9bcc459c486476}
+      \strng{fullhashraw}{4f2791f35ca97204ec9bcc459c486476}
+      \strng{bibnamehash}{4f2791f35ca97204ec9bcc459c486476}
+      \strng{authorbibnamehash}{4f2791f35ca97204ec9bcc459c486476}
+      \strng{authornamehash}{4f2791f35ca97204ec9bcc459c486476}
+      \strng{authorfullhash}{4f2791f35ca97204ec9bcc459c486476}
+      \strng{authorfullhashraw}{4f2791f35ca97204ec9bcc459c486476}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2410.18658}
+      \field{title}{{NIDS} Neural Networks Using Sliding Time Window Data Processing with Trainable Activations and its Generalization Capability}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2410.18658
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2410.18658
+      \endverb
+    \endentry
+    \entry{kim2022rigorous}{inproceedings}{}{}
+      \name{author}{5}{}{%
+        {{hash=280e28b205b174b2b13ccd97b255e551}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={Siwon},
+           giveni={S\bibinitperiod}}}%
+        {{hash=5e135cfa8877078fbe3baab1848129c7}{%
+           family={Choi},
+           familyi={C\bibinitperiod},
+           given={Kukjin},
+           giveni={K\bibinitperiod}}}%
+        {{hash=357dae6b105a2412f74312c07cd8b092}{%
+           family={Choi},
+           familyi={C\bibinitperiod},
+           given={Hyun-Soo},
+           giveni={H\bibinithyphendelim S\bibinitperiod}}}%
+        {{hash=7dc837c06917b646e15ca0acbd45c641}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Byunghan},
+           giveni={B\bibinitperiod}}}%
+        {{hash=f5ccf882c39a05e689c6de47c0e30a56}{%
+           family={Yoon},
+           familyi={Y\bibinitperiod},
+           given={Sungroh},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{fb7bca8d7685e9e4c762ca7357310455}
+      \strng{fullhash}{852c26e1b3db70e2e0a3c8b102d93715}
+      \strng{fullhashraw}{852c26e1b3db70e2e0a3c8b102d93715}
+      \strng{bibnamehash}{852c26e1b3db70e2e0a3c8b102d93715}
+      \strng{authorbibnamehash}{852c26e1b3db70e2e0a3c8b102d93715}
+      \strng{authornamehash}{fb7bca8d7685e9e4c762ca7357310455}
+      \strng{authorfullhash}{852c26e1b3db70e2e0a3c8b102d93715}
+      \strng{authorfullhashraw}{852c26e1b3db70e2e0a3c8b102d93715}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the AAAI Conference on Artificial Intelligence}
+      \field{number}{7}
+      \field{title}{Towards a Rigorous Evaluation of Time-series Anomaly Detection}
+      \field{volume}{36}
+      \field{year}{2022}
+      \field{pages}{7194\bibrangedash 7201}
+      \range{pages}{8}
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2109.05257
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2109.05257
+      \endverb
+    \endentry
+    \entry{lundberg2017unified}{inproceedings}{}{}
+      \name{author}{2}{}{%
+        {{hash=2a1075150e1e1dad8127b019f7ca9031}{%
+           family={Lundberg},
+           familyi={L\bibinitperiod},
+           given={Scott\bibnamedelima M.},
+           giveni={S\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=ee964079d93879aaef2382a5fff343d3}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Su-In},
+           giveni={S\bibinithyphendelim I\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Long Beach, CA, USA}%
+      }
+      \strng{namehash}{9cd6e49767b1dfa9f5df9a46216a8739}
+      \strng{fullhash}{9cd6e49767b1dfa9f5df9a46216a8739}
+      \strng{fullhashraw}{9cd6e49767b1dfa9f5df9a46216a8739}
+      \strng{bibnamehash}{9cd6e49767b1dfa9f5df9a46216a8739}
+      \strng{authorbibnamehash}{9cd6e49767b1dfa9f5df9a46216a8739}
+      \strng{authornamehash}{9cd6e49767b1dfa9f5df9a46216a8739}
+      \strng{authorfullhash}{9cd6e49767b1dfa9f5df9a46216a8739}
+      \strng{authorfullhashraw}{9cd6e49767b1dfa9f5df9a46216a8739}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Advances in Neural Information Processing Systems 30 (NIPS 2017)}
+      \field{title}{A Unified Approach to Interpreting Model Predictions}
+      \field{year}{2017}
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1705.07874
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1705.07874
+      \endverb
+    \endentry
+    \entry{shap_docs}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=7bfb009c943db698db28d9a3dd0fdc31}{%
+           family={{SHAP developers}},
+           familyi={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{7bfb009c943db698db28d9a3dd0fdc31}
+      \strng{fullhash}{7bfb009c943db698db28d9a3dd0fdc31}
+      \strng{fullhashraw}{7bfb009c943db698db28d9a3dd0fdc31}
+      \strng{bibnamehash}{7bfb009c943db698db28d9a3dd0fdc31}
+      \strng{authorbibnamehash}{7bfb009c943db698db28d9a3dd0fdc31}
+      \strng{authornamehash}{7bfb009c943db698db28d9a3dd0fdc31}
+      \strng{authorfullhash}{7bfb009c943db698db28d9a3dd0fdc31}
+      \strng{authorfullhashraw}{7bfb009c943db698db28d9a3dd0fdc31}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{{SHAP} (SHapley Additive exPlanations) Documentation}
+      \field{urlday}{1}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://shap.readthedocs.io/
+      \endverb
+      \verb{url}
+      \verb https://shap.readthedocs.io/
+      \endverb
+    \endentry
+    \entry{lundberg2020local}{article}{}{}
+      \name{author}{10}{}{%
+        {{hash=2a1075150e1e1dad8127b019f7ca9031}{%
+           family={Lundberg},
+           familyi={L\bibinitperiod},
+           given={Scott\bibnamedelima M.},
+           giveni={S\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=c9da6a69061a4f38a67b6d8e4df7830d}{%
+           family={Erion},
+           familyi={E\bibinitperiod},
+           given={Gabriel},
+           giveni={G\bibinitperiod}}}%
+        {{hash=e968c15e23ad11d49032806ba28ac4ad}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Hugh},
+           giveni={H\bibinitperiod}}}%
+        {{hash=7cfb157fbe03f5c41bee2e189420421b}{%
+           family={DeGrave},
+           familyi={D\bibinitperiod},
+           given={Alex},
+           giveni={A\bibinitperiod}}}%
+        {{hash=483c343e0e18809254224720554864bc}{%
+           family={Prutkin},
+           familyi={P\bibinitperiod},
+           given={Jordan\bibnamedelima M.},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=0e0a40efd36e7c981cbdcf5a76318b2d}{%
+           family={Nair},
+           familyi={N\bibinitperiod},
+           given={Bala},
+           giveni={B\bibinitperiod}}}%
+        {{hash=d7b3ee30963aac93564381f6ef899797}{%
+           family={Katz},
+           familyi={K\bibinitperiod},
+           given={Ronit},
+           giveni={R\bibinitperiod}}}%
+        {{hash=32f7c8078f500c4f5fc83309f1238c4f}{%
+           family={Himmelfarb},
+           familyi={H\bibinitperiod},
+           given={Jonathan},
+           giveni={J\bibinitperiod}}}%
+        {{hash=51647a8209fa0dc179d77e66788d6b9b}{%
+           family={Bansal},
+           familyi={B\bibinitperiod},
+           given={Nisha},
+           giveni={N\bibinitperiod}}}%
+        {{hash=ee964079d93879aaef2382a5fff343d3}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Su-In},
+           giveni={S\bibinithyphendelim I\bibinitperiod}}}%
+      }
+      \strng{namehash}{124aa89bcc8192d83101f57dbcd1b58c}
+      \strng{fullhash}{a32adcaa746e209abf23c3d5d783b140}
+      \strng{fullhashraw}{a32adcaa746e209abf23c3d5d783b140}
+      \strng{bibnamehash}{a32adcaa746e209abf23c3d5d783b140}
+      \strng{authorbibnamehash}{a32adcaa746e209abf23c3d5d783b140}
+      \strng{authornamehash}{124aa89bcc8192d83101f57dbcd1b58c}
+      \strng{authorfullhash}{a32adcaa746e209abf23c3d5d783b140}
+      \strng{authorfullhashraw}{a32adcaa746e209abf23c3d5d783b140}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:1905.04610}
+      \field{title}{Explainable {AI} for Trees: From Local Explanations to Global Understanding}
+      \field{year}{2019}
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1905.04610
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1905.04610
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
 \endinput
 

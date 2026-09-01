@@ -80,7 +80,7 @@ Semnul unei valori SHAP arată direcția împingerii (spre normal sau spre anorm
 
 O \emph{diagramă beeswarm} (Figurile~\ref{fig:explain-temporal-beeswarm} și~\ref{fig:explain-ae-context-portscan-shap}) arată atribuirea SHAP pe un eșantion de puncte de test, câte un rând per caracteristică, ordonate descrescător după importanță; pe fiecare rând, fiecare punct este un eșantion, poziționat orizontal după propria sa valoare SHAP și colorat după propria sa valoare a caracteristicii respective (albastru pentru valoare mică, roșu pentru valoare mare).
 
-Pentru definiția matematică și originea din teoria jocurilor cooperative, mai multe detalii se află în lucrarea originală (Lundberg și Lee, 2017); pentru o descriere mai accesibilă, orientată spre interpretarea grafurilor, și detalii despre construcția diagramelor folosite mai jos, către documentația SHAP.\footnote{\url{https://shap.readthedocs.io/}}
+Pentru definiția matematică și originea din teoria jocurilor cooperative, mai multe detalii se află în lucrarea originală~\parencite{lundberg2017unified}; pentru o descriere mai accesibilă, orientată spre interpretarea grafurilor, și detalii despre construcția diagramelor folosite mai jos, către documentația SHAP~\cite{shap_docs}.
 
 Astfel, se presupune că:
 1. Dacă Temporal IForest exploatează cu adevărat structura dintre pașii temporali, scorul său per fereastră ar trebui să poarte informație despre eticheta \emph{ultimului} flux -- fluxul care ar fi combinat cu scorul per flux al lui AE+Context -- și nu despre dacă \emph{vreun} flux din fereastra de 16 fluxuri este un atac.
@@ -95,7 +95,7 @@ O validare importantă, efectuată pe parcursul experimentării si demna de ment
 \subsection{Temporal IForest: Atribuire SHAP pe Toată Fereastra}
 \label{sec:explain-temporal-window}
 
-Temporal IForest este antrenat pe ferestre aplatizate de 16 fluxuri, deci valorile SHAP ale lui \texttt{TreeExplainer} pe intrarea aplatizată se descompun curat înapoi într-un cub (fereastră, pas temporal, caracteristică). Pentru fiecare din cele patru clase, SHAP a fost calculat pe 200 de ferestre;
+Temporal IForest este antrenat pe ferestre aplatizate de 16 fluxuri, deci valorile SHAP ale lui \texttt{TreeExplainer}~\parencite{lundberg2020local} pe intrarea aplatizată se descompun curat înapoi într-un cub (fereastră, pas temporal, caracteristică). Pentru fiecare din cele patru clase, SHAP a fost calculat pe 200 de ferestre;
 magnitudinea atribuirii a fost sumată pe caracteristici per pas temporal, iar caracteristicile cu cea mai mare contribuție au fost reprezentate pe toți cei 16 pași temporali pentru a verifica dacă aceeași caracteristică poartă o atribuire cu semn consistent pe toată fereastra, nu doar aproape de final.
 
 \begin{figure}[H]

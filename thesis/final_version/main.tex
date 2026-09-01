@@ -24,13 +24,45 @@
   {\guillemotleft}
   {\guillemotright}
 
-% Utilizează biblatex pentru referințe bibliografice
+% Utilizează biblatex pentru referințe bibliografice, cu un singur stil de
+% citare numeric (bibliografie numerotată în ordinea citării în text,
+% conform ghidului de redactare al facultății)
 \usepackage[
     maxbibnames=50,
-    sorting=nty
+    sorting=none,
+    style=numeric,
+    giveninits=true
 ]{biblatex}
 
 \addbibresource{bibliography.bib}
+
+\AtBeginDocument{%
+  % Elimină conjuncția ("și") dintre ultimii doi autori -- doar virgulă
+  % între nume, ca în exemplul din ghidul de redactare.
+  \DeclareDelimFormat{finalnamedelim}{\multinamedelim}%
+  % Nu prefixa adresa web cu "URL:" -- afișeaz-o brut, ca în exemplul din
+  % ghid.
+  \DeclareFieldFormat{url}{\url{#1}}%
+  % Formatul cerut pentru data accesării resurselor online:
+  % "[accesat: ZZ.LL.AAAA]", în loc de formatul implicit
+  % "(accesat în Z.L.AAAA)".
+  \DeclareFieldFormat{urldate}{\mkbibbrackets{accesat: #1}}%
+}
+
+% Zerourile de umplutură pentru ziua/luna datei de accesare (ex. "01.09.2026"
+% în loc de "1.9.2026") trebuie redefinite ca extra de limbă românească --
+% romanian.lbx își reaplică propria definiție a \mkbibdateshort chiar
+% înainte de a tipări bibliografia, ceea ce ar anula o redefinire făcută
+% mai devreme (ex. în \AtBeginDocument).
+\newcommand{\thesiszeropad}[1]{\ifnum#1<10 0\fi#1}
+\DefineBibliographyExtras{romanian}{%
+  \renewcommand*{\mkbibdateshort}[3]{%
+    \iffieldundef{#3}{}{\thesiszeropad{\thefield{#3}}\adddot}%
+    \iffieldundef{#2}{}{\thesiszeropad{\thefield{#2}}\adddot}%
+    \iffieldbibstring{#1}
+      {\bibstring{\thefield{#1}}}
+      {\dateeraprintpre{#1}\mkyearzeros{\thefield{#1}}}}%
+}
 
 % Setează spațiere inter-linie la 1.5
 \usepackage{setspace}
