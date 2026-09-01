@@ -74,10 +74,18 @@ Dar distribuția din Figura~\ref{fig:explain-gini} relevă un detaliu interesant
 
 Discuția despre CIC-IDS2017 din Capitolul~\ref{ch:results} propune combinarea AE+Context (puternic pe DDoS și PortScan) cu Temporal IForest (puternic pe clasele DoS lente și, cu rezerve, pe Heartbleed) într-un ansamblu, întrucât cele două ar trebui să opereze pe mulțimi de caracteristici disjuncte
 -- caracteristici de context al gazdei versus o fereastră temporală de 16 fluxuri.
+
+\paragraph{O scurtă introducere la SHAP.} SHAP (\emph{SHapley Additive exPlanations}) atribuie pentru fiecare eșantion câte o valoare fiecărei caracteristici de intrare, reprezentând cât de mult a influențat acea caracteristică ieșirea modelului.
+Semnul unei valori SHAP arată direcția împingerii (spre normal sau spre anormal, în funcție de convenția ieșirii explicate -- precizată separat pentru fiecare model mai jos, întrucât cele două nu coincid), iar magnitudinea arată cât de mare este contribuția, relativ la celelalte caracteristici ale aceluiași eșantion.
+
+O \emph{diagramă beeswarm} (Figurile~\ref{fig:explain-temporal-beeswarm} și~\ref{fig:explain-ae-context-portscan-shap}) arată atribuirea SHAP pe un eșantion de puncte de test, câte un rând per caracteristică, ordonate descrescător după importanță; pe fiecare rând, fiecare punct este un eșantion, poziționat orizontal după propria sa valoare SHAP și colorat după propria sa valoare a caracteristicii respective (albastru pentru valoare mică, roșu pentru valoare mare).
+
+Pentru definiția matematică și originea din teoria jocurilor cooperative, mai multe detalii se află în lucrarea originală (Lundberg și Lee, 2017); pentru o descriere mai accesibilă, orientată spre interpretarea grafurilor, și detalii despre construcția diagramelor folosite mai jos, către documentația SHAP.\footnote{\url{https://shap.readthedocs.io/}}
+
 Astfel, se presupune că:
 1. Dacă Temporal IForest exploatează cu adevărat structura dintre pașii temporali, scorul său per fereastră ar trebui să poarte informație despre eticheta \emph{ultimului} flux -- fluxul care ar fi combinat cu scorul per flux al lui AE+Context -- și nu despre dacă \emph{vreun} flux din fereastra de 16 fluxuri este un atac.
 Așadar, atribuirea sa SHAP nu ar trebui, de asemenea, să se prăbușească pe acel unic flux final; dacă se întâmplă asta, fereastra este de fapt doar decorativă.
-2. Avantajul lui AE+Context pe propriile sale clase puternice provine din cele 9 caracteristici de context al gazdei \texttt{ctx\_*}, unice setului său de caracteristici
+2. Avantajul lui AE+Context pe propriile sale clase puternice provine din cele 9 caracteristici de context al gazdei, unice setului său de caracteristici
 Așadar, acestea ar trebui să apară printre caracteristicile cu cea mai mare medie $|\text{SHAP}|$.
 
 O validare importantă, efectuată pe parcursul experimentării si demna de mentionat -- verificarea faptului că scorul lui Temporal IForest rămâne informativ și sub o etichetare mai strictă, per ultimul flux, nu doar sub eticheta permisivă "oricare-din-16" -- este detaliată în Anexa~\ref{ch:temporal-iforest-last-flow-validation}.
