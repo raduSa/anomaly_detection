@@ -33,10 +33,10 @@ Compiled with `xelatex` (2 passes) and read the printed page number of each `\ch
    - §4.3.1 CIC-IDS2017 attack-composition table (flat/context) → Anexa D, next to the already-annexed temporal-set table     CHECK
    - §4.3.2 per-class results table (`tab:cic-per-class`) and the DoS-lente sub-breakdown → Anexa C
    - §5.2.2 AE+Context PortScan SHAP summary figure → Anexa G (the small confirming table stays in the main text)
-   - §5.1 Yahoo A3 qualitative heatmap figure → new Anexa F (kept a 2-sentence pivot in the main text: "consistent with the hypothesis, but not sufficient to confirm the mechanism — see the quantitative Gini check below")
+   - §5.1 Yahoo A3 qualitative heatmap figure → new Anexa F (kept a 2-sentence pivot in the main text: "consistent with the hypothesis, but not sufficient to confirm the mechanism — see the quantitative Gini check below")    CHECK
    - **Combined effect:** 31 → 27 pages.
 
-2. **Tighten table/figure sizing document-wide** — no content lost, purely typographic:
+2. **Tighten table/figure sizing document-wide** — no content lost, purely typographic:   CHECK
    - `\renewcommand{\arraystretch}{0.85}` added once in `main.tex` (tighter row spacing on every table, main text and annexes alike)
    - Reduced `\resizebox` target width on the two full-width tables that remained in the main text (from `\textwidth` to `0.8\textwidth`), and switched the four plain (non-resized) comparison tables in Chapter 4 to `\footnotesize`
    - Shrank the Yahoo-A3 heatmap figure (`0.55\textheight`→`0.4\textheight`, and merged two side-by-side figures with duplicate captions into one), the Gini-distribution figure (`0.7\textwidth`→`0.55\textwidth`), and the temporal-SHAP feature-profile figure (`0.48\textwidth`→`0.42\textwidth`)

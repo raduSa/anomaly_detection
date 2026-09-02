@@ -38,7 +38,7 @@ Transformer Bottleneck Autoencoder & 0.721 & 0.724 \\
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\textwidth]{../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/gini_comparison.png}
+\includegraphics[width=0.55\textwidth]{../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/gini_comparison.png}
 \caption{Distribuția coeficienților Gini per fereastră, pe toate cele 14{,}449 ferestre A3 anormale. Distribuția Transformer-ului este unimodală și deplasată spre concentrare ridicată (Gini $>0.6$); distribuția LSTM Autoencoder-ului este bimodală, cu o majoritate grupată aproape de intervalul Transformer-ului, dar cu o populație secundară distinctă răspândită la valori Gini scăzute.}
 \label{fig:explain-gini}
 \end{figure}
@@ -81,9 +81,9 @@ magnitudinea atribuirii a fost sumată pe caracteristici per pas temporal, iar c
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.48\textwidth,keepaspectratio]{../../data/explainability/cicids_temporal_shap/1/ddos_top_feature_profiles.png}%
+\includegraphics[width=0.42\textwidth,keepaspectratio]{../../data/explainability/cicids_temporal_shap/1/ddos_top_feature_profiles.png}%
 \hspace{0.02\textwidth}%
-\includegraphics[width=0.48\textwidth,keepaspectratio]{../../data/explainability/cicids_temporal_shap/1/dos_slowloris_top_feature_profiles.png}
+\includegraphics[width=0.42\textwidth,keepaspectratio]{../../data/explainability/cicids_temporal_shap/1/dos_slowloris_top_feature_profiles.png}
 
 \caption{Temporal IForest -- valoarea medie SHAP per pas temporal pentru cele șase caracteristici cu cea mai mare atribuire, ferestre DDoS (stânga) și ferestre DoS slowloris (dreapta). În ambele cazuri atribuirea este negativă (anormală), recurentă cu semn consistent pe majoritatea celor 16 pași temporali, și nu se concentrează pe fluxul final (linia roșie punctată) -- fluxul combinat cu scorul lui AE+Context în ansamblul propus.}
 \label{fig:explain-temporal-shap}
