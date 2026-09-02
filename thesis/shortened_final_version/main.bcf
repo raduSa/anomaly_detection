@@ -2392,6 +2392,9 @@
     <bcf:citekey order="17" intorder="1">lundberg2017unified</bcf:citekey>
     <bcf:citekey order="18" intorder="1">shap_docs</bcf:citekey>
     <bcf:citekey order="19" intorder="1">lundberg2020local</bcf:citekey>
+    <bcf:citekey order="20" intorder="1">munir2019deepant</bcf:citekey>
+    <bcf:citekey order="21" intorder="1">raskovalov2024nids</bcf:citekey>
+    <bcf:citekey order="22" intorder="1">raskovalov2024nids</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">
