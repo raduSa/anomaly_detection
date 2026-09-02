@@ -1,14 +1,14 @@
 [0] Config.pm:328> INFO - This is Biber 2.21
 [0] Config.pm:331> INFO - Logfile is 'main.blg'
 [86] biber-MSWIN64:342> INFO - === 
-[128] Biber.pm:421> INFO - Reading 'main.bcf'
-[215] Biber.pm:1002> INFO - Found 9 citekeys in bib section 0
-[226] Biber.pm:4487> INFO - Processing section 0
+[127] Biber.pm:421> INFO - Reading 'main.bcf'
+[214] Biber.pm:1002> INFO - Found 9 citekeys in bib section 0
+[224] Biber.pm:4487> INFO - Processing section 0
 [234] Biber.pm:4678> INFO - Looking for bibtex file 'bibliography.bib' for section 0
-[304] bibtex.pm:1713> INFO - LaTeX decoding ...
-[322] bibtex.pm:1519> INFO - Found BibTeX data source 'bibliography.bib'
-[381] UCollate.pm:68> INFO - Overriding locale 'ro-RO' defaults 'variable = shifted' with 'variable = non-ignorable'
-[381] UCollate.pm:68> INFO - Overriding locale 'ro-RO' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[381] Biber.pm:4307> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'ro-RO'
-[389] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[394] bbl.pm:779> INFO - Output to main.bbl
+[299] bibtex.pm:1713> INFO - LaTeX decoding ...
+[318] bibtex.pm:1519> INFO - Found BibTeX data source 'bibliography.bib'
+[374] UCollate.pm:68> INFO - Overriding locale 'ro-RO' defaults 'variable = shifted' with 'variable = non-ignorable'
+[374] UCollate.pm:68> INFO - Overriding locale 'ro-RO' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[374] Biber.pm:4307> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'ro-RO'
+[382] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[387] bbl.pm:779> INFO - Output to main.bbl

@@ -30,7 +30,7 @@ Compiled with `xelatex` (2 passes) and read the printed page number of each `\ch
    - §4.2.4 Yahoo trivial-baseline check → Anexa E    CHECK
    - §5.2.1 two of three SHAP figure pairs (position-concentration, beeswarm) → Anexa G   CHECK
    - §3.1 preprocessing step-by-step detail (all three datasets) + DeepAnt comparison → Anexa A    CHECK
-   - §4.3.1 CIC-IDS2017 attack-composition table (flat/context) → Anexa D, next to the already-annexed temporal-set table     
+   - §4.3.1 CIC-IDS2017 attack-composition table (flat/context) → Anexa D, next to the already-annexed temporal-set table     CHECK
    - §4.3.2 per-class results table (`tab:cic-per-class`) and the DoS-lente sub-breakdown → Anexa C
    - §5.2.2 AE+Context PortScan SHAP summary figure → Anexa G (the small confirming table stays in the main text)
    - §5.1 Yahoo A3 qualitative heatmap figure → new Anexa F (kept a 2-sentence pivot in the main text: "consistent with the hypothesis, but not sufficient to confirm the mechanism — see the quantitative Gini check below")

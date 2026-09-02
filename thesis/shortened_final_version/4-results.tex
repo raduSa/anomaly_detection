@@ -238,11 +238,10 @@ Subtipuri Web Attack & 12--151   & \multicolumn{3}{l}{AP aproape zero peste tot 
 \end{itemize}
 
 \paragraph{Răspuns mixt la caracteristici de context pentru DoS la nivel de aplicație.} Nu fiecare clasă de atac răspunde la caracteristicile de context în același mod -- cele trei clase DoS la nivel de aplicație împart familia de context în loc să o favorizeze uniform:
+\textbf{DoS GoldenEye} arată o separare clară în cadrul familiei de context: IForest+Context atinge AP 0.655, în timp ce AE+Context și OC-SVM+Context se prăbușesc amândouă la $\sim$0.22.
+\textbf{DoS Slowhttptest și DoS slowloris} arată același tipar, mai atenuat: IForest+Context este singurul model cu context cu detecție semnificativă (AP 0.112 și 0.190), deși rămâne totuși mult sub AP-ul de 0.69/0.61 al IForest Temporal pe aceleași clase. 
+Motivul probabil este că fereastra de context de 60s este o nepotrivire parțială pentru conexiunile lente, de minute întregi, ale acestor atacuri -- ordonarea cronologică explicită per-gazdă a IForest Temporal oferă în continuare cea mai bună detecție pentru această familie de atacuri.
 
-\begin{itemize}
-  \item \textbf{DoS GoldenEye} arată o separare clară în cadrul familiei de context: IForest+Context atinge AP 0.655, în timp ce AE+Context și OC-SVM+Context se prăbușesc amândouă la $\sim$0.22.
-  \item \textbf{DoS Slowhttptest și DoS slowloris} arată același tipar, mai atenuat: IForest+Context este singurul model cu context cu detecție semnificativă (AP 0.112 și 0.190), deși rămâne totuși mult sub AP-ul de 0.69/0.61 al IForest Temporal pe aceleași clase. Atacurile HTTP lente mențin multe conexiuni concurente de lungă durată către un singur port. Fereastra de context de 60 de secunde este o nepotrivire parțială aici, deoarece conexiunile Slowloris durează minute întregi, iar multe fluxuri cad în afara ei -- ordonarea cronologică explicită per-gazdă a IForest Temporal oferă în continuare cea mai bună detecție pentru această familie de atacuri.
-\end{itemize}
 
 \paragraph{În mare parte nedetectabile, indiferent de setul de caracteristici.} FTP-Patator, SSH-Patator, Bot și cele trei subtipuri Web Attack obțin toate AP $<$ 0.01 la fiecare model, inclusiv cele cu context.
 Atacurile peste protocoale legitime și atacurile la nivel HTTP (injecție SQL, XSS) produc statistici de flux indistinctibile de utilizarea normală -- detectarea lor ar necesita contoare de autentificare eșuată sau inspecția payload-ului, niciuna disponibilă într-un set de caracteristici de statistici de flux. Heartbleed (11 eșantioane) și Infiltration (32 de eșantioane) sunt prea mici pentru a trage concluzii solide, deși avantajul modest al IForest+Context pe Heartbleed (AP 0.093 față de aproape zero pentru celelalte două modele cu context) este consistent cu același avantaj de izolare aliniată-pe-axe observat la clasele DoS lente.
