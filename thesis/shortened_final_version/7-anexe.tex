@@ -457,3 +457,37 @@ Heartbleed scade brusc, dar pe doar 11 fluxuri reale -- întreaga sa populație 
 Prima normalizare încercată, standardizarea $z$ (z-scoring) față de media și deviația standard proprii de antrenare benignă ale fiecărui model, s-a dovedit a fi o fundătură, nu un test autentic al niciunei reguli de combinare. Scorurile $z$ de eroare de reconstrucție ale lui AE+Context au cozi extrem de grele (maxim $z \approx 2366$ pe setul de test, cu percentila 99.9 a fluxurilor \emph{benigne} singure deja la $z \approx 227$), în timp ce scorurile $z$ ale lui Temporal IForest rămân strâns mărginite (maxim $z \approx 21$). Sub normalizarea $z$, o mână de valori extreme ale lui AE+Context domină orice combinație liniară sau maxim, indiferent de ponderea alocată lui Temporal IForest: atât regula maximului, cât și fiecare pondere de votare testată au reprodus aproape exact clasamentul propriu al lui AE+Context per clasă (de exemplu, AP-ul GoldenEye a rămas la $0.215$--$0.216$ pe toate cele cinci ponderi, față de $0.215$ al lui AE+Context singur), fără a arăta nicio influență din scorul de sine stătător mult mai puternic al lui Temporal IForest, $0.627$, pe acea clasă. Acesta este un artefact de normalizare, nu o dovadă că metoda combinării nu ajută -- nu testează de fapt ipoteza ansamblului.
 
 Înlocuirea standardizării $z$ cu normalizarea pe rang -- mapând fiecare scor de test la percentila sa în distribuția scorurilor proprii de antrenare benignă ale acelui model, prin funcția de distribuție cumulativă empirică (CDF) -- elimină această problemă prin construcție: fiecare scor normalizat este mărginit la $[0,1]$ indiferent cât de extremă este valoarea brută, deci coada niciunui model nu poate domina coada celuilalt prin simpla magnitudine.
+
+\chapter{Detalii ale Mecanismelor de Model}
+\label{sec:model-mechanisms}
+
+Această anexă completează \S\ref{sec:paradigms} cu detaliile mecanismelor fiecărui model, omise din textul principal pentru concizie.
+
+\section{One-Class SVM}
+
+Cei trei hiperparametri fixați identic pe toate seturile de date determină împreună forma graniței învățate:
+
+\begin{itemize}
+  \item \texttt{kernel='rbf'} fixează spațiul de caracteristici: fiecare punct de antrenare generează un \textbf{clopot gaussian} neted în jurul său, iar granița finală este conturul închis format prin suprapunerea acestor clopote în jurul zonelor dense de date.
+  \item \texttt{gamma='scale'} stabilește cât de largă este fiecare clopot gaussian, deci cât de strâns se poate curba granița în jurul structurii locale a datelor -- o valoare mai mare permite o graniță mai strânsă, dar cu risc mai mare ca modelul să învețe zgomotul.
+  \item \texttt{nu=0.01} controlează cât de strâns este forțată granița să încadreze datele de antrenare, limitând la $\sim$1\% fracția de puncte benigne pe care modelul are voie să le lase în afara ei.
+\end{itemize}
+
+\section{Isolation Forest}
+
+Numărul de arbori este dat de parametrul \texttt{n\_estimators}. Deoarece diviziunile sunt aleatoare, punctele ușor de separat de restul datelor -- anomaliile, care tind să se afle în regiuni rare, de densitate scăzută -- sunt izolate în mai puține diviziuni. Modelul returnează lungimea medie negată a căii, care este negată încă o dată aici, astfel încât un scor mai mare să însemne o cale mai scurtă (mai anormal), păstrând convenția consistentă cu toate celelalte modele. Parametrul \texttt{contamination} ar seta în mod normal pragul intern de decizie pe baza unei fracții presupuse de anomalii în datele de antrenare, dar cum datele de antrenare aici sunt exclusiv benigne, iar pragul de operare este ales extern, \texttt{contamination} nu are niciun efect asupra rezultatelor raportate -- contează doar scorul de anomalie continuu.
+
+\section{Autoencodere (MLP, LSTM) și LSTM Predictiv}
+
+Pentru Autoencoder Feedforward, dropout-ul este aplicat între straturile ascunse ale perechii encoder/decoder.
+
+Pentru Autoencoder LSTM, starea de celulă (nu doar starea ascunsă) este de asemenea păstrată ca parte a vectorului sumar transmis decoderului; starea ascunsă finală a encoderului este repetată identic la fiecare pas de timp ca intrare pentru decoder, ale cărui ieșiri per pas de timp sunt proiectate înapoi la dimensionalitatea originală printr-un strat liniar comun.
+
+Pentru LSTM Predictiv, modelul nu vede niciodată valoarea pe care este pus să o prezică; fiecare stare ascunsă de-a lungul parcursului este folosită pentru a produce o predicție, nu doar cea finală, spre deosebire de Autoencoder LSTM, unde doar starea finală contează.
+
+\section{Autoencodere Bazate pe Transformer}
+
+\begin{itemize}
+  \item \textbf{Bottleneck Transformer Autoencoder.} Fiecare caracteristică/pas de timp de intrare este proiectat(ă) într-un token de dimensiune $\texttt{D\_MODEL}$ și trecut(ă) prin encoderul transformer cu auto-atenție completă (non-cauzală), astfel încât fiecare poziție poate atenționa liber orice altă poziție. Reprezentările rezultate per poziție sunt apoi mediate global de-a lungul secvenței într-un singur vector de dimensiune $\texttt{D\_MODEL}$, comprimat printr-un strat liniar la un \texttt{LATENT\_DIM} strict mai mic, apoi extins înapoi printr-un al doilea strat liniar la forma completă a secvenței aplatizate. Acest pas de comprimare-extindere este bottleneck-ul explicit de informație care împiedică mecanismul de atenție să copieze pur și simplu intrarea în ieșire. Scor de anomalie: MSE per eșantion între intrare și reconstrucție, pe toate pozițiile deodată -- întreaga secvență reconstruită este produsă printr-o singură trecere prin rețea, nu pas cu pas ca la un decoder recurent.
+  \item \textbf{Causal Transformer.} Este folosită aceeași structură de encoder, dar cu o mască de atenție cauzală (triunghiulară superior) aplicată, astfel încât poziția $t$ poate atenționa doar pozițiile $0..t$; modelul este antrenat cu același obiectiv de predicție a pasului următor ca LSTM Predictiv, fără bottleneck de comprimare. Scor de anomalie: MSE per eșantion între valorile prezise și cele reale ale pasului următor.
+\end{itemize}

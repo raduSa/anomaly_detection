@@ -135,15 +135,15 @@ parenthetical folded in after moving the figure itself to Anexa G. Both context
 features (`ctx_min_port_cnt`, `ctx_min_flow_cnt`) and both class breakdowns (8/15,
 7/15) kept.
 
-**§5.2.3 "Construirea Scorului Combinat"** — heaviest compression in the chapter:
+**§5.2.3 "Construirea Scorului Combinat"** — heaviest compression in the chapter:   CHECK
 three paragraphs tightened by roughly a third, but both formulas
 ($s_{\text{soft}}$, $s_{\text{max}}$), the $w \in \{0.3,\dots,0.7\}$ range, and the
 rank-normalization vs. $z$-score rationale all kept intact.
 
-**§5.2.4 "Acoperire per Clasă vs. AP Agregat"** — both paragraphs tightened; every
+**§5.2.4 "Acoperire per Clasă vs. AP Agregat"** — both paragraphs tightened; every  CHECK
 number in the results table (0.882, 0.924, 0.943, 0.841, 0.205, etc.) kept.
 
-## `6-concluzii.tex`
+## `6-concluzii.tex`    CHECK
 
 All three paragraphs tightened, most heavily of any chapter since this is where the
 final page boundary was closed. Connective phrases like "Cât despre cele două

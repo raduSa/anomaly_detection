@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.7.20)  2 SEP 2026 18:28
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.7.20)  2 SEP 2026 20:37
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1462,19 +1462,13 @@ ntru Ansamblul AE+Context
 
  [5] (1-introducere.tex
 Capitolul 1.
-[6
+) (2-preliminarii.tex [6
 
-]) (2-preliminarii.tex
+]
 Capitolul 2.
-[7] [8]
-Overfull \hbox (37.68205pt too wide) in paragraph at lines 48--51
-[]\TU/lmr/m/n/12 Isolation Forest construiește un ansamblu de arbori (numărul l
-or dat de parametrul \TU/lmtt/m/n/12 n_estimators\TU/lmr/m/n/12 )
- []
-
-[9] [10] [11]) (3-methodology.tex
+[7] [8] [9] [10]) (3-methodology.tex
 Capitolul 3.
-[12] [13] [14]) (4-results.tex
+[11] [12]) (4-results.tex
 Capitolul 4.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
 (Font)              scaled to size 10.00107pt on input line 18.
@@ -1488,18 +1482,14 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 (Font)              scaled to size 6.99925pt on input line 18.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 (Font)              scaled to size 4.99947pt on input line 18.
-[15] [16] [17] [18] [19]
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[20] [21]) (5-explainability.tex
+[13] [14] [15] [16] [17] [18]) (5-explainability.tex [19]
 Capitolul 5.
-[22]
+[20]
 File: ../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/gini_co
 mparison.png Graphic file (type bmp)
 <../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/gini_compari
 son.png>
- [23] [24]
+ [21]
 File: ../../data/explainability/cicids_temporal_shap/1/ddos_top_feature_profile
 s.png Graphic file (type bmp)
 <../../data/explainability/cicids_temporal_shap/1/ddos_top_feature_profiles.png
@@ -1508,26 +1498,25 @@ File: ../../data/explainability/cicids_temporal_shap/1/dos_slowloris_top_featur
 e_profiles.png Graphic file (type bmp)
 <../../data/explainability/cicids_temporal_shap/1/dos_slowloris_top_feature_pro
 files.png>
-
-Overfull \hbox (0.93677pt too wide) in paragraph at lines 97--98
+ [22]
+Overfull \hbox (0.93677pt too wide) in paragraph at lines 87--88
 []\TU/lmr/m/n/12 SHAP a fost calculat cu \TU/lmtt/m/n/12 GradientExplainer \TU/
 lmr/m/n/12 pe eroarea de reconstrucție a lui AE+Context,
  []
 
-[25]
 File: ../../data/explainability/cicids_shap_portscan/5/autoencoder_context_port
 scan_shap.png Graphic file (type bmp)
 <../../data/explainability/cicids_shap_portscan/5/autoencoder_context_portscan_
 shap.png>
- [26]) (6-concluzii.tex
+[23] [24]) (6-concluzii.tex
 Capitolul 6.
-[27]) [28] (7-anexe.tex
+) [25] (7-anexe.tex
 Anexa 1.
-[29
+[26
 
-] [30]
+] [27]
 Anexa 2.
-[31] [32] [33]
+[28] [29] [30]
 Anexa 3.
 
 Underfull \hbox (badness 1048) in paragraph at lines 198--199
@@ -1545,12 +1534,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 202--202
 []\TU/lmr/m/n/12 F1 (clasa poziti-
  []
 
-[34] [35]
+[31] [32]
 Anexa 4.
-[36]
+[33]
 Anexa 5.
 Anexa 6.
-[37]
+[34]
 File: ../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/lstm_ae
 _error_heatmap.png Graphic file (type bmp)
 <../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/lstm_ae_erro
@@ -1565,7 +1554,7 @@ Overfull \hbox (17.39758pt too wide) in paragraph at lines 403--404
 imp ce eroarea LSTM Autoencoder-
  []
 
-[38]
+[35]
 Anexa 7.
 File: ../../data/explainability/cicids_temporal_shap/2/ddos_position_concentrat
 ion.png Graphic file (type bmp)
@@ -1581,32 +1570,33 @@ c file (type bmp)
 File: ../../data/explainability/cicids_temporal_shap/2/dos_slowloris_beeswarm.p
 ng Graphic file (type bmp)
 <../../data/explainability/cicids_temporal_shap/2/dos_slowloris_beeswarm.png>
-[39]
+[36]
 Anexa 8.
-[40]
+[37]
 Anexa 9.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
 (Font)              scaled to size 17.28183pt on input line 451.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 (Font)              scaled to size 17.27815pt on input line 451.
-) [41] [42] (main.aux (0-title.aux) (0-abstract.aux))
+Anexa 10.
+[38] [39]) [40] [41] (main.aux (0-title.aux) (0-abstract.aux))
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-06-18>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 613A2FF93125D5A8682668EB29D177C4;17068.
+(rerunfilecheck)             Checksum: 79F87F415C07F748C17B1BBE045C7CE0;18082.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 27029 strings out of 402629
- 515464 string characters out of 5438092
- 1509205 words of memory out of 5000000
- 55777 multiletter control sequences out of 15000+600000
+ 27031 strings out of 402629
+ 515498 string characters out of 5438092
+ 1510263 words of memory out of 5000000
+ 55779 multiletter control sequences out of 15000+600000
  631229 words of font info for 89 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  86i,13n,107p,1380b,5749s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main.pdf (42 pages).
+Output written on main.pdf (41 pages).
