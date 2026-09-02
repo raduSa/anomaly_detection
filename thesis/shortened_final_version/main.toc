@@ -50,18 +50,18 @@
 \contentsline {paragraph}{Rezumat pe tip de anomalie.}{20}{section*.10}%
 \contentsline {section}{\numberline {4.3}CIC-IDS2017 (Setul de Date C)}{21}{section.4.3}%
 \contentsline {subsection}{\numberline {4.3.1}Comparație Generală}{21}{subsection.4.3.1}%
-\contentsline {paragraph}{Caracteristicile de context al gazdei domină.}{22}{section*.11}%
+\contentsline {paragraph}{Caracteristicile de context al gazdei domină.}{21}{section*.11}%
 \contentsline {paragraph}{Adăugarea ferestrelor temporale, singură, nu ajută.}{22}{section*.12}%
 \contentsline {paragraph}{Reconstrucția depășește predicția.}{22}{section*.13}%
-\contentsline {subsection}{\numberline {4.3.2}Detaliere pe Tip de Atac}{23}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.2}Detaliere pe Tip de Atac}{22}{subsection.4.3.2}%
 \contentsline {paragraph}{Detectate constant.}{23}{section*.14}%
-\contentsline {paragraph}{Răspuns mixt la caracteristici de context pentru DoS la nivel de aplicație.}{24}{section*.15}%
-\contentsline {paragraph}{În mare parte nedetectabile, indiferent de setul de caracteristici.}{24}{section*.16}%
+\contentsline {paragraph}{Răspuns mixt la caracteristici de context pentru DoS la nivel de aplicație.}{23}{section*.15}%
+\contentsline {paragraph}{În mare parte nedetectabile, indiferent de setul de caracteristici.}{23}{section*.16}%
 \contentsline {subsection}{\numberline {4.3.3}Discuție}{24}{subsection.4.3.3}%
 \contentsline {paragraph}{Caracteristicile de context al gazdei sunt cea mai impactantă adăugare din acest studiu.}{24}{section*.17}%
 \contentsline {paragraph}{Un ansamblu practic.}{24}{section*.18}%
-\contentsline {chapter}{\numberline {5}Studii de Caz de Explicabilitate}{25}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Localizarea Erorii de Reconstrucție pe Yahoo A3}{25}{section.5.1}%
+\contentsline {chapter}{\numberline {5}Studii de Caz de Explicabilitate}{24}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Localizarea Erorii de Reconstrucție pe Yahoo A3}{24}{section.5.1}%
 \contentsline {subsection}{\numberline {5.1.1}Verificare Calitativă: Hărți Termice ale Erorii per Pas Temporal}{25}{subsection.5.1.1}%
 \contentsline {subsection}{\numberline {5.1.2}Verificare Cantitativă: Coeficientul Gini al Concentrării Erorii}{27}{subsection.5.1.2}%
 \contentsline {section}{\numberline {5.2}Regimuri de Caracteristici Disjuncte: AE+Context vs.\ Temporal IForest}{28}{section.5.2}%
@@ -94,9 +94,9 @@
 \contentsline {section}{\numberline {3.2}Rezultate Complete -- Credit Card Fraud Detection}{41}{appendix.C.2}%
 \contentsline {section}{\numberline {3.3}Rezultate Complete -- Yahoo Webscope S5}{42}{appendix.C.3}%
 \contentsline {section}{\numberline {3.4}Rezultate Complete -- CIC-IDS2017}{42}{appendix.C.4}%
-\contentsline {chapter}{\numberline {4}Compoziția pe Clase de Atac a Setului de Test Temporal CIC-IDS2017}{43}{appendix.D}%
+\contentsline {chapter}{\numberline {4}Compoziția pe Clase de Atac a Setului de Test CIC-IDS2017}{43}{appendix.D}%
 \contentsline {chapter}{\numberline {5}Verificare de Referință Trivială -- Yahoo S5 (Detalii)}{44}{appendix.E}%
-\contentsline {chapter}{\numberline {6}Diagnostice SHAP Suplimentare}{44}{appendix.F}%
+\contentsline {chapter}{\numberline {6}Diagnostice SHAP Suplimentare}{45}{appendix.F}%
 \contentsline {chapter}{\numberline {7}Validarea Scorului Temporal IForest Sub Etichetare pe Ultimul Flux}{46}{appendix.G}%
-\contentsline {chapter}{\numberline {8}Alinierea Scorurilor și Eșecul Standardizării $z$ pentru Ansamblul AE+Context + Temporal IForest}{46}{appendix.H}%
-\contentsline {chapter}{Bibliografie}{47}{appendix*.26}%
+\contentsline {chapter}{\numberline {8}Alinierea Scorurilor și Eșecul Standardizării $z$ pentru Ansamblul AE+Context + Temporal IForest}{47}{appendix.H}%
+\contentsline {chapter}{Bibliografie}{48}{appendix*.26}%

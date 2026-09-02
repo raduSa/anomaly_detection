@@ -160,39 +160,8 @@ Anomaliile sezoniere (A3) sunt locul unde avantajul paradigmei predictive este c
 
 \subsection{Comparație Generală}
 
-Înainte de a compara modelele, Tabelul~\ref{tab:cic-composition} detaliază pe clase fluxurile de atac agregate din setul de test flat/context, întrucât fiecare valoare AP raportată mai jos este calculată asupra întregii mulțimi agregate. Aceasta include \textbf{DoS Hulk} (158{,}469 fluxuri, la egalitate cu PortScan pentru cea mai mare clasă de atac).
-Totuși, \textcite{engelen2021troubleshooting} arată că unealta de atac DoS Hulk folosită pentru a genera acest set de date este configurată greșit -- setează antetul HTTP \texttt{Connection} pe \texttt{Close} în loc de \texttt{Keep-Alive}, astfel încât serverul web țintă termină conexiunea imediat, în loc să fie ținut ocupat, făcând atacul ineficient prin construcție. 
-În consecință, DoS Hulk este exclus în mod deliberat din detalierea \emph{pe clasă} din secțiunea~\ref{sec:cic-per-attack}. Această excludere se aplică doar raportării pe clasă, nu evaluării agregate: cele $\sim$158 mii de fluxuri DoS Hulk rămân parte a clasei pozitive față de care este calculată fiecare metrică agregată din Tabelul~\ref{tab:cic-results}.
-
-\begin{table}[h]
-\centering
-\begin{tabular}{@{}lrr@{}}
-\toprule
-Clasă de atac & $n$ (fluxuri) & \% din grupul de atacuri \\
-\midrule
-PortScan            & 159{,}000 & 36.66\% \\
-DoS Hulk            & 158{,}469 & 36.54\% \\
-DDoS                & 95{,}000  & 21.91\% \\
-DoS GoldenEye       & 7{,}500   & 1.73\%  \\
-DoS slowloris       & 4{,}000   & 0.92\%  \\
-FTP-Patator         & 4{,}000   & 0.92\%  \\
-SSH-Patator         & 3{,}000   & 0.69\%  \\
-DoS Slowhttptest    & 1{,}700   & 0.39\%  \\
-Bot                 & 738       & 0.17\%  \\
-Web Attack -- Brute Force & 151 & 0.03\%  \\
-Infiltration        & 32        & 0.01\%  \\
-Web Attack -- XSS    & 27        & 0.01\%  \\
-Web Attack -- SQL Injection & 12 & $<$0.01\% \\
-Heartbleed          & 11        & $<$0.01\% \\
-\bottomrule
-\end{tabular}
-\caption{CIC-IDS2017 -- compoziția pe clase de atac a fluxurilor de atac agregate din setul de test flat/context. DoS Hulk contribuie la fiecare metrică agregată din Tabelul~\ref{tab:cic-results}, dar este exclus din detalierea pe clasă din secțiunea~\ref{sec:cic-per-attack} (vezi textul).}
-\label{tab:cic-composition}
-\end{table}
-
-PortScan, DoS Hulk și DDoS reprezintă împreună 95.1\% din toate fluxurile de atac din această mulțime -- susținând afirmația, făcută repetat mai jos, că AP-ul agregat pe acest set de date este practic un proxy pentru performanța pe aceste trei clase. Celelalte zece clase rămase (toate sub 2\% individual, șapte dintre ele sub 0.2\%) au o influență limitată asupra clasamentului modelelor. Acesta este și motivul pentru care o detaliere pe atac este necesară (secțiunea~\ref{sec:cic-per-attack} de mai jos).
-
-Detalierea analoagă pentru setul de test cu ferestre al pipeline-ului temporal în Tabelul~\ref{tab:cic-composition-temporal} din Anexă (Capitolul~\ref{ch:cic-composition-temporal}).
+Înainte de a compara modelele, este important de punctat că fiecare valoare AP raportată mai jos este calculată pe întreaga mulțime de test flat/context agregată, în care PortScan, DoS Hulk și DDoS reprezintă împreună 95.1\% din toate fluxurile de atac (compoziția completă pe clase este în Tabelul~\ref{tab:cic-composition}, Anexa~\ref{ch:cic-composition-temporal}) -- susținând afirmația, făcută repetat mai jos, că AP-ul agregat pe acest set de date este practic un proxy pentru performanța pe aceste trei clase. Celelalte zece clase rămase (toate sub 2\% individual) au o influență limitată asupra clasamentului modelelor, motiv pentru care o detaliere pe atac este necesară (secțiunea~\ref{sec:cic-per-attack} de mai jos).
+\textbf{DoS Hulk} (158{,}469 fluxuri) rămâne parte a clasei pozitive pentru fiecare metrică agregată de mai jos, dar este exclus din detalierea \emph{pe clasă} din secțiunea~\ref{sec:cic-per-attack}, întrucât \textcite{engelen2021troubleshooting} arată că unealta folosită pentru a-l genera este configurată greșit (setează antetul HTTP \texttt{Connection} pe \texttt{Close} în loc de \texttt{Keep-Alive}), făcând atacul ineficient prin construcție.
 
 \begin{table}[H]
 \centering

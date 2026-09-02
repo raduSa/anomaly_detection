@@ -308,10 +308,36 @@ Predictive LSTM            & Temporal & -- & -- & -- & 0.6126 & 0.4472 & 0.5475 
 
 
 
-\chapter{Compoziția pe Clase de Atac a Setului de Test Temporal CIC-IDS2017}
+\chapter{Compoziția pe Clase de Atac a Setului de Test CIC-IDS2017}
 \label{ch:cic-composition-temporal}
 
-Tabelul~\ref{tab:cic-composition-temporal} detaliază pe clase ferestrele de atac agregate din setul de test al pipeline-ului temporal, analog Tabelului~\ref{tab:cic-composition} din Capitolul~\ref{ch:results} pentru setul flat/context. DoS Hulk este inclus aici din același motiv discutat acolo: fluxurile sale rămân parte a clasei pozitive pentru orice metrică agregată, deși este exclus din detalierea pe clasă din secțiunea~\ref{sec:cic-per-attack}.
+Tabelul~\ref{tab:cic-composition} detaliază pe clase fluxurile de atac agregate din setul de test flat/context (\S\ref{ch:results}); Tabelul~\ref{tab:cic-composition-temporal} detaliază, analog, ferestrele de atac agregate din setul de test al pipeline-ului temporal. DoS Hulk este inclus în ambele: fluxurile/ferestrele sale rămân parte a clasei pozitive pentru orice metrică agregată, deși este exclus din detalierea pe clasă din secțiunea~\ref{sec:cic-per-attack}.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Clasă de atac & $n$ (fluxuri) & \% din grupul de atacuri \\
+\midrule
+PortScan            & 159{,}000 & 36.66\% \\
+DoS Hulk            & 158{,}469 & 36.54\% \\
+DDoS                & 95{,}000  & 21.91\% \\
+DoS GoldenEye       & 7{,}500   & 1.73\%  \\
+DoS slowloris       & 4{,}000   & 0.92\%  \\
+FTP-Patator         & 4{,}000   & 0.92\%  \\
+SSH-Patator         & 3{,}000   & 0.69\%  \\
+DoS Slowhttptest    & 1{,}700   & 0.39\%  \\
+Bot                 & 738       & 0.17\%  \\
+Web Attack -- Brute Force & 151 & 0.03\%  \\
+Infiltration        & 32        & 0.01\%  \\
+Web Attack -- XSS    & 27        & 0.01\%  \\
+Web Attack -- SQL Injection & 12 & $<$0.01\% \\
+Heartbleed          & 11        & $<$0.01\% \\
+\bottomrule
+\end{tabular}
+\caption{CIC-IDS2017 -- compoziția pe clase de atac a fluxurilor de atac agregate din setul de test flat/context. DoS Hulk contribuie la fiecare metrică agregată din Tabelul~\ref{tab:cic-results}, dar este exclus din detalierea pe clasă din secțiunea~\ref{sec:cic-per-attack} (vezi textul).}
+\label{tab:cic-composition}
+\end{table}
 
 \begin{table}[H]
 \centering
