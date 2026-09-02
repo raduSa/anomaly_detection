@@ -172,6 +172,19 @@
   \typeout{Nu s-a putut reduce \string\vskip de după titlul de capitol (nenumerotat).}%
 }
 
+% Reduce dimensiunea fontului din titlul de capitol (implicit \Huge pentru
+% titlu și \huge pentru "Capitolul N", disproporționat de mare pentru acest
+% document).
+\patchcmd{\@makechapterhead}{\huge\bfseries}{\LARGE\bfseries}{}{%
+  \typeout{Nu s-a putut reduce fontul liniei "Capitolul N".}%
+}
+\patchcmd{\@makechapterhead}{\Huge \bfseries}{\Large\bfseries}{}{%
+  \typeout{Nu s-a putut reduce fontul titlului de capitol (numerotat).}%
+}
+\patchcmd{\@makeschapterhead}{\Huge \bfseries}{\Large\bfseries}{}{%
+  \typeout{Nu s-a putut reduce fontul titlului de capitol (nenumerotat).}%
+}
+
 \begin{document}
 
 % Front matter
@@ -182,7 +195,7 @@
 \include{0-title}
 \restoregeometry
 \newgeometry{
-    margin=2.5cm
+    margin=2.1cm
 }
 
 \fancypagestyle{main}{
