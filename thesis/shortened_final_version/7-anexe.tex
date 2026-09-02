@@ -385,6 +385,23 @@ Referința obține ROC-AUC 0.508 și AP 0.348 -- aproape aleator, așa cum era d
 
 AP-ul propriu al referinței (0.348) se apropie îndeaproape de prior-ul de $\sim$33\% ferestre pozitive pe A3 (el însuși ridicat de estomparea etichetei la nivel de fereastră discutată în secțiunea~\ref{sec:preprocessing}), confirmând că referința este zgomot pur și că AP-ul brut al unui model este parțial o funcție a acestui prior umflat, nu doar a structurii învățate.
 
+\chapter{Hărți Termice ale Erorii de Reconstrucție -- Yahoo A3}
+\label{ch:yahoo-heatmap-appendix}
+
+Această anexă completează \S\ref{sec:explain-yahoo} cu verificarea calitativă preliminară a localizării erorii de reconstrucție. Ambele modele antrenate au fost folosite pentru reconstrucție pe fiecare fereastră anormală din setul de test A3, iar eroarea pătratică per pas temporal a fost reprezentată ca o hartă termică (câte un rând per fereastră, câte o coloană per pas temporal), pe un subeșantion aleator de 300 de ferestre.
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.4\textheight,keepaspectratio]{../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/lstm_ae_error_heatmap.png}%
+\hspace{0.04\textwidth}%
+\includegraphics[height=0.4\textheight,keepaspectratio]{../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/transformer_bottleneck_error_heatmap.png}
+
+\caption{LSTM Autoencoder (stânga) vs.\ Transformer Bottleneck Autoencoder (dreapta) -- eroarea pătratică de reconstrucție per pas temporal pe aceleași 300 de ferestre A3 anormale, eșantionate aleator (câte un rând per fereastră, aceeași ordine a rândurilor). Eroarea ridicată a LSTM AE apare mai des răspândită subțire pe toată lățimea, cu un nivel de bază ușor ridicat pe multe rânduri; eroarea Transformer-ului este vizibil mai rară și limitată la pași temporali izolați.}
+\label{fig:explain-lstm-heatmap}
+\end{figure}
+
+Comparația vizuală este în linii mari consistentă cu ipoteza inițială -- eroarea Transformer-ului se concentrează în puncte mai puține și mai luminoase, în timp ce eroarea LSTM Autoencoder-ului este mai des răspândită subțire pe toată lățimea unei ferestre. Totuși, harta termică citită cu ochiul liber nu este îndeajuns pentru a confirma mecanismul: fiecare panou este normalizat pe propria sa scală de culoare, iar valorile de eroare ale LSTM Autoencoder-ului sunt, ca magnitudine, aproximativ duble față de cele ale Transformer-ului pe tot parcursul -- de unde necesitatea verificării cantitative din \S\ref{sec:explain-yahoo}.
+
 \chapter{Diagnostice SHAP Suplimentare}
 \label{ch:temporal-shap-extra}
 

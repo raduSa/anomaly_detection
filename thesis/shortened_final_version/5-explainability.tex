@@ -6,29 +6,10 @@ Acest capitol testează afirmații specifice făcute în Capitolul~\ref{ch:resul
 \section{Localizarea Erorii de Reconstrucție pe Yahoo A3}
 \label{sec:explain-yahoo}
 
-Discuția despre A3 din Capitolul~\ref{ch:results} atribuie avantajul Transformer Bottleneck Autoencoder-ului față de LSTM Autoencoder (AP 0.663 vs.\ 0.392, ROC-AUC 0.813 vs.\ 0.566) unei diferențe dintre cele două bottleneck-uri: LSTM Autoencoder comprimă o fereastră întreagă de 64 de pași într-o singură stare ascunsă finală, ceea ce ar trebui să distrugă informația de fază sezonieră a ferestrei;
-auto-atenția globală a Transformer-ului, în schimb, se presupune că păstrează suficientă informație pozițională pentru a localiza eroarea de reconstrucție precis, la pasul temporal specific unde faza ferestrei este încălcată.
-Astfel, se presupune că, pentru ferestrele A3 anormale, LSTM Autoencoder-ul ar trebui să producă o eroare de reconstrucție difuzată uniform pe toți pașii temporali, în timp ce eroarea per pas temporal a Transformer-ului ar trebui să prezinte un vârf ascuțit, localizat, la poziția unde tiparul sezonier este încălcat.
+Discuția despre A3 din Capitolul~\ref{ch:results} atribuie avantajul Transformer Bottleneck Autoencoder-ului față de LSTM Autoencoder (AP 0.663 vs.\ 0.392, ROC-AUC 0.813 vs.\ 0.566) unei diferențe dintre cele două bottleneck-uri: LSTM Autoencoder comprimă o fereastră întreagă de 64 de pași într-o singură stare ascunsă finală, ceea ce ar trebui să distrugă informația de fază sezonieră, în timp ce auto-atenția globală a Transformer-ului ar trebui să păstreze suficientă informație pozițională pentru a localiza eroarea precis, la pasul unde faza este încălcată. Se presupune deci că, pentru ferestrele A3 anormale, LSTM Autoencoder produce o eroare difuzată uniform pe toți pașii, în timp ce eroarea Transformer-ului prezintă un vârf ascuțit, localizat, la poziția unde tiparul sezonier e încălcat.
 
-\subsection{Verificare Calitativă: Hărți Termice ale Erorii per Pas Temporal}
-
-Ambele modele antrenate au fost folosite pentru reconstrucție pe fiecare fereastră anormală din setul de test A3, iar eroarea pătratică per pas temporal a fost reprezentată ca o hartă termică (câte un rând per fereastră, câte o coloană pentru fiecare din cei 64 de pași temporali), folosind un subeșantion aleator de 300 de ferestre pentru a păstra imaginea lizibilă.
-Figurile~\ref{fig:explain-lstm-heatmap} și~\ref{fig:explain-transformer-heatmap} arată rezultatul.
-
-\begin{figure}[H]
-\centering
-\includegraphics[height=0.55\textheight,keepaspectratio]{../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/lstm_ae_error_heatmap.png}%
-\hspace{0.04\textwidth}%
-\includegraphics[height=0.55\textheight,keepaspectratio]{../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/transformer_bottleneck_error_heatmap.png}
-
-\caption{LSTM Autoencoder -- eroarea pătratică de reconstrucție per pas temporal pe 300 de ferestre A3 anormale, eșantionate aleator (câte un rând per fereastră, stânga). Eroarea ridicată apare ca puncte rare, mai degrabă decât ca o bandă uniformă, dar o proporție vizibil mai mare de rânduri prezintă un nivel de bază ușor ridicat pe aproape toată lățimea, comparativ cu Transformer-ul.}
-\label{fig:explain-lstm-heatmap}
-\caption{Transformer Bottleneck Autoencoder -- eroarea pătratică de reconstrucție per pas temporal pe aceleași 300 de ferestre A3 anormale, aceeași ordine a rândurilor și aceeași convenție de scală de culoare ca în Figura~\ref{fig:explain-lstm-heatmap} (dreapta). Eroarea este vizibil mai rară și limitată la pași temporali izolați.}
-\label{fig:explain-transformer-heatmap}
-\end{figure}
-
-Comparația vizuală este în linii mari consistentă cu ipoteza inițială -- eroarea Transformer-ului se concentrează în puncte mai puține și mai luminoase, în timp ce eroarea LSTM Autoencoder-ului este mai des răspândită subțire pe toată lățimea unei ferestre. 
-Totuși, harta termică citită cu ochiul liber nu este îndeajuns pentru a confirma mecanismul: fiecare panou este normalizat pe propria sa scală de culoare, iar valorile de eroare ale LSTM Autoencoder-ului sunt, ca magnitudine, aproximativ duble față de cele ale Transformer-ului pe tot parcursul.
+O verificare calitativă preliminară (hărți termice ale erorii per pas temporal -- Anexa~\ref{ch:yahoo-heatmap-appendix}) este în linii mari consistentă cu ipoteza inițială, dar nu este suficientă pentru a confirma ipoteza, deoarece fiecare panou este normalizat pe propria sa scală de culoare, iar valorile de eroare ale LSTM
+Autoencoder-ului sunt, ca magnitudine, aproximativ duble față de cele ale Transformerului pe tot parcursul. Este necesară o măsură cantitativă, invariantă la scala absolută.
 
 \subsection{Verificare Cantitativă: Coeficientul Gini al Concentrării Erorii}
 
