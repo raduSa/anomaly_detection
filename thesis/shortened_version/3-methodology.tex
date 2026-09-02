@@ -1,0 +1,53 @@
+\chapter{Metode și Configurare Experimentală}
+\label{ch:methodology}
+
+% This chapter explains every model and every shared experimental choice
+% (preprocessing, hyperparameters, evaluation protocol) that applies across
+% all three datasets. Dataset-specific preprocessing details that don't
+% generalize (e.g. exact feature counts, window lengths) can either stay
+% here at a high level or move into the per-dataset Results subsections --
+% decide per case once the prose is drafted.
+
+Hiperparametrii și alegerile legate de antrenare, per model (optimizator, număr de epoci, lățimi ale straturilor și toate celelalte detalii de arhitectură, câte un tabel per model pentru cele patru variante de set de date/set de caracteristici), sunt prezentate în Anexa~\ref{sec:architecture}.
+
+\section{Preprocesare}
+\label{sec:preprocessing}
+
+Două principii se aplică la toate cele trei pipeline-uri:
+În primul rând, fiecare model este antrenat exclusiv pe eșantioane benigne/normale (\emph{novelty detection}):
+partiția de antrenare nu conține niciodată o anomalie, iar toate scalerele/normalizatoarele sunt \emph{potrivite} (\emph{fit}) doar pe partiția de antrenare, apoi aplicate neschimbate pe partiția de testare -- astfel evităm probleme de data leakage.
+În al doilea rând, partiția de testare conține întotdeauna ambele clase, evaluate cu protocolul descris în \S\ref{sec:eval-protocol}.
+
+\subsection{Preprocesare Tabelară (Credit Card)}
+
+\texttt{Time} este eliminat (nu reprezintă informație semnificativă). Rândurile benigne (\texttt{Class=0}) sunt împărțite 80/20 în antrenare/test-benign (antrenarea rămâne exclusiv benignă, $\sim$227{,}451 rânduri), iar setul de testare adaugă \emph{toate} cele 492 de rânduri de fraudă. Scalarea este asimetrică: \texttt{V1--V28} rămân nescalate (deja caracteristici PCA), iar \texttt{Amount} este scalat independent cu un \texttt{RobustScaler}, ales pentru robustețea sa la coada dreaptă accentuată. Pașii exacți sunt detaliați în Anexa~\ref{sec:preprocessing-details}.
+
+\subsection{Crearea de Ferestre pentru Serii de Timp (Yahoo S5)}
+
+Fiecare serie este împărțită temporal 70/30 (\texttt{TRAIN\_FRAC=0.70}, fără amestecare aleatoare), scalată \emph{per serie} cu un \texttt{MinMaxScaler} potrivit doar pe punctele neanormale de antrenare, apoi transformată în ferestre de lungime \texttt{WINDOW=64} (pas 4, subeșantionat, la antrenare; pas 1, dens, la testare). Eticheta unei ferestre urmează regula \enquote{oricare}: pozitivă dacă cel puțin un pas este anormal -- o sursă de \enquote{estompare} a etichetelor (de exemplu pe A1, o rată de $1.76\%$ la nivel de punct devine $\sim$17--18\% la nivel de fereastră). Detaliile complete ale acestei proceduri, precum și comparația metodologică cu referința DeepAnt~\parencite{munir2019deepant}, sunt prezentate în Anexa~\ref{sec:preprocessing-details}.
+
+\subsection{Preprocesarea Fluxurilor de Rețea (CIC-IDS2017)}
+
+Există trei implementări pentru acest set de date, toate având la bază aceiași pași de curățare (eliminarea coloanelor de identificare, codificare one-hot pentru \texttt{Protocol}, imputare cu mediana, \texttt{MinMaxScaler} potrivit doar pe antrenare, împărțire pe zile: luni antrenare, marți--vineri testare), dar diferind prin unitatea de observație: \textbf{Plat} (un rând = un flux, 77 caracteristici), \textbf{Temporal} (un rând = o fereastră de \texttt{WINDOW=16} fluxuri consecutive de la aceeași adresă IP sursă) și \textbf{Context de gazdă} (fluxuri individuale suplimentate cu 9 caracteristici cauzale, calculate dintr-o fereastră glisantă de 60 de secunde per IP gazdă -- numărul de fluxuri, porturi unice, rata de diversitate a porturilor etc. -- urmând adaptarea nesupervizată a lui \textcite{raskovalov2024nids}, 86 caracteristici în total). Gruparea se face după IP sursă, nu după sesiunea 5-tuplu individuală, întrucât comportamentul la nivel de gazdă caracterizează atacuri precum PortScan sau DoS mai bine decât structura unei singure conexiuni. Detalii complete ale fiecărei variante sunt prezentate în Anexa~\ref{sec:preprocessing-details}.
+
+
+\section{Protocolul de Evaluare}
+\label{sec:eval-protocol}
+
+La testare, fiecare model produce un scor scalar de anomalie per eșantion -- niciodată o etichetă directă -- iar această etichetă este obținută prin aplicarea unui prag asupra scorului, urmând procedura descrisă mai jos.
+
+\subsection{Metrici Raportate}
+
+Lista completă a metricilor raportate de fiecare rulare, precum și rezultatele complete pe toate aceste metrici pentru fiecare model și set de date, sunt prezentate în Anexa~\ref{sec:eval-metrics}.
+
+PR-AUC (Precizia Medie) este tratată drept metrica principală pentru compararea modelelor pe tot parcursul acestei lucrări, în locul F1 sau ROC-AUC, urmând raționamentul lui \textcite{kim2022rigorous}: prestabilirea unui prag de decizie fără acces la setul de testare nu este practică, iar metodele existente raportează în schimb F1 la orice prag care se întâmplă să îl maximizeze, ceea ce face rezultatele raportate dependente de prag prin construcție. Aceștia concluzionează că \enquote{metrici suplimentare cu dependență redusă, precum AUROC sau aria de sub curba precizie-recall (AUPR), vor ajuta la o evaluare riguroasă} -- justificarea adoptată aici pentru clasificarea modelelor după PR-AUC. ROC-AUC este raportat de asemenea, mai mult pentru completitudine/comparabilitate cu literatura anterioară, iar pentru CIC-IDS2017 este raportată suplimentar Precizia Medie defalcată pe tip de atac, pentru a susține discuția per-tip-de-atac din \S\ref{ch:results}.
+
+\subsection{Selecția Pragului}
+
+Se alege totuși un singur prag de decizie per model/set de date pentru a raporta metricile secundare, dependente de prag (F1, acuratețe echilibrată, matrice de confuzie): se baleiază toate pragurile de pe curba precizie-recall și se alege cel care maximizează $F_\beta$ cu $\beta=2$, ponderând recall-ul de două ori mai mult decât precizia -- orice $\beta>1$ ar exprima aceeași preferință rezonabilă pentru un scenariu de detecție a anomaliilor/fraudelor, unde o anomalie ratată e de obicei mai costisitoare decât o alarmă falsă; $\beta=2$ a fost fixat ca alegere reprezentativă.
+
+Acesta este un prag de tip \emph{oracol}, selectat folosind chiar curba precizie-recall a setului de testare, care nu ar fi mereu disponibilă în realitate. L-am considerat totuși acceptabil, întrucât obiectul de studiu este comparația relativă între modele/paradigme la cel mai bun punct de operare atins, iar PR-AUC nu depinde deloc de selecția pragului -- cifrele F2/F1/acuratețe echilibrată la pragul oracol trebuie citite drept cifre secundare, ilustrative.
+
+\subsection{Fără Protocolul \emph{Point Adjustment}}
+
+Multe lucrări despre detecția anomaliilor în serii de timp aplică \emph{Ajustarea de Punct} (\emph{Point Adjustment}, PA): dacă orice punct dintr-un segment contiguu de anomalie din datele de referință este semnalat, întregul segment este considerat detectat. \textcite{kim2022rigorous} arată că acest lucru poate umfla F1 până aproape de 1 chiar și pentru scoruri aleatorii, atunci când segmentele de anomalie sunt lungi, și că F1 ajustat prin PA este aproape necorelat cu F1 neajustat (Pearson $r=-0.59$ pe SWaT, în studiul lor). Nicio ajustare PA nu este aplicată aici: etichetele ferestrelor/fluxurilor sunt fixate la preprocesare, iar predicțiile sunt evaluate exact așa cum rezultă din pragul aplicat, fără ajustare retroactivă.

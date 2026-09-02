@@ -1,0 +1,104 @@
+\xpg@aux {}{romanian}
+\xpg@aux {}{romanian}
+\xpg@aux {}{romanian}
+\xpg@aux {}{english}
+\xpg@aux {}{romanian}
+\contentsline {chapter}{\numberline {1}Introducere}{6}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Context și Motivație}{6}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Structura Lucrării}{7}{section.1.2}%
+\contentsline {chapter}{\numberline {2}Preliminarii}{7}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Proiectarea și Abordarea Cercetării}{7}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Ipoteze și Comportament Așteptat}{8}{subsection.2.1.1}%
+\contentsline {section}{\numberline {2.2}Algoritmi de Detecție a Anomaliilor}{8}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Modele Clasice: One-Class SVM și Isolation Forest}{8}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Autoencoder Feedforward (MLP)}{9}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Autoencoder LSTM}{9}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}LSTM Predictiv}{9}{subsection.2.2.4}%
+\contentsline {subsection}{\numberline {2.2.5}Autoencodere Bazate pe Transformer}{9}{subsection.2.2.5}%
+\contentsline {section}{\numberline {2.3}Seturile de Date}{10}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Credit Card Fraud Detection (Setul de Date A)}{10}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Yahoo Webscope S5 (Setul de Date B)}{10}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}CIC-IDS2017 (Setul de Date C)}{11}{subsection.2.3.3}%
+\contentsline {chapter}{\numberline {3}Metode și Configurare Experimentală}{11}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Preprocesare}{11}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Preprocesare Tabelară (Credit Card)}{12}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Crearea de Ferestre pentru Serii de Timp (Yahoo S5)}{12}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}Preprocesarea Fluxurilor de Rețea (CIC-IDS2017)}{12}{subsection.3.1.3}%
+\contentsline {section}{\numberline {3.2}Protocolul de Evaluare}{12}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Metrici Raportate}{13}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Selecția Pragului}{13}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Fără Protocolul \emph {Point Adjustment}}{13}{subsection.3.2.3}%
+\contentsline {chapter}{\numberline {4}Rezultate Experimentale}{14}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Detectarea Fraudei cu Cardul de Credit (Setul de Date A)}{14}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Comparație Generală}{14}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Discuție}{14}{subsection.4.1.2}%
+\contentsline {paragraph}{Nu există o secvență autentică în acest set de date.}{14}{section*.2}%
+\contentsline {paragraph}{Impact asupra rezultatelor.}{14}{section*.3}%
+\contentsline {paragraph}{Observații la nivel de paradigmă.}{15}{section*.4}%
+\contentsline {paragraph}{Sanity check.}{15}{section*.5}%
+\contentsline {section}{\numberline {4.2}Yahoo Webscope S5 (Setul de Date B)}{15}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}A1 -- Anomalii Punctuale (Metrici Reale de Server)}{15}{subsection.4.2.1}%
+\contentsline {paragraph}{Discuție.}{16}{section*.6}%
+\contentsline {subsection}{\numberline {4.2.2}A3 -- Anomalii Contextuale/Sezoniere}{16}{subsection.4.2.2}%
+\contentsline {paragraph}{Discuție.}{16}{section*.7}%
+\contentsline {subsection}{\numberline {4.2.3}A4 -- Anomalii de Tip Schimbare-de-Nivel}{16}{subsection.4.2.3}%
+\contentsline {paragraph}{Discuție.}{16}{section*.8}%
+\contentsline {subsection}{\numberline {4.2.4}Verificare de Referință Trivială (Doar Yahoo)}{17}{subsection.4.2.4}%
+\contentsline {subsection}{\numberline {4.2.5}Discuție}{17}{subsection.4.2.5}%
+\contentsline {paragraph}{Atât paradigma, cât și arhitectura contează.}{17}{section*.9}%
+\contentsline {paragraph}{Rezumat pe tip de anomalie.}{18}{section*.10}%
+\contentsline {section}{\numberline {4.3}CIC-IDS2017 (Setul de Date C)}{18}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Comparație Generală}{18}{subsection.4.3.1}%
+\contentsline {paragraph}{Caracteristicile de context al gazdei domină.}{18}{section*.11}%
+\contentsline {paragraph}{Adăugarea ferestrelor temporale, singură, nu ajută.}{19}{section*.12}%
+\contentsline {paragraph}{Reconstrucția depășește predicția.}{19}{section*.13}%
+\contentsline {subsection}{\numberline {4.3.2}Detaliere pe Tip de Atac}{19}{subsection.4.3.2}%
+\contentsline {paragraph}{Detectate constant.}{19}{section*.14}%
+\contentsline {paragraph}{Răspuns mixt la caracteristici de context pentru DoS la nivel de aplicație.}{20}{section*.15}%
+\contentsline {paragraph}{În mare parte nedetectabile, indiferent de setul de caracteristici.}{20}{section*.16}%
+\contentsline {subsection}{\numberline {4.3.3}Discuție}{20}{subsection.4.3.3}%
+\contentsline {paragraph}{Caracteristicile de context al gazdei sunt cea mai impactantă adăugare din acest studiu.}{20}{section*.17}%
+\contentsline {paragraph}{Un ansamblu practic.}{20}{section*.18}%
+\contentsline {chapter}{\numberline {5}Studii de Caz de Explicabilitate}{20}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Localizarea Erorii de Reconstrucție pe Yahoo A3}{21}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Verificare Cantitativă: Coeficientul Gini al Concentrării Erorii}{21}{subsection.5.1.1}%
+\contentsline {section}{\numberline {5.2}Regimuri de Caracteristici Disjuncte: AE+Context vs.\ Temporal IForest}{22}{section.5.2}%
+\contentsline {paragraph}{O scurtă introducere la SHAP.}{22}{section*.19}%
+\contentsline {subsection}{\numberline {5.2.1}Temporal IForest: Atribuire SHAP pe Toată Fereastra}{23}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}AE+Context: SHAP Dominat de Caracteristici de Context al Gazdei}{24}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Construirea Scorului Combinat}{24}{subsection.5.2.3}%
+\contentsline {subsection}{\numberline {5.2.4}Acoperire per Clasă vs.\ AP Agregat}{25}{subsection.5.2.4}%
+\contentsline {chapter}{\numberline {6}Concluzii}{25}{chapter.6}%
+\contentsline {chapter}{Anexe}{26}{section*.20}%
+\contentsline {chapter}{\numberline {1}Detalii Suplimentare de Preprocesare}{26}{appendix.A}%
+\contentsline {section}{\numberline {1.1}Preprocesare Tabelară (Credit Card)}{26}{appendix.A.1}%
+\contentsline {section}{\numberline {1.2}Crearea de Ferestre pentru Serii de Timp (Yahoo S5)}{26}{appendix.A.2}%
+\contentsline {paragraph}{Comparație cu DeepAnt.}{27}{section*.21}%
+\contentsline {section}{\numberline {1.3}Preprocesarea Fluxurilor de Rețea (CIC-IDS2017)}{27}{appendix.A.3}%
+\contentsline {paragraph}{Plat}{28}{section*.22}%
+\contentsline {paragraph}{Temporal}{28}{section*.23}%
+\contentsline {paragraph}{Context de gazdă}{28}{section*.24}%
+\contentsline {chapter}{\numberline {2}Alegeri legate de Hiperparametri și Antrenare}{28}{appendix.B}%
+\contentsline {section}{\numberline {2.1}Isolation Forest}{29}{appendix.B.1}%
+\contentsline {section}{\numberline {2.2}One-Class SVM}{29}{appendix.B.2}%
+\contentsline {section}{\numberline {2.3}Autoencoder Feedforward (MLP)}{30}{appendix.B.3}%
+\contentsline {section}{\numberline {2.4}LSTM Predictiv}{30}{appendix.B.4}%
+\contentsline {section}{\numberline {2.5}Autoencoder LSTM}{30}{appendix.B.5}%
+\contentsline {section}{\numberline {2.6}Detalii de Arhitectură: Autoencodere Bazate pe Transformer}{31}{appendix.B.6}%
+\contentsline {paragraph}{De ce un singur \texttt {TransformerEncoder}.}{31}{section*.25}%
+\contentsline {section}{\numberline {2.7}Bottleneck Transformer Autoencoder}{32}{appendix.B.7}%
+\contentsline {section}{\numberline {2.8}Causal Transformer}{32}{appendix.B.8}%
+\contentsline {chapter}{\numberline {3}Protocolul de Evaluare: Metrici și Rezultate Complete}{32}{appendix.C}%
+\contentsline {section}{\numberline {3.1}Metrici Raportate}{32}{appendix.C.1}%
+\contentsline {paragraph}{Notă privind consistența numerelor.}{33}{section*.26}%
+\contentsline {section}{\numberline {3.2}Rezultate Complete -- Credit Card Fraud Detection}{33}{appendix.C.2}%
+\contentsline {section}{\numberline {3.3}Rezultate Complete -- Yahoo Webscope S5}{34}{appendix.C.3}%
+\contentsline {section}{\numberline {3.4}Rezultate Complete -- CIC-IDS2017}{34}{appendix.C.4}%
+\contentsline {section}{\numberline {3.5}Detaliere Suplimentară pe Tip de Atac -- Modele cu Context}{34}{appendix.C.5}%
+\contentsline {chapter}{\numberline {4}Compoziția pe Clase de Atac a Setului de Test CIC-IDS2017}{35}{appendix.D}%
+\contentsline {chapter}{\numberline {5}Verificare de Referință Trivială -- Yahoo S5 (Detalii)}{37}{appendix.E}%
+\contentsline {chapter}{\numberline {6}Hărți Termice ale Erorii de Reconstrucție -- Yahoo A3}{37}{appendix.F}%
+\contentsline {chapter}{\numberline {7}Diagnostice SHAP Suplimentare}{38}{appendix.G}%
+\contentsline {chapter}{\numberline {8}Validarea Scorului Temporal IForest Sub Etichetare pe Ultimul Flux}{40}{appendix.H}%
+\contentsline {chapter}{\numberline {9}Alinierea Scorurilor și Eșecul Standardizării $z$ pentru Ansamblul AE+Context + Temporal IForest}{41}{appendix.I}%
+\contentsline {chapter}{Bibliografie}{42}{appendix*.27}%

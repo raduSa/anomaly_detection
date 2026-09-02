@@ -1,0 +1,193 @@
+\chapter{Studii de Caz de Explicabilitate}
+\label{ch:explainability}
+
+Acest capitol testează afirmații specifice făcute în Capitolul~\ref{ch:results} prin diagnostice țintite, în loc să se bazeze doar pe metricile agregate.
+
+\section{Localizarea Erorii de Reconstrucție pe Yahoo A3}
+\label{sec:explain-yahoo}
+
+Discuția despre A3 din Capitolul~\ref{ch:results} atribuie avantajul Transformer Bottleneck Autoencoder-ului față de LSTM Autoencoder (AP 0.663 vs.\ 0.392, ROC-AUC 0.813 vs.\ 0.566) unei diferențe dintre cele două bottleneck-uri: LSTM Autoencoder comprimă o fereastră întreagă de 64 de pași într-o singură stare ascunsă finală, ceea ce ar trebui să distrugă informația de fază sezonieră a ferestrei;
+auto-atenția globală a Transformer-ului, în schimb, se presupune că păstrează suficientă informație pozițională pentru a localiza eroarea de reconstrucție precis, la pasul temporal specific unde faza ferestrei este încălcată.
+Astfel, se presupune că, pentru ferestrele A3 anormale, LSTM Autoencoder-ul ar trebui să producă o eroare de reconstrucție difuzată uniform pe toți pașii temporali, în timp ce eroarea per pas temporal a Transformer-ului ar trebui să prezinte un vârf ascuțit, localizat, la poziția unde tiparul sezonier este încălcat.
+
+\subsection{Verificare Calitativă: Hărți Termice ale Erorii per Pas Temporal}
+
+Ambele modele antrenate au fost folosite pentru reconstrucție pe fiecare fereastră anormală din setul de test A3, iar eroarea pătratică per pas temporal a fost reprezentată ca o hartă termică (câte un rând per fereastră, câte o coloană pentru fiecare din cei 64 de pași temporali), folosind un subeșantion aleator de 300 de ferestre pentru a păstra imaginea lizibilă.
+Figurile~\ref{fig:explain-lstm-heatmap} și~\ref{fig:explain-transformer-heatmap} arată rezultatul.
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.55\textheight,keepaspectratio]{../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/lstm_ae_error_heatmap.png}%
+\hspace{0.04\textwidth}%
+\includegraphics[height=0.55\textheight,keepaspectratio]{../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/transformer_bottleneck_error_heatmap.png}
+
+\caption{LSTM Autoencoder -- eroarea pătratică de reconstrucție per pas temporal pe 300 de ferestre A3 anormale, eșantionate aleator (câte un rând per fereastră, stânga). Eroarea ridicată apare ca puncte rare, mai degrabă decât ca o bandă uniformă, dar o proporție vizibil mai mare de rânduri prezintă un nivel de bază ușor ridicat pe aproape toată lățimea, comparativ cu Transformer-ul.}
+\label{fig:explain-lstm-heatmap}
+\caption{Transformer Bottleneck Autoencoder -- eroarea pătratică de reconstrucție per pas temporal pe aceleași 300 de ferestre A3 anormale, aceeași ordine a rândurilor și aceeași convenție de scală de culoare ca în Figura~\ref{fig:explain-lstm-heatmap} (dreapta). Eroarea este vizibil mai rară și limitată la pași temporali izolați.}
+\label{fig:explain-transformer-heatmap}
+\end{figure}
+
+Comparația vizuală este în linii mari consistentă cu ipoteza inițială -- eroarea Transformer-ului se concentrează în puncte mai puține și mai luminoase, în timp ce eroarea LSTM Autoencoder-ului este mai des răspândită subțire pe toată lățimea unei ferestre. 
+Totuși, harta termică citită cu ochiul liber nu este îndeajuns pentru a confirma mecanismul: fiecare panou este normalizat pe propria sa scală de culoare, iar valorile de eroare ale LSTM Autoencoder-ului sunt, ca magnitudine, aproximativ duble față de cele ale Transformer-ului pe tot parcursul.
+
+\subsection{Verificare Cantitativă: Coeficientul Gini al Concentrării Erorii}
+
+Pentru a separa concentrarea reală a erorii de un artefact al diferenței de magnitudine globală a erorii, cele 64 de erori pătratice per pas temporal ale fiecărei ferestre anormale au fost sumarizate printr-un coeficient Gini -- o măsură standard de inegalitate (folosită inițial pentru distribuții de venit) care este invariantă la scala absolută a datelor de intrare.
+Pentru cele 64 de valori de eroare ale unei ferestre, sortate crescător, un Gini de 0 înseamnă că eroarea este răspândită perfect uniform pe fiecare pas temporal, iar un Gini de 1 înseamnă că este concentrată în întregime la un singur pas temporal.
+
+Pentru $n$ erori pătratice per pas temporal $x_1 \le x_2 \le \dots \le x_n$ sortate crescător (aici $n=64$), coeficientul Gini se calculează ca
+
+\begin{equation}
+G = \frac{2 \sum_{i=1}^{n} i \, x_i}{n \sum_{i=1}^{n} x_i} - \frac{n+1}{n}.
+\label{eq:gini}
+\end{equation}
+
+Calculat pe întreaga populație de 14{,}449 ferestre A3 anormale, cele două modele se separă clar:
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+ & Gini Mediu & Gini Median \\
+\midrule
+LSTM Autoencoder & 0.566 & 0.606 \\
+Transformer Bottleneck Autoencoder & 0.721 & 0.724 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/gini_comparison.png}
+\caption{Distribuția coeficienților Gini per fereastră, pe toate cele 14{,}449 ferestre A3 anormale. Distribuția Transformer-ului este unimodală și deplasată spre concentrare ridicată (Gini $>0.6$); distribuția LSTM Autoencoder-ului este bimodală, cu o majoritate grupată aproape de intervalul Transformer-ului, dar cu o populație secundară distinctă răspândită la valori Gini scăzute.}
+\label{fig:explain-gini}
+\end{figure}
+
+Aceasta confirmă ipoteza inițială în mare: eroarea Transformer-ului este mai concentrată decât cea a LSTM Autoencoder-ului pe întreaga populație anormală, nu doar în puținele exemple pe care le arată întâmplător o hartă termică.
+Dar distribuția din Figura~\ref{fig:explain-gini} relevă un detaliu interesant -- valorile Gini ale LSTM Autoencoder-ului sunt \emph{bimodale}, nu deplasate uniform în jos. O majoritate a ferestrelor sale se grupează practic în același interval de concentrare ridicată ca al Transformer-ului (Gini $\approx 0.6$, capacitate de localizare comparabilă), în timp ce o populație secundară distinctă de ferestre se situează la Gini scăzut ($<0.4$), unde eroarea este cu adevărat difuzată aproape uniform pe toată fereastra. Acest lucru indică faptul că mecanismul de distrugere a fazei nu este o proprietate uniformă a fiecărei reconstrucții LSTM Autoencoder, ci un fenomen care afectează un subset specific de ferestre -- și această subpopulație, nu o degradare generală pe toate ferestrele anormale, este responsabilă pentru scăderea AP-ului și ROC-AUC-ului agregat al LSTM Autoencoder-ului sub cel al Transformer-ului, întrucât pe restul majoritar al ferestrelor cele două modele localizează eroarea la fel de bine.
+
+
+
+
+
+\section{Regimuri de Caracteristici Disjuncte: AE+Context vs.\ Temporal IForest}
+\label{sec:explain-disjoint-regime}
+
+Discuția despre CIC-IDS2017 din Capitolul~\ref{ch:results} propune combinarea AE+Context (puternic pe DDoS și PortScan) cu Temporal IForest (puternic pe clasele DoS lente și, cu rezerve, pe Heartbleed) într-un ansamblu, întrucât cele două ar trebui să opereze pe mulțimi de caracteristici disjuncte
+-- caracteristici de context al gazdei versus o fereastră temporală de 16 fluxuri.
+
+\paragraph{O scurtă introducere la SHAP.} SHAP (\emph{SHapley Additive exPlanations}) atribuie pentru fiecare eșantion câte o valoare fiecărei caracteristici de intrare, reprezentând cât de mult a influențat acea caracteristică ieșirea modelului.
+Semnul unei valori SHAP arată direcția împingerii (spre normal sau spre anormal, în funcție de convenția ieșirii explicate -- precizată separat pentru fiecare model mai jos, întrucât cele două nu coincid), iar magnitudinea arată cât de mare este contribuția, relativ la celelalte caracteristici ale aceluiași eșantion.
+
+O \emph{diagramă beeswarm} (Figurile~\ref{fig:explain-temporal-beeswarm} și~\ref{fig:explain-ae-context-portscan-shap}) arată atribuirea SHAP pe un eșantion de puncte de test, câte un rând per caracteristică, ordonate descrescător după importanță; pe fiecare rând, fiecare punct este un eșantion, poziționat orizontal după propria sa valoare SHAP și colorat după propria sa valoare a caracteristicii respective (albastru pentru valoare mică, roșu pentru valoare mare).
+
+Pentru definiția matematică și originea din teoria jocurilor cooperative, mai multe detalii se află în lucrarea originală~\parencite{lundberg2017unified}; pentru o descriere mai accesibilă, orientată spre interpretarea grafurilor, și detalii despre construcția diagramelor folosite mai jos, către documentația SHAP~\cite{shap_docs}.
+
+Astfel, se presupune că:
+1. Dacă Temporal IForest exploatează cu adevărat structura dintre pașii temporali, scorul său per fereastră ar trebui să poarte informație despre eticheta \emph{ultimului} flux -- fluxul care ar fi combinat cu scorul per flux al lui AE+Context -- și nu despre dacă \emph{vreun} flux din fereastra de 16 fluxuri este un atac.
+Așadar, atribuirea sa SHAP nu ar trebui, de asemenea, să se prăbușească pe acel unic flux final; dacă se întâmplă asta, fereastra este de fapt doar decorativă.
+2. Avantajul lui AE+Context pe propriile sale clase puternice provine din cele 9 caracteristici de context al gazdei, unice setului său de caracteristici
+Așadar, acestea ar trebui să apară printre caracteristicile cu cea mai mare medie $|\text{SHAP}|$.
+
+O validare importantă, efectuată pe parcursul experimentării si demna de mentionat -- verificarea faptului că scorul lui Temporal IForest rămâne informativ și sub o etichetare mai strictă, per ultimul flux, nu doar sub eticheta permisivă "oricare-din-16" -- este detaliată în Anexa~\ref{ch:temporal-iforest-last-flow-validation}.
+
+
+
+\subsection{Temporal IForest: Atribuire SHAP pe Toată Fereastra}
+\label{sec:explain-temporal-window}
+
+Temporal IForest este antrenat pe ferestre aplatizate de 16 fluxuri, deci valorile SHAP ale lui \texttt{TreeExplainer}~\parencite{lundberg2020local} pe intrarea aplatizată se descompun curat înapoi într-un cub (fereastră, pas temporal, caracteristică). Pentru fiecare din cele patru clase, SHAP a fost calculat pe 200 de ferestre;
+magnitudinea atribuirii a fost sumată pe caracteristici per pas temporal, iar caracteristicile cu cea mai mare contribuție au fost reprezentate pe toți cei 16 pași temporali pentru a verifica dacă aceeași caracteristică poartă o atribuire cu semn consistent pe toată fereastra, nu doar aproape de final.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.48\textwidth,keepaspectratio]{../../data/explainability/cicids_temporal_shap/1/ddos_top_feature_profiles.png}%
+\hspace{0.02\textwidth}%
+\includegraphics[width=0.48\textwidth,keepaspectratio]{../../data/explainability/cicids_temporal_shap/1/dos_slowloris_top_feature_profiles.png}
+
+\caption{Temporal IForest -- valoarea medie SHAP per pas temporal pentru cele șase caracteristici cu cea mai mare atribuire, ferestre DDoS (stânga) și ferestre DoS slowloris (dreapta). În ambele cazuri atribuirea este negativă (anormală), recurentă cu semn consistent pe majoritatea celor 16 pași temporali, și nu se concentrează pe fluxul final (linia roșie punctată) -- fluxul combinat cu scorul lui AE+Context în ansamblul propus.}
+\label{fig:explain-temporal-shap}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.48\textwidth,keepaspectratio]{../../data/explainability/cicids_temporal_shap/2/ddos_position_concentration.png}%
+\hspace{0.02\textwidth}%
+\includegraphics[width=0.48\textwidth,keepaspectratio]{../../data/explainability/cicids_temporal_shap/2/dos_slowloris_position_concentration.png}
+\caption{Temporal IForest -- $|\text{SHAP}|$ mediu, sumat pe caracteristici, per pas temporal, ferestre DDoS (stânga) și ferestre DoS slowloris (dreapta). Ultimul pas temporal (bara roșie, 15) -- fluxul combinat cu scorul lui AE+Context în ansamblul propus -- nu poartă mai multă masă de atribuire decât orice altă poziție din fereastră, confirmând statistica sumară raportată mai jos.}
+\label{fig:explain-temporal-position-concentration}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.48\textwidth,keepaspectratio]{../../data/explainability/cicids_temporal_shap/2/ddos_beeswarm.png}%
+\hspace{0.02\textwidth}%
+\includegraphics[width=0.48\textwidth,keepaspectratio]{../../data/explainability/cicids_temporal_shap/2/dos_slowloris_beeswarm.png}
+\caption{Temporal IForest -- diagramă beeswarm SHAP per caracteristică, ferestre DDoS (stânga) și ferestre DoS slowloris (dreapta), colapsând axa celor 16 pași temporali prin sumarea contribuției SHAP a fiecărei caracteristici pe toată fereastra și colorând după valoarea medie a acelei caracteristici pe fereastră. DoS slowloris arată o relație monotonă clară -- valori mari ale timpului între sosiri (inter-arrival time) determină un SHAP puternic negativ (anormal), valorile mici împing spre zero -- consistent cu comportamentul lent, de menținere a conexiunii, după care este numit atacul. DDoS arată o relație valoare-semn mai zgomotoasă pentru caracteristicile sale de lungime a pachetelor pe direcția inversă, și o răspândire per fereastră mai largă decât sugerează, singură, imaginea de medii din Figura~\ref{fig:explain-temporal-shap}.}
+\label{fig:explain-temporal-beeswarm}
+\end{figure}
+
+Ultimul pas temporal -- cel combinat cu AE+Context în ansamblu -- poartă doar 6--8\% din masa totală de atribuire pe toate cele patru clase, aproape de referința uniformă de 6.25\% pentru o fereastră de 16 pași, în loc să o domine.
+Caracteristicile principale se potrivesc și ele cu mecanismul cunoscut al fiecărui atac: atribuirea DDoS și DoS GoldenEye se concentrează pe statisticile lungimii pachetelor pe direcția inversă (\texttt{Bwd Packet Length Std/Mean/Max}, \texttt{Packet Length Variance}), consistent cu un flux volumetric;
+atribuirea DoS Slowhttptest și DoS slowloris se concentrează pe statistici ale timpului între sosiri (\texttt{Fwd/Bwd IAT Std/Max}, \texttt{Idle Mean/Max}), consistent cu comportamentul lent, de menținere a conexiunii. 
+Aceastea confirmă ipoteza inițială.
+
+
+
+\subsection{AE+Context: SHAP Dominat de Caracteristici de Context al Gazdei}
+
+SHAP a fost calculat cu \texttt{GradientExplainer} pe eroarea de reconstrucție a lui AE+Context, pe câte 200 de eșantioane din PortScan și DDoS, iar cele 15 caracteristici cu cea mai mare medie $|\text{SHAP}|$ au fost clasate pentru fiecare clasă.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{../../data/explainability/cicids_shap_portscan/5/autoencoder_context_portscan_shap.png}
+\caption{AE+Context -- diagramă sumară SHAP, eșantioane PortScan. \texttt{ctx\_min\_port\_cnt} domină printr-un cluster strâns, uniform pozitiv, bine separat de orice altă caracteristică; rândurile de top rămase sunt aproape în întregime caracteristici de context al gazdei.}
+\label{fig:explain-ae-context-portscan-shap}
+\end{figure}
+
+\begin{center}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+ & Caracteristici de context în top 15 & Caracteristica principală (medie $|\text{SHAP}|$) \\
+\midrule
+PortScan & 8/15 & \texttt{ctx\_min\_port\_cnt} (0.324) \\
+DDoS     & 7/15 & \texttt{ctx\_min\_port\_cnt} (0.234) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Pentru ambele clase, \texttt{ctx\_min\_port\_cnt} și \texttt{ctx\_min\_flow\_cnt} domină cu aproximativ un ordin de mărime peste orice caracteristică de flux obișnuită.
+Șase din cele nouă caracteristici de context apar în listele de top 15 ale ambelor clase, doar \texttt{ctx\_min\_port\_rate} lipsind din amândouă. Aceasta confirmă premisa: avantajul lui AE+Context pe aceste clase este determinat aproape în întregime de dovezi de context al gazdei indisponibile lui Temporal IForest.
+
+
+
+\subsection{Construirea Scorului Combinat}
+\label{sec:explain-ensemble-build}
+
+Realizarea ansamblului schițat în Capitolul~\ref{ch:results} necesită combinarea, pentru fiecare flux $f$ din setul de test, a scorului propriu per flux al lui AE+Context cu scorul lui Temporal IForest pentru fereastra de 16 fluxuri care se \emph{încheie} la $f$.
+Însă cele două scoruri brute nu pot fi combinate direct: scorul lui AE+Context este o eroare medie pătratică de reconstrucție fără o scală fixă, iar scorul lui Temporal IForest este o lungime medie de cale, negată. Este necesară o normalizare înainte ca o medie ponderată sau un maxim să aibă sens. Statisticile de normalizare ale fiecărui model sunt calculate doar pe scorurile de antrenare \emph{benigne} ale acelui model, niciodată pe date de test, pentru a evita scurgerea informației de anomalie din setul de test în combinare.
+
+Au fost testate două reguli de combinare. \textbf{Votarea ponderată (soft voting)} ia o combinație convexă a celor două scoruri normalizate, $s_{\text{soft}}(f) = w \cdot \hat{s}_{AE}(f) + (1-w) \cdot \hat{s}_{IF}(f)$, variind $w \in \{0.3, \dots, 0.7\}$. \textbf{Combinarea prin regula maximului} ia în schimb $s_{\text{max}}(f) = \max(\hat{s}_{AE}(f), \hat{s}_{IF}(f))$ -- un combinator de tip OR, intenționat să reflecte ideea că încrederea oricărui model, singură, ar trebui să fie suficientă pentru a marca un flux.
+
+Cele două scoruri au fost normalizate pe rang -- mapând fiecare scor de test la percentila sa în distribuția scorurilor proprii de antrenare benignă ale acelui model -- în locul standardizării $z$ obișnuite, deoarece normalizarea pe rang mărginește fiecare scor la $[0,1]$ indiferent de cât de extremă este valoarea brută, în timp ce standardizarea $z$ s-a dovedit o fundătură. O discuție detaliată a realinierii scorurilor între cele două pipeline-uri și a motivului exact pentru care standardizarea $z$ a eșuat se află în Anexa~\ref{ch:ensemble-score-alignment}.
+
+\subsection{Acoperire per Clasă vs.\ AP Agregat}
+\label{sec:explain-ensemble-results}
+
+\begin{center}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+ & DDoS & PortScan & GoldenEye & Slowhttptest & slowloris \\
+\midrule
+AE+Context singur         & 0.882 & \textbf{0.924} & 0.292 & 0.013 & 0.025 \\
+Temporal IForest singur   & \textbf{0.956} & 0.123 & 0.611 & 0.578 & 0.560 \\
+Regula maximului (rang)   & 0.882 & 0.923 & 0.292 & 0.060 & 0.083 \\
+Votare ponderată $w=0.4$ (rang) & 0.977 & 0.228 & \textbf{0.801} & \textbf{0.205} & \textbf{0.319} \\
+Votare ponderată $w=0.7$ (rang) & 0.977 & 0.358 & 0.821 & 0.140 & 0.245 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+AP-ul agregat pe întregul set de test aliniat pe rânduri \emph{favorizează} de fapt variantele care se schimbă cel mai puțin: atât regula maximului (AP agregat $0.943$), cât și AE+Context singur ($0.941$) depășesc votarea ponderată $w=0.4$ ($0.841$), pur și simplu pentru că DDoS și PortScan totalizează împreună peste 250{,}000 din cele aproximativ 434{,}000 de fluxuri pozitive din această evaluare, în timp ce GoldenEye, Slowhttptest și slowloris totalizează împreună abia 13{,}000.
+
+Nicio regulă nu este pur și simplu un câștig gratuit, dar votarea ponderată pare alegerea mai pertinenta pentru un ansamblu motivat de acoperire: clasa sa acoperită cea mai \emph{slabă} ($0.205$, Slowhttptest, la $w=0.4$) depășește propriile clase cele mai slabe ale ambelor modele de sine stătătoare -- $0.013$ (Slowhttptest) al lui AE+Context și $0.123$ (PortScan) al lui Temporal IForest -- ceva ce nici un model de sine stătător, nici combinarea prin regula maximului nu realizează.
+Aceasta este o realizare autentică, deși parțială, a ideii de ansamblu din Capitolul~\ref{ch:results}: votarea ponderată normalizată pe rang lărgește măsurabil pragul minim de acoperire pe clase de atac, cu costul explicit al calității detecției PortScan.

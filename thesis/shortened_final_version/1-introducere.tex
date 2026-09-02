@@ -1,0 +1,32 @@
+\chapter{Introducere}
+\label{ch:introducere}
+
+\section{Context și Motivație}
+
+Această lucrare este un studiu experimental în învățarea automată, mai precis în subdomeniul \emph{detecției de anomalii} (\emph{anomaly detection}) -- sarcina de a detecta puncte, evenimente sau structuri care deviază de la normalitate. Domeniul este unul larg și acoperă o varietate de probleme, dintre care în această lucrare sunt abordate: detecția fraudelor în tranzacții bancare, detecția atacurilor asupra rețelelor de calculatoare și detecția defecțiunilor în metricile monitorizate ale serverelor.
+
+O primă distincție care trebuie făcută este cea dintre \emph{outlier detection} și \emph{novelty detection}. Prima presupune antrenarea unui model pe date care conțin deja anomalii, cu speranța de a le identifica ulterior, în timp ce a doua presupune antrenarea exclusiv pe date considerate normale și evaluarea capacității modelului de a detecta, la testare, devieri de la noțiunea de normalitate astfel învățată. Această lucrare adoptă abordarea de tip \emph{novelty detection}, întrucât acesta este cadrul în care sunt implementate în practică cazurile de utilizare menționate mai sus (un model de detecție a fraudelor, de exemplu, nu este antrenat pe cazuri confirmate de fraudă). În plus, această alegere ajută la formularea scopului lucrării printr-o singură întrebare: în ce măsură modul în care un model reprezintă structura latentă a datelor considerate \enquote{normale} determină tipurile de anomalii pe care acesta le poate, sau nu, detecta?
+
+Motivația, cât și scopul acestei lucrări sunt, așadar, căutarea unui răspuns la această întrebare și abordarea ulterioară a ipotezelor formate în urma rezultatelor experimentale.
+
+Contribuția proprie a acestei lucrări constă, așadar, în:
+
+\begin{enumerate}
+    \item un pipeline standardizat de preprocesare, antrenare și evaluare, aplicat uniform pe trei seturi de date diferite și pe până la treisprezece configurații de modele și seturi de caracteristici (\emph{features});
+    \item o analiză sistematică a performanței diferitelor paradigme în funcție de tipul setului de date; și
+    \item o serie de studii de caz de explicabilitate, menite să testeze direct ipoteze formulate în secțiunea de discuții a rezultatelor, folosind hărți termice ale erorii de reconstrucție, o măsură de concentrație bazată pe coeficientul Gini și valori de atribuire SHAP, în locul unor concluzii bazate exclusiv pe metrici agregate.
+\end{enumerate}
+
+\section{Structura Lucrării}
+
+Restul lucrării este organizat în cinci capitole.
+
+Capitolul~\ref{ch:preliminarii} (\emph{Preliminarii}) introduce fundalul teoretic necesar pentru restul lucrării: detalii despre funcționarea fiecărui model testat, paradigma căreia îi aparține și seturile de date folosite.
+
+Capitolul~\ref{ch:methodology} (\emph{Metode și Configurare Experimentală}) descrie pipeline-urile de preprocesare, alegerile de hiperparametri și de arhitectură făcute pentru fiecare model, precum și protocolul de evaluare -- inclusiv metricile raportate și deciziile metodologice.
+
+Capitolul~\ref{ch:results} (\emph{Rezultate Experimentale}) prezintă rezultatul fiecărui experiment, organizat pe seturi de date, împreună cu o secțiune de discuții pentru fiecare set de date, care interpretează rezultatele prin raportare la așteptările stabilite în capitolul de Preliminarii.
+
+Capitolul~\ref{ch:explainability} (\emph{Studii de Caz de Explicabilitate}) revizitează ipoteze specifice ridicate în discuția din Capitolul~\ref{ch:results} și le testează direct, cu ajutorul unor diagnostice țintite -- confirmând unele dintre ele și nuanțând altele.
+
+Capitolul~\ref{ch:concluzii} (\emph{Concluzii}) rezumă concluziile lucrării, discută limitările acesteia și schițează posibile direcții de dezvoltare ulterioară.

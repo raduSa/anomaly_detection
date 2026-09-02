@@ -1,0 +1,10 @@
+\chapter{Concluzii}
+\label{ch:concluzii}
+
+Întrebarea formulată în Capitolul~\ref{ch:introducere} a fost în ce măsură modul în care un model reprezintă structura latentă a datelor \enquote{normale} determină tipurile de anomalii pe care le poate detecta. Rezultatele din Capitolul~\ref{ch:results}, confirmate și nuanțate în Capitolul~\ref{ch:explainability}, dau un răspuns afirmativ: aceeași paradigmă produce rezultate diferite pe seturi de date diferite nu pentru că modelul ar fi mai bun sau mai slab în sine, ci pentru că presupunerea lui despre normalitate se potrivește sau nu structurii reale a anomaliei căutate.
+
+Cele două ipoteze din \S\ref{sec:expected-behaviour} se confirmă, dar nu necondiționat. Prima -- structura temporală avantajează datele secvențiale -- se confirmă pe Yahoo A3/A4 (paradigma predictivă domină), dar se inversează pe Setul A (secvență artificială) și e depășită de contextul de gazdă la CIC-IDS2017. A doua -- paradigme complementare, combinate, îmbunătățesc performanța -- e confirmată de studiul din \S\ref{sec:explain-disjoint-regime}: AE+Context și Temporal IForest exploatează evidențe disjuncte, iar votarea ponderată extinde acoperirea pe clase altfel nedetectate, cu costul unui AP agregat mai mic -- nuanțând, nu infirmând, ipoteza inițială.
+
+Limitările deschid două direcții: testarea sistematică a celorlalte presupuneri din Capitolul~\ref{ch:results} și extinderea studiului de ansamblu din \S\ref{sec:explain-ensemble-build} la Seturile A și B, cu reguli de combinare mai sofisticate.
+
+\enlargethispage{\baselineskip}

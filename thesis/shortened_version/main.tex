@@ -1,0 +1,223 @@
+
+\documentclass[12pt, a4paper]{report}
+
+% Suport pentru diacritice și alte simboluri
+\usepackage{fontspec}
+
+% Suport pentru mai multe limbi
+\usepackage{polyglossia}
+
+% Setează limba textului la română
+\setdefaultlanguage{romanian}
+% Am nevoie de engleză pentru rezumat
+\setotherlanguages{english}
+
+% Indentează și primul paragraf al fiecărei noi secțiuni
+\SetLanguageKeys{romanian}{indentfirst=true}
+
+% Suport pentru diferite stiluri de ghilimele
+\usepackage{csquotes}
+
+\DeclareQuoteStyle{romanian}
+  {\quotedblbase}
+  {\textquotedblright}
+  {\guillemotleft}
+  {\guillemotright}
+
+% Utilizează biblatex pentru referințe bibliografice, cu un singur stil de
+% citare numeric (bibliografie numerotată în ordinea citării în text,
+% conform ghidului de redactare al facultății)
+\usepackage[
+    maxbibnames=50,
+    sorting=none,
+    style=numeric,
+    giveninits=true
+]{biblatex}
+
+\addbibresource{bibliography.bib}
+
+\AtBeginDocument{%
+  % Elimină conjuncția ("și") dintre ultimii doi autori -- doar virgulă
+  % între nume, ca în exemplul din ghidul de redactare.
+  \DeclareDelimFormat{finalnamedelim}{\multinamedelim}%
+  % Nu prefixa adresa web cu "URL:" -- afișeaz-o brut, ca în exemplul din
+  % ghid.
+  \DeclareFieldFormat{url}{\url{#1}}%
+  % Formatul cerut pentru data accesării resurselor online:
+  % "[accesat: ZZ.LL.AAAA]", în loc de formatul implicit
+  % "(accesat în Z.L.AAAA)".
+  \DeclareFieldFormat{urldate}{\mkbibbrackets{accesat: #1}}%
+}
+
+% Zerourile de umplutură pentru ziua/luna datei de accesare (ex. "01.09.2026"
+% în loc de "1.9.2026") trebuie redefinite ca extra de limbă românească --
+% romanian.lbx își reaplică propria definiție a \mkbibdateshort chiar
+% înainte de a tipări bibliografia, ceea ce ar anula o redefinire făcută
+% mai devreme (ex. în \AtBeginDocument).
+\newcommand{\thesiszeropad}[1]{\ifnum#1<10 0\fi#1}
+\DefineBibliographyExtras{romanian}{%
+  \renewcommand*{\mkbibdateshort}[3]{%
+    \iffieldundef{#3}{}{\thesiszeropad{\thefield{#3}}\adddot}%
+    \iffieldundef{#2}{}{\thesiszeropad{\thefield{#2}}\adddot}%
+    \iffieldbibstring{#1}
+      {\bibstring{\thefield{#1}}}
+      {\dateeraprintpre{#1}\mkyearzeros{\thefield{#1}}}}%
+}
+
+% Setează spațiere inter-linie la 1.5
+\usepackage{setspace}
+\onehalfspacing
+
+% Modificarea geometriei paginii
+\usepackage{geometry}
+
+% Include funcțiile de grafică
+\usepackage{graphicx}
+% Încarcă imaginile din directorul `images` și din graficele generate pentru
+% capitolele de metodologie / rezultate / explicabilitate
+\graphicspath{
+    {./images/}
+    {../../data/graphs/EDA/credit_card/}
+    {../../data/graphs/EDA/yahoo/}
+    {../../data/graphs/EDA/cicids/}
+}
+
+% Tabele și figuri fixate (folosite în capitolele de metodologie/rezultate)
+\usepackage{booktabs}
+\usepackage{float}
+
+% Rânduri ușor mai compacte în tabele (economisește spațiu vertical fără a
+% reduce dimensiunea fontului)
+\renewcommand{\arraystretch}{0.85}
+
+% Listări de cod
+\usepackage{listings}
+
+% Linkuri interactive în PDF
+\usepackage[
+    colorlinks,
+    linkcolor={black},
+    menucolor={black},
+    citecolor={black},
+    urlcolor={blue}
+]{hyperref}
+
+% Permite ruperea URL-urilor lungi din \url{} la orice caracter, evitând
+% cutii "overfull" în paragrafele/footnote-urile care le conțin
+\usepackage{xurl}
+
+% Simboluri matematice codificate Unicode
+\usepackage[warnings-off={mathtools-colon,mathtools-overbracket}]{unicode-math}
+
+% Comenzi matematice
+\usepackage{amsmath}
+\usepackage{mathtools}
+
+% Formule matematice
+\newcommand{\bigO}[1]{\symcal{O}\left(#1\right)}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+
+% Suport pentru rezumat în două limbi
+% Bazat pe https://tex.stackexchange.com/a/70818
+\newenvironment{abstractpage}
+  {\cleardoublepage\vspace*{\fill}\thispagestyle{empty}}
+  {\vfill\cleardoublepage}
+\renewenvironment{abstract}[1]
+  {\bigskip\selectlanguage{#1}%
+   \begin{center}\bfseries\abstractname\end{center}}
+  {\par\bigskip}
+
+% Suport pentru anexe
+\usepackage{appendix}
+
+% Stiluri diferite de headere și footere
+\usepackage{fancyhdr}
+
+% Permite modificarea comenzii \chapter (eliminarea saltului de pagină)
+\usepackage{etoolbox}
+
+% Metadate
+\title{Analiza paradigmelor de anomaly detection pe seturi de date cu structură temporală diferită}
+\author{Savin Radu-Andrei}
+
+% Generează variabilele cu @
+\makeatletter
+
+% Împiedică \chapter să înceapă întotdeauna pe o pagină nouă. Se înlocuiește
+% saltul de pagină cu \par (nu se elimină complet), altfel titlul de capitol
+% se lipește de sfârșitul paragrafului anterior, pe aceeași linie.
+\patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{\par}{}{%
+  \typeout{Nu s-a putut elimina saltul de pagină din \string\chapter.}%
+}
+
+% Reduce spațiul vertical din titlul de capitol (implicit gândit pentru
+% începutul unei pagini noi -- \vspace*{50pt} înainte, \vskip 40pt după --
+% ceea ce lasă un gol mare, nepotrivit, în mijlocul paginii acum că
+% \chapter nu mai forțează o pagină nouă). Se patchează valorile de
+% spațiere direct în interiorul macro-urilor existente, fără a le
+% rescrie complet.
+\patchcmd{\@makechapterhead}{\vspace*{50\p@}}{\vspace*{10\p@}}{}{%
+  \typeout{Nu s-a putut reduce \string\vspace* de dinaintea titlului de capitol (numerotat).}%
+}
+\patchcmd{\@makechapterhead}{\vskip 20\p@}{\vskip 6\p@}{}{%
+  \typeout{Nu s-a putut reduce \string\vskip dintre numărul și titlul capitolului.}%
+}
+\patchcmd{\@makechapterhead}{\vskip 40\p@}{\vskip 15\p@}{}{%
+  \typeout{Nu s-a putut reduce \string\vskip de după titlul de capitol (numerotat).}%
+}
+\patchcmd{\@makeschapterhead}{\vspace*{50\p@}}{\vspace*{10\p@}}{}{%
+  \typeout{Nu s-a putut reduce \string\vspace* de dinaintea titlului de capitol (nenumerotat).}%
+}
+\patchcmd{\@makeschapterhead}{\vskip 40\p@}{\vskip 15\p@}{}{%
+  \typeout{Nu s-a putut reduce \string\vskip de după titlul de capitol (nenumerotat).}%
+}
+
+\begin{document}
+
+% Front matter
+\cleardoublepage
+\let\ps@plain
+
+% Pagina de titlu
+\include{0-title}
+\restoregeometry
+\newgeometry{
+    margin=2.3cm
+}
+
+\fancypagestyle{main}{
+  \fancyhf{}
+  \renewcommand\headrulewidth{0pt}
+  \fancyhead[C]{}
+  \fancyfoot[C]{\thepage}
+}
+
+\addtocounter{page}{1}
+
+% Rezumatul
+\include{0-abstract}
+
+\tableofcontents
+
+% Main matter
+\cleardoublepage
+\pagestyle{main}
+\let\ps@plain\ps@main
+
+\input{1-introducere}
+\input{2-preliminarii}
+\input{3-methodology}
+\input{4-results}
+\input{5-explainability}
+\input{6-concluzii}
+
+\cleardoublepage
+\appendix
+\renewcommand{\thechapter}{\arabic{chapter}}
+\renewcommand{\appendixtocname}{Anexe}
+\addappheadtotoc
+\input{7-anexe}
+
+\printbibliography[heading=bibintoc]
+
+\end{document}

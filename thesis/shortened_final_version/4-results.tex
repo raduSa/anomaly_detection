@@ -1,0 +1,285 @@
+\chapter{Rezultate Experimentale}
+\label{ch:results}
+
+% One subsection tree per dataset. Each dataset section follows the same
+% internal shape for comparability: summary table -> per-model discussion ->
+% dataset-specific takeaway. Cross-dataset synthesis (which paradigm wins
+% where, and why) is saved for the Discussion/Conclusion chapter, not here --
+% keep this chapter to "what happened", not "what it means for the thesis".
+
+\section{Detectarea Fraudei cu Cardul de Credit (Setul de Date A)}
+% Documente sursă: data/results/results_credit_card/*_report.txt, credit_card/credit_card_results.md
+
+\subsection{Comparație Generală}
+
+Tabelul~\ref{tab:cc-results} sumarizează toate cele șase modele evaluate. Nu a fost folosită nicio variantă de Transformer Cauzal pentru acest set de date.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lllll@{}}
+\toprule
+Model & Paradigmă & ROC-AUC & Precizie Medie & F1 (fraudă) \\
+\midrule
+MLP Autoencoder            & Reconstrucție              & 0.9649 & \textbf{0.7105} & 0.6992 \\
+Isolation Forest           & Partiționare                   & 0.9587 & 0.6725          & 0.6070 \\
+LSTM Autoencoder           & Reconstrucție (pseudo-secv.) & 0.9476 & 0.6223          & \textbf{0.7362} \\
+OC-SVM                     & Frontieră                     & 0.9354 & 0.5959          & 0.6454 \\
+Transformer Bottleneck AE  & Reconstrucție (pseudo-secv.) & 0.9583 & 0.5947          & 0.6137 \\
+Predictive LSTM            & Predictiv (pseudo-secv.)     & 0.9581 & 0.5190          & 0.5244 \\
+\bottomrule
+\end{tabular}
+\caption{Detectarea fraudei cu cardul de credit -- comparație de modele, clasificate după Precizia Medie.}
+\label{tab:cc-results}
+\end{table}
+
+Toate cele șase modele ating ROC-AUC $>0.93$, dar AP variază între 0.519--0.711 \rightarrow ROC-AUC este mult mai puțin sensibil la dezechilibrul de clasă față de AP.
+
+\subsection{Discuție}
+
+\paragraph{Nu există o secvență autentică în acest set de date.} Spre deosebire de Yahoo S5 sau de variantele temporale/contextuale ale CIC-IDS2017, rândurile de tranzacții nu au nicio ordonare temporală sau cauzală între caracteristici: \texttt{Time} este eliminată la preprocesare (vezi secțiunea~\ref{sec:preprocessing}); pipeline-ul precede modelele secvențiale, adăugate ulterior exclusiv pentru comparabilitate între seturile de date.
+Cele trei arhitecturi "temporale" evaluate aici (Predictive LSTM, LSTM AE, Transformer Bottleneck AE) nu văd o secvență reală -- ele reformatează fiecare rând cu 29 de caracteristici într-o secvență artificială de 29 de pași scalari ($(N,29) \to (N,29,1)$), câte o caracteristică pe pas, în ordinea prezentă în fișierul .csv.
+
+\paragraph{Impact asupra rezultatelor.} Predictive LSTM este cel mai slab model (AP 0.519): obiectivul său de predicție a următorului pas presupune o relație cauzală între pași consecutivi, dar componentele PCA adiacente sunt ortogonale/decorelate prin construcție, deci nu există niciun semnal real pentru pasul următor de învățat -- fapt reflectat în cel mai slab număr de fals-pozitive (FP=566). 
+LSTM AE se descurcă comparativ bine (AP 0.622, cel mai bun F1 dintre toate modelele evaluate, 0.736, cel mai mic FP, 174) -- o explicație ar fi faptul că encoderul său comprimă în continuare întreaga intrare într-o singură stare ascunsă sumară înainte de decodare, funcționând similar cu bottleneck-ul MLP AE, mai degrabă decât depinzând doar de ordine. 
+Transformer Bottleneck AE (AP 0.595) se situează aproape de modelele clasice -- similar ca mai sus, apare agregarea medie globală (global average pooling) într-un singur vector latent. 
+MLP Autoencoder, singura arhitectură care tratează cele 29 de caracteristici ca pe un vector plat obișnuit, câștigă per total (AP 0.7105) -- consistent cu faptul că nu există nicio secvență de exploatat.
+
+Aceasta este imaginea în oglindă a constatării de la CIC-IDS2017, unde caracteristicile de context al gazdei (care codifică informații temporale/comportamentale \emph{reale}) domină, și a constatării de la Yahoo, unde obiectivul predictiv câștigă în prezența unei structuri periodice autentice. 
+Aici, impunerea unei structuri secvențiale acolo unde nu există niciuna pare să reprezinte un handicap.
+
+\paragraph{Observații la nivel de paradigmă.} Reconstrucția este cea mai puternică paradigmă per total, odată ce se ia în calcul handicapul pseudo-secvențial (MLP AE, LSTM AE și Transformer Bottleneck AE ocupă trei din primele patru locuri). 
+Isolation Forest este cel mai bun model din afara paradigmei de reconstrucție (AP 0.6725) și al doilea cel mai bun model per total -- depășind notabil OC-SVM și două dintre cele trei arhitecturi temporale. OC-SVM (AP 0.5959) se situează la mijlocul clasamentului, cu al doilea cel mai mare număr de fals-pozitive după Predictive LSTM. Predictive LSTM este singurul reprezentant al paradigmei predictive pe acest set de date și cel mai slab model per total, din motivul structural discutat mai sus. 
+
+\paragraph{Sanity check.} F1-ul cel mai bun dintre toate (0.7362) al LSTM AE, în ciuda unui AP mediocru (0.6223), este o reamintire a faptului că F1 este calculat la un singur prag oracol F2 și poate favoriza un punct de operare diferit de cel care maximizează aria de sub curba PR.
+
+
+
+\section{Yahoo Webscope S5 (Setul de Date B)}
+% Documente sursă: yahoo/results_notes.md, data/results/results_yahoo/*_report.txt
+
+A2 este exclus din comparațiile de mai jos: la fel ca A1, conține doar anomalii punctuale, nu contextuale sau de tip schimbare-de-nivel, deci ar ridica aceeași provocare de putere discriminativă discutată pentru A1, fără a adăuga un tip nou de anomalie în comparație.
+
+\subsection{A1 -- Anomalii Punctuale (Metrici Reale de Server)}
+
+Tabelul~\ref{tab:yahoo-a1} sumarizează cele cinci modele evaluate pe A1. Causal Transformer și Transformer Bottleneck AE nu au fost rulate pe acest benchmark.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}llll@{}}
+\toprule
+Model & Paradigmă & ROC-AUC & Precizie Medie \\
+\midrule
+MLP Autoencoder  & Reconstrucție & 0.792 & \textbf{0.611} \\
+LSTM Autoencoder & Reconstrucție & 0.794 & 0.600 \\
+OC-SVM           & Frontieră       & 0.776 & 0.595 \\
+Predictive LSTM  & Predictiv     & 0.789 & 0.588 \\
+Isolation Forest & Partiționare      & 0.765 & 0.511 \\
+\bottomrule
+\end{tabular}
+\caption{Yahoo S5 A1 (anomalii punctuale) -- comparație de modele, clasificate după Precizia Medie.}
+\label{tab:yahoo-a1}
+\end{table}
+
+\paragraph{Discuție.} Toate cele cinci modele se grupează strâns în intervalul AP 0.51--0.61: MLP Autoencoder este cel mai bun (AP 0.611), iar Isolation Forest cel mai slab (AP 0.511), dar diferența este suficient de mică încât nicio arhitectură nu arată un avantaj structural aici. 
+Anomaliile punctuale (vârfuri pe un singur pas temporal) nu necesită înțelegere temporală pentru a fi detectate.
+
+\subsection{A3 -- Anomalii Contextuale/Sezoniere}
+
+Tabelul~\ref{tab:yahoo-a3} sumarizează toate cele șapte modele evaluate pe A3.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}llll@{}}
+\toprule
+Model & Paradigmă & ROC-AUC & Precizie Medie \\
+\midrule
+Predictive LSTM            & Predictiv     & \textbf{0.868} & \textbf{0.812} \\
+Transformer Bottleneck AE  & Reconstrucție & 0.762          & 0.663 \\
+Causal Transformer         & Predictiv     & 0.738          & 0.623 \\
+MLP Autoencoder            & Reconstrucție & 0.765          & 0.507 \\
+LSTM Autoencoder           & Reconstrucție & 0.566          & 0.392 \\
+OC-SVM                     & Frontieră       & 0.584          & 0.376 \\
+Isolation Forest           & Partiționare      & 0.511          & 0.331 \\
+\bottomrule
+\end{tabular}
+\caption{Yahoo S5 A3 (anomalii contextuale/sezoniere) -- comparație de modele, clasificate după Precizia Medie.}
+\label{tab:yahoo-a3}
+\end{table}
+
+\paragraph{Discuție.} Rezultatele diverg puternic odată ce anomaliile devin contextuale -- o valoare normală în termeni absoluți, dar greșită pentru faza sa în ciclul sezonier. 
+Isolation Forest și OC-SVM se prăbușesc aproape de random (ROC-AUC 0.511 și, respectiv, 0.584).
+LSTM Autoencoder se prăbușește la fel de rău (ROC-AUC 0.566), în ciuda faptului că este un model secvențial -- ceea ce arată că este vorba de o eșuare cauzată de blocajul de compresie (bottleneck), nu de o slăbiciune a arhitecturilor recurente în general.
+În aceeași ordine de idei, Transformer Bottleneck AE rămâne în urma celui mai bun model (AP 0.663), dar este de departe cea mai puternică arhitectură bazată pe \emph{reconstrucție}, cu mult înaintea LSTM AE: auto-atenția globală asupra ferestrei recuperează probabil periodicitatea pe care blocajul LSTM AE o distruge, ceea ce probabil explică diferența.
+Predictive LSTM domină și este cel mai bun model pe orice benchmark Yahoo (AP 0.812, ROC-AUC 0.868): obiectivul său de predicție a pasului următor exploatează direct cât de predictibilă este o serie sezonieră, astfel încât o anomalie injectată produce un vârf clar în eroarea de predicție exact acolo unde violează traiectoria așteptată.
+
+\subsection{A4 -- Anomalii de Tip Schimbare-de-Nivel}
+
+Tabelul~\ref{tab:yahoo-a4} sumarizează toate cele șapte modele evaluate pe A4.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}llll@{}}
+\toprule
+Model & Paradigmă & ROC-AUC & Precizie Medie \\
+\midrule
+Predictive LSTM            & Predictiv     & \textbf{0.745} & \textbf{0.505} \\
+Causal Transformer         & Predictiv     & 0.695          & 0.436 \\
+MLP Autoencoder            & Reconstrucție & 0.719          & 0.402 \\
+Transformer Bottleneck AE  & Reconstrucție & 0.655          & 0.404 \\
+Isolation Forest           & Partiționare      & 0.498          & 0.268 \\
+OC-SVM                     & Frontieră       & 0.519          & 0.265 \\
+LSTM Autoencoder           & Reconstrucție & 0.502          & 0.252 \\
+\bottomrule
+\end{tabular}
+\caption{Yahoo S5 A4 (anomalii de tip schimbare-de-nivel) -- comparație de modele, clasificate după Precizia Medie.}
+\label{tab:yahoo-a4}
+\end{table}
+
+\paragraph{Discuție.} Seriile modelează acum un sistem care experimentează schimbări structurale bruște.
+Fiecare model se degradează față de A3, indiferent de paradigmă. Un aspect important este că ferestrele din toate cele $\sim$100 de serii sunt grupate laolaltă fără identitatea seriei, iar fiecare serie se situează la propriul nivel de bază -- ar urma deci ca valoarea absolută a unei ferestre, luată singură, să nu poată distinge o fereastră autentică de după schimbare de o fereastră obișnuită dintr-o altă serie al cărei nivel de bază se întâmplă să fie similar -- de unde și rezultatele mai slabe ale modelelor bazate pe distribuția agregată. 
+Modelele clasice ating fundul complet sub această confuzie -- Isolation Forest ajunge la ROC-AUC 0.498. Autoencoderele de reconstrucție (MLP AE, Transformer Bottleneck AE) sunt afectate din același motiv și nu reușesc să depășească Predictive LSTM aici, în ciuda faptului că o fereastră în formă de treaptă ar fi intuitiv mai ușor de semnalat prin eroarea de reconstrucție. LSTM Autoencoder se prăbușește complet (ROC-AUC 0.502), reproducând aceeași eșuare prin compresia encoderului observată la A3. 
+Predictive LSTM încă conduce (AP 0.505, ROC-AUC 0.745), deși marja sa față de restul se îngustează puternic față de A3: deoarece își condiționează fiecare predicție pe istoricul recent propriu al unei serii, o schimbare este în continuare înregistrată ca o violare a continuității locale, indiferent de nivelul absolut la care apare, dar probabil generează un semnal de eroare susținut și mai zgomotos pe parcursul tranziției, în loc de vârful curat de deviație sezonieră pe care îl putea exploata mai ușor pe A3.
+
+\subsection{Verificare de Referință Trivială (Doar Yahoo)}
+\label{sec:yahoo-trivial-baseline}
+
+Urmând \textcite{kim2022rigorous}, care recomandă verificarea fiecărui model antrenat față de cel puțin o referință fără etichete (label-free), modelele Yahoo S5 au fost evaluate suplimentar față de o astfel de referință: norma L2 brută a ferestrei $\lVert w \rVert_2$, fără niciun model învățat. Toate modelele antrenate depășesc clar această referință pe A3, confirmând că avantajele observate mai sus sunt reale, nu un artefact al magnitudinii ferestrei. Scorurile referinței și marja exactă per model sunt prezentate în Anexa~\ref{sec:yahoo-trivial-baseline-appendix}.
+
+\subsection{Discuție}
+
+\paragraph{Atât paradigma, cât și arhitectura contează.} Rezultatele A3 formează o comparație de tip 2$\times$2 între paradigmă (reconstrucție vs. predictiv) și arhitectură (LSTM vs. Transformer): reconstrucția obține 0.39 AP (LSTM AE) și 0.66 AP (Transformer Bottleneck), în timp ce paradigma predictivă obține 0.81 AP (Predictive LSTM) și 0.62 AP (Causal Transformer).
+Paradigma predictivă este necesară -- ambele modele predictive depășesc ambele modele de reconstrucție -- dar nu suficientă de una singură: diferența de 0.19 AP dintre Predictive LSTM și Causal Transformer, în ciuda unui obiectiv de antrenare identic și a acelorași date de antrenare, arată că arhitectura LSTM poartă un avantaj suplimentar pe date sezoniere. Pe A4, acest decalaj arhitectural se reduce la 0.07 AP -- o singură tranziție bruscă nu necesită acumulare de fază, deci biasul inductiv secvențial al LSTM-ului contează mai puțin.
+
+\paragraph{Rezumat pe tip de anomalie.} Anomaliile punctuale (A1) lasă toate modelele într-o bandă îngustă de AP 0.51--0.61 -- nu este necesară nicio înțelegere temporală pentru a semnala un vârf izolat.
+Anomaliile sezoniere (A3) sunt locul unde avantajul paradigmei predictive este cel mai clar, și unde alegerea arhitecturii contează cel mai mult în cadrul acelei paradigme. Punctele de schimbare (A4) degradează fiecare model, dar Predictive LSTM încă conduce, iar Causal Transformer încă depășește ambele modele de reconstrucție. Modelele clasice (Isolation Forest, OC-SVM) și LSTM Autoencoder se prăbușesc pe orice tip de anomalie care necesită discriminare contextuală, nu absolută (A3, A4), rămânând competitive doar pe A1.
+
+
+
+\section{CIC-IDS2017 (Setul de Date C)}
+% Documente sursă: cicids2017/results_analysis.md
+
+\subsection{Comparație Generală}
+
+Înainte de a compara modelele, Tabelul~\ref{tab:cic-composition} detaliază pe clase fluxurile de atac agregate din setul de test flat/context, întrucât fiecare valoare AP raportată mai jos este calculată asupra întregii mulțimi agregate. Aceasta include \textbf{DoS Hulk} (158{,}469 fluxuri, la egalitate cu PortScan pentru cea mai mare clasă de atac).
+Totuși, \textcite{engelen2021troubleshooting} arată că unealta de atac DoS Hulk folosită pentru a genera acest set de date este configurată greșit -- setează antetul HTTP \texttt{Connection} pe \texttt{Close} în loc de \texttt{Keep-Alive}, astfel încât serverul web țintă termină conexiunea imediat, în loc să fie ținut ocupat, făcând atacul ineficient prin construcție. 
+În consecință, DoS Hulk este exclus în mod deliberat din detalierea \emph{pe clasă} din secțiunea~\ref{sec:cic-per-attack}. Această excludere se aplică doar raportării pe clasă, nu evaluării agregate: cele $\sim$158 mii de fluxuri DoS Hulk rămân parte a clasei pozitive față de care este calculată fiecare metrică agregată din Tabelul~\ref{tab:cic-results}.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Clasă de atac & $n$ (fluxuri) & \% din grupul de atacuri \\
+\midrule
+PortScan            & 159{,}000 & 36.66\% \\
+DoS Hulk            & 158{,}469 & 36.54\% \\
+DDoS                & 95{,}000  & 21.91\% \\
+DoS GoldenEye       & 7{,}500   & 1.73\%  \\
+DoS slowloris       & 4{,}000   & 0.92\%  \\
+FTP-Patator         & 4{,}000   & 0.92\%  \\
+SSH-Patator         & 3{,}000   & 0.69\%  \\
+DoS Slowhttptest    & 1{,}700   & 0.39\%  \\
+Bot                 & 738       & 0.17\%  \\
+Web Attack -- Brute Force & 151 & 0.03\%  \\
+Infiltration        & 32        & 0.01\%  \\
+Web Attack -- XSS    & 27        & 0.01\%  \\
+Web Attack -- SQL Injection & 12 & $<$0.01\% \\
+Heartbleed          & 11        & $<$0.01\% \\
+\bottomrule
+\end{tabular}
+\caption{CIC-IDS2017 -- compoziția pe clase de atac a fluxurilor de atac agregate din setul de test flat/context. DoS Hulk contribuie la fiecare metrică agregată din Tabelul~\ref{tab:cic-results}, dar este exclus din detalierea pe clasă din secțiunea~\ref{sec:cic-per-attack} (vezi textul).}
+\label{tab:cic-composition}
+\end{table}
+
+PortScan, DoS Hulk și DDoS reprezintă împreună 95.1\% din toate fluxurile de atac din această mulțime -- susținând afirmația, făcută repetat mai jos, că AP-ul agregat pe acest set de date este practic un proxy pentru performanța pe aceste trei clase. Celelalte zece clase rămase (toate sub 2\% individual, șapte dintre ele sub 0.2\%) au o influență limitată asupra clasamentului modelelor. Acesta este și motivul pentru care o detaliere pe atac este necesară (secțiunea~\ref{sec:cic-per-attack} de mai jos).
+
+Detalierea analoagă pentru setul de test cu ferestre al pipeline-ului temporal în Tabelul~\ref{tab:cic-composition-temporal} din Anexă (Capitolul~\ref{ch:cic-composition-temporal}).
+
+\begin{table}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllllll@{}}
+\toprule
+Model & Set de caracteristici & Paradigmă & ROC-AUC & Precizie Medie & Acuratețe Echilibrată & F1 (atac) \\
+\midrule
+MLP Autoencoder            & Context  & Reconstrucție & \textbf{0.9860} & \textbf{0.9487} & 0.9548          & 0.9020 \\
+OC-SVM                     & Context  & Frontieră       & 0.9745          & 0.9396          & \textbf{0.9569} & \textbf{0.9229} \\
+Isolation Forest           & Context  & Partiționare      & 0.9785          & 0.9328          & 0.9270          & 0.8367 \\
+LSTM Autoencoder           & Temporal & Reconstrucție & 0.8976          & 0.7955          & 0.7846          & 0.6249 \\
+MLP Autoencoder            & Flat     & Reconstrucție & 0.9189          & 0.7921          & 0.8022          & 0.6305 \\
+Isolation Forest           & Flat     & Partiționare      & 0.9049          & 0.7612          & 0.8228          & 0.6639 \\
+OC-SVM                     & Temporal & Frontieră       & 0.8629          & 0.7816          & 0.7600          & 0.5888 \\
+MLP Autoencoder            & Temporal & Reconstrucție & 0.8831          & 0.7509          & 0.7734          & 0.6125 \\
+Isolation Forest           & Temporal & Partiționare      & 0.8438          & 0.7604          & 0.6841          & 0.5195 \\
+OC-SVM                     & Flat     & Frontieră       & 0.7336          & 0.6845          & 0.6121          & 0.4644 \\
+Bottleneck Transformer AE  & Temporal & Reconstrucție & 0.8077          & 0.6539          & 0.7059          & 0.5423 \\
+Causal Transformer         & Temporal & Predictiv     & 0.7099          & 0.5449          & 0.5520          & 0.4320 \\
+Predictive LSTM            & Temporal & Predictiv     & 0.6126          & 0.4472          & 0.5475          & 0.4295 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{CIC-IDS2017 -- toate combinațiile model/set-de-caracteristici, clasificate după Precizia Medie.}
+\label{tab:cic-results}
+\end{table}
+
+\paragraph{Caracteristicile de context al gazdei domină.} Cele trei modele augmentate cu context ocupă primele trei poziții la fiecare metrică, cu AP între 0.933--0.949. Diferența dintre cel mai bun model cu context (AE+Context, AP 0.949) și cel mai bun model fără context (MLP AE Flat, AP 0.792) depășește întreaga plajă acoperită de celelalte zece modele.
+Fiecare dintre cele trei arhitecturi de bază se îmbunătățește substanțial la adăugarea caracteristicilor de context: IForest câștigă +0.172 AP (0.761 $\to$ 0.933), MLP AE câștigă +0.157 (0.792 $\to$ 0.949), iar OC-SVM câștigă cel mai mult, +0.255 (0.685 $\to$ 0.940). Aceasta arată că uneori caracteristicile mai bune contează mai mult decât alegerea paradigmei.
+
+\paragraph{Adăugarea ferestrelor temporale, singură, nu ajută.} Pentru IForest și MLP AE, gruparea fluxurilor în ferestre ordonate după IP-ul sursă (secțiunea~\ref{sec:preprocessing}) fără adăugarea caracteristicilor de context nu oferă o îmbunătățire semnificativă față de vederea flat, și uneori chiar dăunează: IForest Flat (AP 0.761) $\approx$ IForest Temporal (AP 0.760), în timp ce AE Flat (AP 0.792) $>$ AE Temporal (AP 0.751).
+E un contrast direct cu câștigul din contextul gazdei de mai sus: ambele modificări adaugă informație despre \emph{ordinea/activitatea fluxurilor în timp}, dar doar statisticile de context agregate se traduc într-un semnal utilizabil pentru cele două clase de atac (DDoS, PortScan) care domină setul de test ca volum.
+Ferestrele temporale poartă de fapt aceeași informație de activitate de bază, răspândită pe 16 fluxuri ordonate arbitrar, ceea ce reprezintă o reprezentare mai dificil de exploatat direct pentru aceste arhitecturi.
+
+\paragraph{Reconstrucția depășește predicția.} Printre modelele cu caracteristici temporale, arhitecturile bazate pe reconstrucție (LSTM AE, AE Temporal, OC-SVM Temporal) depășesc clar ambele modele bazate pe predicție (Predictive LSTM AP 0.447, Causal Transformer AP 0.545) -- inversul constatării de la Yahoo A3 (capitolul~\ref{ch:results}).
+Sweep-urile de prag ale ambelor modele predictive ajung la un punct de operare extrem (FP $>$ 1.1 mil. din 1.28 mil. de fluxuri benigne), consistent cu ROC-AUC-ul lor scăzut (0.61 și 0.71).
+
+\subsection{Detaliere pe Tip de Atac}
+\label{sec:cic-per-attack}
+
+Tabelul~\ref{tab:cic-per-class} detaliază Precizia Medie pe clasă de atac pentru cele trei modele cu context, familia cea mai puternică per total. Dimensiunile claselor variază cu patru ordine de mărime (11 până la 159{,}000 eșantioane), fapt care influențează ce anume este detectabil în primul rând.
+
+\begin{table}[h]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lrlll@{}}
+\toprule
+Clasă de atac & $n$ & IForest+Ctx & OC-SVM+Ctx & AE+Ctx \\
+\midrule
+DDoS                & 95{,}000  & 0.982          & \textbf{0.998} & 0.994          \\
+PortScan             & 159{,}000 & 0.601          & 0.820          & \textbf{0.842} \\
+DoS GoldenEye        & 7{,}500   & \textbf{0.655} & 0.215          & 0.220          \\
+DoS slowloris        & 4{,}000   & \textbf{0.190} & 0.012          & 0.025          \\
+DoS Slowhttptest     & 1{,}700   & \textbf{0.112} & 0.007          & 0.013          \\
+Heartbleed           & 11        & \textbf{0.093} & 0.001          & 0.000          \\
+Infiltration         & 32        & \multicolumn{3}{l}{AP 0.03--0.14, fără un câștigător clar la niciun model} \\
+Bot                  & 738       & \multicolumn{3}{l}{$<$0.01 la toate modelele, inclusiv variantele cu context} \\
+FTP-Patator          & 4{,}000   & \multicolumn{3}{l}{$<$0.01 la toate modelele, inclusiv variantele cu context} \\
+SSH-Patator          & 3{,}000   & \multicolumn{3}{l}{$<$0.01 la toate modelele, inclusiv variantele cu context} \\
+Subtipuri Web Attack & 12--151   & \multicolumn{3}{l}{AP aproape zero peste tot (Brute Force, SQL Injection, XSS)} \\
+\bottomrule
+\end{tabular}%
+}
+\caption{CIC-IDS2017 -- Precizia Medie pe clasă de atac pentru cele trei modele augmentate cu context.}
+\label{tab:cic-per-class}
+\end{table}
+
+\paragraph{Detectate constant.} Două clase de atac ies în evidență ca fiind detectabile fiabil pe aproape orice set de caracteristici:
+
+\begin{itemize}
+  \item \textbf{DDoS} este cea mai ușoară clasă, cu o marjă mare: toate modelele cu context obțin AP $>$ 0.98 (OC-SVM+Context atinge 0.998), și chiar și modelele flat depășesc AP 0.77. Rata foarte mare de pachete și dimensiunile mici ale pachetelor, caracteristice unei inundații, produc o valoare aberantă extremă atât în spațiul de caracteristici per-flux, cât și în cel de context al gazdei.
+  \item \textbf{PortScan} este cea mai clară demonstrație a valorii caracteristicilor de context: fiecare model flat și temporal obține AP 0.07--0.28, în timp ce fiecare model cu context depășește 0.60, AE+Context atingând 0.842. Un singur flux de scanare scurt, către un port arbitrar, este nesemnificativ izolat, dar luând în considerare și numărul de porturi de destinație unice contactate de IP-ul sursă în ultimele 60 de secunde este ceea ce ajută probabil în mod special la acest atac. IForest+Context este comparativ mai slab aici (0.601).
+\end{itemize}
+
+\paragraph{Răspuns mixt la caracteristici de context pentru DoS la nivel de aplicație.} Nu fiecare clasă de atac răspunde la caracteristicile de context în același mod -- cele trei clase DoS la nivel de aplicație împart familia de context în loc să o favorizeze uniform:
+
+\begin{itemize}
+  \item \textbf{DoS GoldenEye} arată o separare clară în cadrul familiei de context: IForest+Context atinge AP 0.655, în timp ce AE+Context și OC-SVM+Context se prăbușesc amândouă la $\sim$0.22.
+  \item \textbf{DoS Slowhttptest și DoS slowloris} arată același tipar, mai atenuat: IForest+Context este singurul model cu context cu detecție semnificativă (AP 0.112 și 0.190), deși rămâne totuși mult sub AP-ul de 0.69/0.61 al IForest Temporal pe aceleași clase. Atacurile HTTP lente mențin multe conexiuni concurente de lungă durată către un singur port. Fereastra de context de 60 de secunde este o nepotrivire parțială aici, deoarece conexiunile Slowloris durează minute întregi, iar multe fluxuri cad în afara ei -- ordonarea cronologică explicită per-gazdă a IForest Temporal oferă în continuare cea mai bună detecție pentru această familie de atacuri.
+\end{itemize}
+
+\paragraph{În mare parte nedetectabile, indiferent de setul de caracteristici.} FTP-Patator, SSH-Patator, Bot și cele trei subtipuri Web Attack obțin toate AP $<$ 0.01 la fiecare model, inclusiv cele cu context.
+Atacurile peste protocoale legitime și atacurile la nivel HTTP (injecție SQL, XSS) produc statistici de flux indistinctibile de utilizarea normală -- detectarea lor ar necesita contoare de autentificare eșuată sau inspecția payload-ului, niciuna disponibilă într-un set de caracteristici de statistici de flux. Heartbleed (11 eșantioane) și Infiltration (32 de eșantioane) sunt prea mici pentru a trage concluzii solide, deși avantajul modest al IForest+Context pe Heartbleed (AP 0.093 față de aproape zero pentru celelalte două modele cu context) este consistent cu același avantaj de izolare aliniată-pe-axe observat la clasele DoS lente.
+
+\subsection{Discuție}
+
+\paragraph{Caracteristicile de context al gazdei sunt cea mai impactantă adăugare din acest studiu.} Adăugarea a 9 statistici de activitate per-gazdă cu fereastră glisantă (secțiunea~\ref{sec:preprocessing}) ridică AP-ul de la 0.79 la 0.95 per ansamblu -- un câștig mai mare decât alegerea paradigmei sau trecerea de la o vedere flat la una temporală asupra acelorași date -- determinat în principal de rezolvarea punctului orb PortScan pe care îl aveau în comun toate modelele flat și temporale. Niciun model de context, luat singur, nu domină la fiecare tip de atac, deși AE+Context câștigă la AP-ul agregat, determinat de cele două clase cele mai mari.
+
+\paragraph{Un ansamblu practic.} Niciun model sau set de caracteristici, luat singur, nu acoperă fiecare clasă de atac din acest set de date. Combinarea AE+Context (puternic pe DDoS și PortScan, cele două clase care domină setul de test ca volum) cu IForest Temporal (puternic pe clasele DoS lente și, cu titlu provizoriu, pe Heartbleed) ar acoperi cea mai largă gamă de clase de atac detectabile în cadrul acestui set de caracteristici. Această premisă, precum și un ansamblu cu scor combinat construit și evaluat pe baza ei, sunt testate direct în secțiunea~\ref{sec:explain-disjoint-regime}: evidența celor două modele este confirmată ca fiind cu adevărat disjunctă, dar combinarea scorurilor lor se dovedește a schimba calitatea detecției PortScan pentru câștiguri pe clasele DoS lente, mai degrabă decât să le acopere pe amândouă gratuit.

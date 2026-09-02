@@ -1,0 +1,262 @@
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex.fmt)
+ restricted \write18 enabled.
+entering extended mode
+(main.tex
+LaTeX2e <2026-06-01>
+L3 programming layer <2026-06-18>
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/base\report.cls
+Document Class: report 2025/01/22 v1.4n Standard LaTeX document class
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/base\size12.clo))
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec.
+sty
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xparse\
+xparse.sty
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
+
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backen
+d-xetex.def)))
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec-
+xetex.sty
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec.
+cfg)))
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/polyglossia\polygl
+ossia.sty
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.
+sty)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty)
+
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/polyglossia\gloss-
+latex.ldf))
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/polyglossia\gloss-
+romanian.ldf)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/polyglossia\gloss-
+english.ldf)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/csquotes\csquotes.
+sty
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.st
+y)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/csquotes\csquotes.
+def)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/csquotes\csquotes.
+cfg))
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\biblatex.
+sty
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdfte
+xcmds.sty
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwar
+err.sty)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.
+sty))
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoption
+s.sty
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkey
+s.sty))
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/logreq\logreq.sty
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/logreq\logreq.def)
+) (C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/base\ifthen.sty)
+ (C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\blx-dm.de
+f)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\blx-unico
+de.def)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\blx-compa
+t.def)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\biblatex.
+def)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/bbx\numer
+ic.bbx
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/bbx\stand
+ard.bbx))
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/cbx\numer
+ic.cbx)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\biblatex.
+cfg)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\blx-case-
+expl3.sty))
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/setspace\setspace.
+sty)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.
+sty
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty
+)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.
+cfg))
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.
+sty
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.
+sty
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty)
+
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graph
+ics.cfg)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\xetex
+.def)))
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.
+sty)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.
+sty
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstpatch.
+sty)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstmisc.s
+ty)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.
+cfg))
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.
+sty
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvd
+efinekeys.sty)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfesc
+ape.sty)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.st
+y)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.s
+ty
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.
+sty)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestring\g
+ettitlestring.sty))
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\string
+enc.sty)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.de
+f)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/generic/intcalc\intcalc.
+sty)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def
+)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.st
+y
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bigin
+tcalc.sty)))
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hxetex.de
+f
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rer
+unfilecheck.sty
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\un
+iquecounter.sty)))
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/unicode-math\unico
+de-math.sty
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/unicode-math\unico
+de-math-xetex.sty
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/l3keys2
+e\l3keys2e.sty)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/base\fix-cm.sty
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/base\ts1enc.def))
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.st
+y
+For additional information on amsmath, use the `?' option.
+
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.st
+y
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty
+))
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty
+)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty
+))
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/unicode-math\unico
+de-math-table.tex)))
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/mathtools\mathtool
+s.sty
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/tools\calc.sty)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/mathtools\mhsetup.
+sty)
+
+Package mathtools Warning: For best results, please load mathtools *before* 
+(mathtools)                unicode-math on input line 127.
+
+)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/appendix\appendix.
+sty)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/fancyhdr\fancyhdr.
+sty) (main.aux (0-title.aux) (0-abstract.aux))
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/lbx\ameri
+can.lbx
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/lbx\engli
+sh.lbx)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/lbx\engli
+sh.lbx)) (romanian.lbx)
+No file main.bbl.
+*geometry* driver: auto-detecting
+*geometry* detected driver: xetex
+
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/graphics\color.sty
+
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color
+.cfg)
+(C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor
+.ltx)) (main.out) (main.out) (0-title.tex [1]) (0-abstract.tex [2]) (main.toc
+[3] [4]) [5] (1-introducere.tex
+Capitolul 1.
+[6]) (2-preliminarii.tex
+Capitolul 2.
+[7] [8]
+Overfull \hbox (21.02393pt too wide) in paragraph at lines 45--48
+[]\TU/lmr/m/n/12 Autoencoder Feedforward este bazat pe reconstrucție: o pereche
+ simetrică encoder/decoder
+[9] [10]
+Overfull \hbox (22.00592pt too wide) in paragraph at lines 85--85
+[][][][][]$[][][][][] [] [] [] [][][] [] [][][][][][] [] [][][] [] [][][][] [] 
+[][][][][][][][][][][][][] [] [][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][][][][][][][][][][][][][]$[][]| 
+[11]) (3-methodology.tex
+Capitolul 3.
+[12] [13] [14] [15]
+Underfull \hbox (badness 10000) in paragraph at lines 76--76
+[]\TU/lmr/m/n/12 Average Precision
+
+Underfull \hbox (badness 10000) in paragraph at lines 78--78
+[]\TU/lmr/m/n/12 F1 (positive/attack
+[16] [17]) (4-results.tex
+Capitolul 4.
+
+Overfull \hbox (67.64001pt too wide) in paragraph at lines 19--31
+ [][] 
+[18] [19] [20]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[21] [22] [23] [24]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[25] [26]
+Overfull \hbox (12.16873pt too wide) in paragraph at lines 250--251
+ []\TU/lmr/bx/n/12 Reconstruction beats prediction.[] \TU/lmr/m/n/12 Among the 
+temporal-feature models, reconstruction-
+[27] [28] [29] [30] [31] [32] [33]) (5-explainability.tex
+Capitolul 5.
+[34] [35] [36] [37] [38] [39] [40]
+Overfull \hbox (4.49731pt too wide) in paragraph at lines 93--93
+[]\TU/lmr/bx/n/14.4 Quantitative Verification: Column-Shuffle Feature-Identity
+[41] [42] [43] [44] [45] [46] [47]) (6-concluzii.tex
+Capitolul 6.
+) (7-anexe.tex
+Anexa 1.
+[48]
+Overfull \hbox (3.35617pt too wide) in paragraph at lines 15--26
+ [] 
+
+Overfull \hbox (4.07999pt too wide) in paragraph at lines 34--45
+ [] 
+[49] [50]
+Anexa 2.
+[51]
+Underfull \hbox (badness 1048) in paragraph at lines 153--154
+[]\TU/lmr/m/n/12 Prin \TU/lmtt/m/n/12 sklearn.classification_report\TU/lmr/m/n/
+12 , raportate
+
+Underfull \hbox (badness 1609) in paragraph at lines 155--155
+[]\TU/lmr/m/n/12 Precizie Medie (PR-
+
+Underfull \hbox (badness 10000) in paragraph at lines 157--157
+[]\TU/lmr/m/n/12 F1 (clasa poziti-
+[52] [53])
+
+LaTeX Warning: Empty bibliography on input line 178.
+
+[54] (main.aux (0-title.aux) (0-abstract.aux)) )
+(see the transcript file for additional information)
+Output written on main.pdf (54 pages).
+Transcript written on main.log.

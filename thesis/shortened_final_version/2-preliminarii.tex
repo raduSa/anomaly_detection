@@ -1,0 +1,123 @@
+\chapter{Preliminarii}
+\label{ch:preliminarii}
+
+\section{Proiectarea și Abordarea Cercetării}
+\label{sec:two-axes}
+
+Pentru a răspunde la întrebarea formulată mai sus, am propus următoarea abordare: în loc să optimizez o singură arhitectură pentru un singur set de date, am realizat o comparație de-a lungul a două axe simultan.
+
+Prima axă este \textbf{paradigma}: cele șapte modele evaluate (\S\ref{sec:paradigms}) au fost alese special pentru a acoperi patru moduri structural distincte de a reprezenta cum arată \enquote{normalul} -- o \textbf{graniță} trasată într-un spațiu indus de un kernel (One-Class SVM), o \textbf{partiționare} a spațiului de caracteristici prin diviziuni aleatoare (Isolation Forest), un \textbf{bottleneck de compresie} învățat, care trebuie să renunțe la orice, cu excepția structurii dominante a datelor normale (cele trei autoencodere bazate pe reconstrucție), și un model \textbf{predictiv} al modului în care datele normale evoluează pas cu pas (LSTM predictiv, Transformer cauzal). Fiecare paradigmă codifică o presupunere implicită diferită despre ce anume face un punct anormal, ceea ce ridică întrebarea centrală a acestei lucrări: care presupunere se potrivește cărui tip de anomalie.
+
+A doua axă este \textbf{setul de date}: Credit Card Fraud, Yahoo Webscope S5 și CIC-IDS2017 (\S\ref{sec:datasets-overview}) au fost alese pentru a acoperi un spectru de structură temporală -- de la un set de date pur tabelar, fără o ordonare semnificativă între rânduri, trecând prin serii de timp cu adevărat secvențiale, până la date de flux de rețea care admit atât o perspectivă plată, cât și una temporală asupra acelorași evenimente. Rularea fiecărei paradigme de model pe fiecare punct al acestui spectru este ceea ce face posibilă atribuirea unui rezultat dat \emph{paradigmei}.
+
+\subsection{Ipoteze și Comportament Așteptat}
+\label{sec:expected-behaviour}
+
+Pe baza acestor două axe, anticipez două tipare în rezultate.
+
+În primul rând, mă aștept ca paradigmele care oferă modelului o structură temporală inerentă a datelor -- prin construcție, nu doar prin faptul că le sunt oferite ferestre de intrare -- să performeze în general mai bine pe seturile de date cu adevărat secvențiale (Yahoo S5 și, într-o măsură mai mică, varianta temporală a CIC-IDS2017), comparativ cu paradigmele care tratează fiecare eșantion ca independent.
+
+În al doilea rând, mă aștept ca diferite paradigme să fie mai bine adaptate la a detecta diferite \emph{tipuri} de anomalii, chiar în cadrul aceluiași set de date. Dacă această presupunere este corectă, atunci compunerea mai multor paradigme complementare într-un ansamblu ar trebui să ducă la o îmbunătățire a performanței față de oricare model individual, atâta timp cât modelele componente exploatează relații diferite din date, și nu doar variații ale aceleiași relații. Această a doua ipoteză este testată direct atât prin analiza pe tip de atac din \S\ref{ch:results} (în special pentru CIC-IDS2017, unde este disponibilă eticheta tipului de atac), cât și prin studiul de caz al modelului ansamblu din \S\ref{ch:explainability}.
+
+În următoarele secțiuni vor fi prezentate detaliile algoritmilor și seturilor de date alese.
+
+% \section{Current State of Anomaly Detection Research}
+% \label{sec:sota}
+
+% % TODO: back this paragraph with concrete citations (comparative surveys,
+% % benchmark papers) once the bibliography is filled in.
+% Much of the published work on anomaly detection either proposes a new architecture and benchmarks it against a handful of established baselines within a single data modality, or surveys the field at a conceptual level without actually running the same models, under the same protocol, across substantially different kinds of data. Comparative studies tend to stay within one modality at a time -- time-series anomaly detection surveys on one side, tabular fraud-detection benchmarks on the other -- so it remains comparatively rare to see how the same paradigm-level assumption (a bottleneck, a boundary, a predictive objective) fares when the underlying data changes shape entirely, from independent tabular rows to genuinely sequential signals to network flow records. This is the specific gap the present thesis addresses: rather than proposing a new model, the two sections below introduce the four established paradigms and the three datasets that, taken together, make it possible to ask that paradigm-versus-modality question directly, under a single, shared experimental protocol (\S\ref{sec:eval-protocol}).
+
+\section{Algoritmi de Detecție a Anomaliilor}
+\label{sec:paradigms}
+
+\subsection{One-Class SVM}
+
+One-Class SVM (formularea $\nu$-SVM) învață o graniță în jurul datelor de antrenare, într-un spațiu de caracteristici (de obicei infinit-dimensional) indus de un kernel. Trei hiperparametri, fixați identic pe toate cele trei seturi de date (\texttt{kernel='rbf'}, \texttt{nu=0.01}, \texttt{gamma='scale'} -- vezi \S\ref{sec:architecture}), determină împreună forma acestei granițe:
+
+\begin{itemize}
+  \item \texttt{kernel='rbf'} fixează spațiul de caracteristici propriu-zis: fiecare punct de antrenare generează o \textbf{clopot gaussian} neted în jurul său, iar granița finală este conturul închis format prin suprapunerea acestor clopote în jurul zonelor dense de date.
+  \item \texttt{gamma='scale'} stabilește cât de largă este fiecare clopot gaussian, deci cât de strâns se poate curba granița în jurul structurii locale a datelor -- o valoare mai mare permite o graniță mai strânsă, dar cu risc mai mare ca modelul să învețe zgomotul.
+  \item \texttt{nu=0.01} controlează cât de strâns este forțată granița să încadreze datele de antrenare, limitând la $\sim$1\% fracția de puncte benigne pe care modelul are voie să le lase în afara ei.
+\end{itemize}
+
+La testare, modelul returnează distanța semnată față de granița învățată (pozitivă în interior, negativă în exterior); aceasta este negată astfel încât, în concordanță cu toate celelalte modele din acest proiect, \emph{scor mai mare = mai anormal}.
+
+\subsection{Isolation Forest}
+
+Isolation Forest construiește un ansamblu de arbori (numărul lor dat de parametrul \texttt{n\_estimators}) care împart fiecare recursiv spațiul de caracteristici pe baza unor caracteristici și puncte de divizare alese aleator, și folosește lungimea medie a căii necesare pentru a izola un punct (în propria sa frunză), calculată pe toți arborii, drept semnal de anomalie. 
+Deoarece diviziunile sunt aleatoare, punctele ușor de separat de restul datelor -- adică anomaliile, care tind să se afle în regiuni rare, de densitate scăzută -- sunt izolate în mai puține diviziuni, obținând astfel o lungime medie a căii mai mică decât punctele benigne tipice. Modelul returnează lungimea medie negată a căii, care este negată încă o dată aici, astfel încât un scor mai mare să însemne o cale mai scurtă (adică mai anormal), păstrând convenția consistentă cu toate celelalte modele. 
+Parametrul \texttt{contamination} este lăsat la valoarea implicită, \texttt{'auto'}: acest parametru ar seta în mod normal pragul intern de decizie al modelului pe baza unei fracții presupuse de anomalii în datele de antrenare, dar cum datele de antrenare aici sunt exclusiv benigne (nicio contaminare de luat în calcul), iar pragul de operare este ales extern prin baleierea curbei PR din \S\ref{sec:eval-protocol}, \texttt{contamination} nu are niciun efect asupra rezultatelor raportate -- contează doar scorul de anomalie continuu.
+
+\subsection{Autoencoder Feedforward (MLP)}
+
+Autoencoder Feedforward este bazat pe reconstrucție: o pereche simetrică encoder\slash decoder de straturi complet conectate \texttt{Linear} + \texttt{ReLU} (cu dropout între straturile ascunse) comprimă vectorul de caracteristici de intrare printr-un bottleneck de dimensionalitate strict redusă, apoi îl extinde înapoi la dimensiunea originală, fiind antrenat integral pentru a minimiza eroarea medie pătratică de reconstrucție față de propria intrare.
+Deoarece bottleneck-ul este mai îngust decât intrarea, rețeaua nu poate învăța pur și simplu funcția identitate; este forțată să învețe o reprezentare comprimată care surprinde structura dominantă specifică datelor \emph{benigne}.
+La testare, scorul de anomalie este eroarea medie pătratică per eșantion dintre intrare și reconstrucția sa: eșantioanele benigne, care seamănă cu distribuția de antrenare în jurul căreia a fost modelat bottleneck-ul, se reconstruiesc cu eroare mică, în timp ce eșantioanele anormale -- pe care bottleneck-ul nu a fost niciodată antrenat să le reprezinte -- se reconstruiesc slab.
+
+\subsection{Autoencoder LSTM}
+
+Autoencoder LSTM aplică același principiu de reconstrucție ca Autoencoder Feedforward, dar pentru intrări sub formă de secvențe: un strat LSTM funcționează ca encoder, consumând întreaga secvență de intrare și păstrând doar starea ascunsă finală (și starea de celulă) ca un singur vector de dimensiune fixă, rezumând întreaga secvență. Această stare ascunsă finală este apoi repetată identic la fiecare pas de timp, ca intrare pentru un al doilea strat LSTM care acționează ca decoder, ale cărui ieșiri per pas de timp sunt proiectate înapoi la dimensionalitatea originală a caracteristicilor printr-un strat liniar comun.
+Scorul de anomalie este, din nou, eroarea medie pătratică per eșantion, calculată pe toți pașii de timp și toate caracteristicile simultan, între secvența de intrare și reconstrucția sa.
+
+\subsection{LSTM Predictiv}
+
+LSTM Predictiv folosește același bloc recurent (un singur strat LSTM) ca Autoencoder LSTM de mai sus, dar cu un obiectiv de antrenare diferit: este antrenat să prezică pasul $t+1$ din pașii $0..t$, simultan la fiecare poziție din secvență -- modelul nu vede niciodată valoarea pe care este pus să o prezică.
+Din punct de vedere arhitectural, aceasta înseamnă că starea ascunsă a LSTM-ului la fiecare pas de timp este proiectată direct într-o predicție a pasului următor printr-un strat de ieșire liniar, fără separare encoder/decoder și fără vector de tip bottleneck: modelul consumă secvența o singură dată, iar fiecare stare ascunsă de-a lungul parcursului este folosită, nu doar cea finală.
+Scorul de anomalie este eroarea medie pătratică dintre valorile prezise și cele reale ale pasului următor, de-a lungul secvenței.
+
+\subsection{Autoencodere Bazate pe Transformer}
+
+Sunt folosite două variante de transformer, ambele înlocuind coloana vertebrală recurentă a Autoencoder LSTM cu un \texttt{TransformerEncoder} multi-strat (blocuri de auto-atenție + feedforward, codificare pozițională sinusoidală), diferind însă în modul în care este impusă constrângerea de bottleneck (reconstrucție) sau de cauzalitate (predicție):
+
+\begin{itemize}
+  \item \textbf{Bottleneck Transformer Autoencoder} -- bazat pe reconstrucție. Fiecare caracteristică/pas de timp de intrare este proiectat(ă) într-un token de dimensiune $\texttt{D\_MODEL}$ și trecut(ă) prin encoderul transformer cu auto-atenție completă (non-cauzală), astfel încât fiecare poziție poate atenționa liber orice altă poziție. Reprezentările rezultate per poziție sunt apoi \emph{mediate global} (\emph{global-average-pooled}) de-a lungul secvenței într-un singur vector de dimensiune $\texttt{D\_MODEL}$, comprimat printr-un strat liniar la un \texttt{LATENT\_DIM} strict mai mic, apoi extins înapoi printr-un al doilea strat liniar la forma completă a secvenței aplatizate. 
+  Acest pas de comprimare-extindere este bottleneck-ul explicit de informație (analog stării ascunse finale din Autoencoder LSTM) care împiedică mecanismul de atenție să copieze pur și simplu intrarea în ieșire. 
+  Scor de anomalie: MSE per eșantion între intrare și reconstrucție, pe toate pozițiile deodată -- întreaga secvență reconstruită este produsă printr-o singură trecere prin rețea, nu pas cu pas ca la un decoder recurent.
+  \item \textbf{Causal Transformer} -- predictiv-temporal, echivalentul bazat pe atenție al LSTM Predictiv. Este folosită aceeași structură de encoder, dar cu o mască de atenție cauzală (triunghiulară superior) aplicată, astfel încât poziția $t$ poate atenționa doar pozițiile $0..t$; modelul este antrenat cu același obiectiv de predicție a pasului următor ca LSTM Predictiv, fără bottleneck de comprimare. 
+  Scor de anomalie: MSE per eșantion între valorile prezise și cele reale ale pasului următor.
+\end{itemize}
+
+Ambele variante folosesc deliberat un singur \texttt{TransformerEncoder}. Costul de antrenare și inferență crește odată cu numărul de straturi de atenție, pe toate seturile de date și modelele, iar un design de tip encoder-only păstrează acest cost, împreună cu numărul de parametri antrenabili, la aproximativ jumătate din ce ar necesita un model echivalent encoder-decoder, fără a sacrifica abilitatea de a face fie comprimare-și-reconstrucție, fie predicție cauzală.
+
+Nu există o implementare Causal Transformer pentru setul de date credit card (\S\ref{ch:results}).
+
+\section{Seturile de Date}
+\label{sec:datasets-overview}
+
+\subsection{Credit Card Fraud Detection (Setul de Date A)}
+
+Setul de date Kaggle Credit Card Fraud Detection conține 284{,}807 tranzacții bancare, dintre care 492 (0.172\%) sunt frauduloase.
+Cele 30 de caracteristici prezente sunt: \texttt{Time} (secunde scurse de la prima tranzacție din set), 28 de caracteristici transformate prin PCA \texttt{V1}--\texttt{V28} (anonimizate din motive de confidențialitate, deja decorelate și aproximativ zero-medie prin construcție), și \texttt{Amount} (valoarea brută a tranzacției, puternic asimetrică spre dreapta).
+\texttt{Time} reprezintă secunde scurse, nu o axă temporală structurată -- nu există periodicitate, tendință sau noțiune de sesiune de exploatat. Acest lucru face din Setul de Date A cazul de control deliberat, \enquote{fără ordine temporală reală}.
+
+Setul de date, împreună cu analiza exploratorie a comunității, este disponibil pe Kaggle~\cite{kaggle_creditcard}. Este disponibil și un notebook exploratoriu suplimentar, dedicat special gestionării datelor dezechilibrate și detecției anomaliilor pe acest set de date~\cite{kaggle_janiobachmann}, care a servit drept inspirație pentru o parte din scripturile acestui proiect.
+
+\subsection{Yahoo Webscope S5 (Setul de Date B)}
+
+Yahoo Webscope S5 constă din patru familii de benchmark (A1--A4), fiecare o colecție de mai multe serii de timp univariate independente, cu anomalii etichetate, dar fiecare construită pentru a izola un tip diferit de anomalie:
+
+\begin{center}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllll@{}}
+\toprule
+Benchmark & Serii & Origine & Tip de anomalie & Rata de anomalii \\
+\midrule
+A1 & 67  & Metrici reale de server & Valori punctuale aberante & 1.76\% \\
+A2 & 100 & Sintetic, o singură componentă periodică + tendință & Valori punctuale aberante & 0.33\% \\
+A3 & 100 & Sintetic, 3 componente de frecvență în interacțiune & Contextuală (deviație de fază) & 0.56\% \\
+A4 & 100 & Sintetic, aceeași structură, fără sezonalitate & Schimbări de nivel & 0.50\% \\
+\bottomrule
+\end{tabular}%
+}
+\end{center}
+
+A1 este real și zgomotos (cicluri zilnice/săptămânale dezordonate); A2--A4 sunt sintetice și construite special astfel încât tipul de anomalie să fie controlat independent de forma seriei de bază. Acest lucru este ceea ce permite capitolului de Rezultate să atribuie diferențele de performanță \emph{tipului de anomalie} (punctuală vs.\ contextuală vs.\ schimbare de nivel), și nu unor diferențe confundante între seturile de date.
+
+\subsection{CIC-IDS2017 (Setul de Date C)}
+
+CIC-IDS2017 (Canadian Institute for Cybersecurity) este un benchmark de detecție a intruziunilor în rețea, captat pe parcursul a cinci zile: $\sim$2.8 milioane de fluxuri de rețea, fiecare descris de $\sim$80 de caracteristici statistice extrase prin CICFlowMeter (durată, numărul și rata pachetelor/octeților, statistici ale timpului dintre sosiri, numărul de flag-uri TCP, dimensiuni de fereastră etc.). Luni este trafic 100\% benign; 14 tipuri distincte de atacuri (variante DoS/DDoS, PortScan, forță brută, atacuri web, Bot, Infiltration, Heartbleed) sunt injectate de marți până vineri.
+
+Se știe că distribuția brută/Kaggle a acestui set de date este substanțial coruptă \parencite{engelen2021troubleshooting}: aproximativ 26\% din fluxuri sunt artefacte de tip \enquote{appendix} TCP, care moștenesc eticheta de atac a fluxului părinte fără a conține trafic de atac real, o mare parte din fluxurile etichetate nominal ca atac nu au încărcătură utilă reală (etichetate doar formal, nu pe bază de comportament), iar întreaga clasă \texttt{DoS Hulk} corespunde unei simulări de atac defecte, care nu se execută niciodată efectiv împotriva serverului țintă. Sunt prezente și coloane de identificare (\texttt{Flow ID}, IP sursă/destinație, \texttt{Timestamp}) care, dacă sunt păstrate, permit unui model să \enquote{învețe pe scurtătură} după adresa IP sau fereastra de captură, în loc de comportamentul traficului. Acest proiect folosește versiunea curățată și reextrasă a setului de date de la \textcite{engelen2021troubleshooting}, în locul CSV-urilor originale Kaggle/UNB, și elimină explicit coloanele de identificare (vezi \S\ref{sec:preprocessing}).
+
+Fluxurile CIC-IDS2017 sunt agregate statistice la nivel de sesiune. Acest lucru face din acest set de date un caz de tranziție perfect: admite o perspectivă validă de tip plat/tabelar (un flux = un eșantion, analog setului de Date A), o perspectivă temporală validă (fluxuri grupate și ordonate per gazdă, analog setului de Date B).
