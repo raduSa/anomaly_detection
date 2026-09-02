@@ -316,6 +316,29 @@ Referința obține ROC-AUC 0.508 și AP 0.348 -- aproape aleator, așa cum era d
 
 AP-ul propriu al referinței (0.348) se apropie îndeaproape de prior-ul de $\sim$33\% ferestre pozitive pe A3 (el însuși ridicat de estomparea etichetei la nivel de fereastră discutată în secțiunea~\ref{sec:preprocessing}), confirmând că referința este zgomot pur și că AP-ul brut al unui model este parțial o funcție a acestui prior umflat, nu doar a structurii învățate.
 
+\chapter{Diagnostice SHAP Suplimentare}
+\label{ch:temporal-shap-extra}
+
+Această anexă completează \S\ref{sec:explain-temporal-window} cu doi diagnostici suplimentari pentru atribuirea SHAP a lui Temporal IForest pe ferestre DDoS și DoS slowloris.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.48\textwidth,keepaspectratio]{../../data/explainability/cicids_temporal_shap/2/ddos_position_concentration.png}%
+\hspace{0.02\textwidth}%
+\includegraphics[width=0.48\textwidth,keepaspectratio]{../../data/explainability/cicids_temporal_shap/2/dos_slowloris_position_concentration.png}
+\caption{Temporal IForest -- $|\text{SHAP}|$ mediu, sumat pe caracteristici, per pas temporal, ferestre DDoS (stânga) și ferestre DoS slowloris (dreapta). Ultimul pas temporal (bara roșie, 15) -- fluxul combinat cu scorul lui AE+Context în ansamblul propus -- nu poartă mai multă masă de atribuire decât orice altă poziție din fereastră, confirmând statistica sumară raportată în \S\ref{sec:explain-temporal-window}.}
+\label{fig:explain-temporal-position-concentration}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.48\textwidth,keepaspectratio]{../../data/explainability/cicids_temporal_shap/2/ddos_beeswarm.png}%
+\hspace{0.02\textwidth}%
+\includegraphics[width=0.48\textwidth,keepaspectratio]{../../data/explainability/cicids_temporal_shap/2/dos_slowloris_beeswarm.png}
+\caption{Temporal IForest -- diagramă beeswarm SHAP per caracteristică, ferestre DDoS (stânga) și ferestre DoS slowloris (dreapta), colapsând axa celor 16 pași temporali prin sumarea contribuției SHAP a fiecărei caracteristici pe toată fereastra și colorând după valoarea medie a acelei caracteristici pe fereastră. DoS slowloris arată o relație monotonă clară -- valori mari ale timpului între sosiri (inter-arrival time) determină un SHAP puternic negativ (anormal), valorile mici împing spre zero -- consistent cu comportamentul lent, de menținere a conexiunii, după care este numit atacul. DDoS arată o relație valoare-semn mai zgomotoasă pentru caracteristicile sale de lungime a pachetelor pe direcția inversă, și o răspândire per fereastră mai largă decât sugerează, singură, imaginea de medii din Figura~\ref{fig:explain-temporal-shap}.}
+\label{fig:explain-temporal-beeswarm}
+\end{figure}
+
 \chapter{Validarea Scorului Temporal IForest Sub Etichetare pe Ultimul Flux}
 \label{ch:temporal-iforest-last-flow-validation}
 

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.7.20)  2 SEP 2026 13:15
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.7.20)  2 SEP 2026 13:25
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1451,7 +1451,7 @@ File: ./images/logo-fmi.png Graphic file (type bmp)
 
 
 ] [4]
-Overfull \hbox (32.59195pt too wide) in paragraph at lines 96--96
+Overfull \hbox (32.59195pt too wide) in paragraph at lines 97--97
  [] [][][]\TU/lmr/bx/n/12 Alinierea Scorurilor și Eșecul Standardizării $[]$ pe
 ntru Ansamblul AE+Context 
  []
@@ -1540,23 +1540,8 @@ File: ../../data/explainability/cicids_temporal_shap/1/dos_slowloris_top_featur
 e_profiles.png Graphic file (type bmp)
 <../../data/explainability/cicids_temporal_shap/1/dos_slowloris_top_feature_pro
 files.png>
-File: ../../data/explainability/cicids_temporal_shap/2/ddos_position_concentrat
-ion.png Graphic file (type bmp)
-<../../data/explainability/cicids_temporal_shap/2/ddos_position_concentration.p
-ng>
-File: ../../data/explainability/cicids_temporal_shap/2/dos_slowloris_position_c
-oncentration.png Graphic file (type bmp)
-<../../data/explainability/cicids_temporal_shap/2/dos_slowloris_position_concen
-tration.png>
  [31]
-File: ../../data/explainability/cicids_temporal_shap/2/ddos_beeswarm.png Graphi
-c file (type bmp)
-<../../data/explainability/cicids_temporal_shap/2/ddos_beeswarm.png>
-File: ../../data/explainability/cicids_temporal_shap/2/dos_slowloris_beeswarm.p
-ng Graphic file (type bmp)
-<../../data/explainability/cicids_temporal_shap/2/dos_slowloris_beeswarm.png>
- [32]
-Overfull \hbox (23.69864pt too wide) in paragraph at lines 138--139
+Overfull \hbox (23.69864pt too wide) in paragraph at lines 118--119
 []\TU/lmr/m/n/12 SHAP a fost calculat cu \TU/lmtt/m/n/12 GradientExplainer \TU/
 lmr/m/n/12 pe eroarea de reconstrucție a lui AE+Context,
  []
@@ -1566,24 +1551,24 @@ scan_shap.png Graphic file (type bmp)
 <../../data/explainability/cicids_shap_portscan/5/autoencoder_context_portscan_
 shap.png>
 
-Underfull \hbox (badness 7667) in paragraph at lines 143--143
-[]\TU/lmr/m/n/12 Figura 5.7: []AE+Context – diagramă sumară SHAP, eșantioane Po
+Underfull \hbox (badness 7667) in paragraph at lines 123--123
+[]\TU/lmr/m/n/12 Figura 5.5: []AE+Context – diagramă sumară SHAP, eșantioane Po
 rtScan.
  []
 
 
-Overfull \hbox (3.804pt too wide) in paragraph at lines 148--156
+Overfull \hbox (3.804pt too wide) in paragraph at lines 128--136
  [] 
  []
 
-[33]
-Overfull \hbox (16.08733pt too wide) in paragraph at lines 177--188
+[32]
+Overfull \hbox (16.08733pt too wide) in paragraph at lines 157--168
  [] 
  []
 
-[34]) (6-concluzii.tex
+[33]) (6-concluzii.tex
 Capitolul 6.
-[35]) [36] (7-anexe.tex
+[34]) [35] (7-anexe.tex
 Anexa 1.
 
 Overfull \hbox (3.35617pt too wide) in paragraph at lines 15--26
@@ -1595,9 +1580,9 @@ Overfull \hbox (4.07999pt too wide) in paragraph at lines 34--45
  [] 
  []
 
-[37
+[36
 
-] [38] [39]
+] [37] [38]
 Anexa 2.
 
 Underfull \hbox (badness 1048) in paragraph at lines 155--156
@@ -1615,42 +1600,59 @@ Underfull \hbox (badness 10000) in paragraph at lines 159--159
 []\TU/lmr/m/n/12 F1 (clasa poziti-
  []
 
-[40] [41]
+[39] [40]
 Anexa 3.
-[42]
+[41]
 Anexa 4.
-[43]
+[42]
 Anexa 5.
-[44]
+File: ../../data/explainability/cicids_temporal_shap/2/ddos_position_concentrat
+ion.png Graphic file (type bmp)
+<../../data/explainability/cicids_temporal_shap/2/ddos_position_concentration.p
+ng>
+File: ../../data/explainability/cicids_temporal_shap/2/dos_slowloris_position_c
+oncentration.png Graphic file (type bmp)
+<../../data/explainability/cicids_temporal_shap/2/dos_slowloris_position_concen
+tration.png>
+[43]
+File: ../../data/explainability/cicids_temporal_shap/2/ddos_beeswarm.png Graphi
+c file (type bmp)
+<../../data/explainability/cicids_temporal_shap/2/ddos_beeswarm.png>
+File: ../../data/explainability/cicids_temporal_shap/2/dos_slowloris_beeswarm.p
+ng Graphic file (type bmp)
+<../../data/explainability/cicids_temporal_shap/2/dos_slowloris_beeswarm.png>
+
 Anexa 6.
+[44]
+Anexa 7.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 24.88266pt on input line 342.
+(Font)              scaled to size 24.88266pt on input line 365.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 20.74222pt on input line 342.
+(Font)              scaled to size 20.74222pt on input line 365.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 17.28183pt on input line 342.
+(Font)              scaled to size 17.28183pt on input line 365.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 24.87733pt on input line 342.
+(Font)              scaled to size 24.87733pt on input line 365.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 20.73778pt on input line 342.
+(Font)              scaled to size 20.73778pt on input line 365.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 17.27815pt on input line 342.
+(Font)              scaled to size 17.27815pt on input line 365.
 [45]) [46] [47] (main.aux (0-title.aux) (0-abstract.aux))
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-06-18>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 3E9D44C4362705B9A97223204A25C429;15855.
+(rerunfilecheck)             Checksum: 26A2B42085D1140835DFC7B3C61B0D2B;16051.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 27014 strings out of 402629
- 514920 string characters out of 5438092
- 1507264 words of memory out of 5000000
- 55770 multiletter control sequences out of 15000+600000
+ 27015 strings out of 402629
+ 514944 string characters out of 5438092
+ 1507345 words of memory out of 5000000
+ 55771 multiletter control sequences out of 15000+600000
  631726 words of font info for 85 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  86i,13n,107p,1380b,5749s stack positions out of 10000i,1000n,20000p,200000b,200000s

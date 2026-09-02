@@ -71,27 +71,28 @@
 \contentsline {section}{\numberline {5.2}Regimuri de Caracteristici Disjuncte: AE+Context vs.\ Temporal IForest}{30}{section.5.2}%
 \contentsline {paragraph}{O scurtă introducere la SHAP.}{30}{section*.23}%
 \contentsline {subsection}{\numberline {5.2.1}Temporal IForest: Atribuire SHAP pe Toată Fereastra}{31}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}AE+Context: SHAP Dominat de Caracteristici de Context al Gazdei}{33}{subsection.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}Construirea Scorului Combinat}{34}{subsection.5.2.3}%
-\contentsline {subsection}{\numberline {5.2.4}Acoperire per Clasă vs.\ AP Agregat}{34}{subsection.5.2.4}%
-\contentsline {chapter}{\numberline {6}Concluzii}{35}{chapter.6}%
-\contentsline {chapter}{Anexe}{37}{section*.24}%
-\contentsline {chapter}{\numberline {1}Alegeri legate de Hiperparametri și Antrenare}{37}{appendix.A}%
-\contentsline {section}{\numberline {1.1}Isolation Forest}{37}{appendix.A.1}%
-\contentsline {section}{\numberline {1.2}One-Class SVM}{38}{appendix.A.2}%
-\contentsline {section}{\numberline {1.3}Autoencoder Feedforward (MLP)}{38}{appendix.A.3}%
-\contentsline {section}{\numberline {1.4}LSTM Predictiv}{38}{appendix.A.4}%
-\contentsline {section}{\numberline {1.5}Autoencoder LSTM}{39}{appendix.A.5}%
-\contentsline {section}{\numberline {1.6}Bottleneck Transformer Autoencoder}{39}{appendix.A.6}%
-\contentsline {section}{\numberline {1.7}Causal Transformer}{40}{appendix.A.7}%
-\contentsline {chapter}{\numberline {2}Protocolul de Evaluare: Metrici și Rezultate Complete}{40}{appendix.B}%
-\contentsline {section}{\numberline {2.1}Metrici Raportate}{40}{appendix.B.1}%
-\contentsline {paragraph}{Notă privind consistența numerelor.}{41}{section*.25}%
-\contentsline {section}{\numberline {2.2}Rezultate Complete -- Credit Card Fraud Detection}{41}{appendix.B.2}%
-\contentsline {section}{\numberline {2.3}Rezultate Complete -- Yahoo Webscope S5}{42}{appendix.B.3}%
-\contentsline {section}{\numberline {2.4}Rezultate Complete -- CIC-IDS2017}{42}{appendix.B.4}%
-\contentsline {chapter}{\numberline {3}Compoziția pe Clase de Atac a Setului de Test Temporal CIC-IDS2017}{43}{appendix.C}%
-\contentsline {chapter}{\numberline {4}Verificare de Referință Trivială -- Yahoo S5 (Detalii)}{44}{appendix.D}%
-\contentsline {chapter}{\numberline {5}Validarea Scorului Temporal IForest Sub Etichetare pe Ultimul Flux}{44}{appendix.E}%
-\contentsline {chapter}{\numberline {6}Alinierea Scorurilor și Eșecul Standardizării $z$ pentru Ansamblul AE+Context + Temporal IForest}{45}{appendix.F}%
+\contentsline {subsection}{\numberline {5.2.2}AE+Context: SHAP Dominat de Caracteristici de Context al Gazdei}{32}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Construirea Scorului Combinat}{33}{subsection.5.2.3}%
+\contentsline {subsection}{\numberline {5.2.4}Acoperire per Clasă vs.\ AP Agregat}{33}{subsection.5.2.4}%
+\contentsline {chapter}{\numberline {6}Concluzii}{34}{chapter.6}%
+\contentsline {chapter}{Anexe}{36}{section*.24}%
+\contentsline {chapter}{\numberline {1}Alegeri legate de Hiperparametri și Antrenare}{36}{appendix.A}%
+\contentsline {section}{\numberline {1.1}Isolation Forest}{36}{appendix.A.1}%
+\contentsline {section}{\numberline {1.2}One-Class SVM}{37}{appendix.A.2}%
+\contentsline {section}{\numberline {1.3}Autoencoder Feedforward (MLP)}{37}{appendix.A.3}%
+\contentsline {section}{\numberline {1.4}LSTM Predictiv}{37}{appendix.A.4}%
+\contentsline {section}{\numberline {1.5}Autoencoder LSTM}{38}{appendix.A.5}%
+\contentsline {section}{\numberline {1.6}Bottleneck Transformer Autoencoder}{38}{appendix.A.6}%
+\contentsline {section}{\numberline {1.7}Causal Transformer}{39}{appendix.A.7}%
+\contentsline {chapter}{\numberline {2}Protocolul de Evaluare: Metrici și Rezultate Complete}{39}{appendix.B}%
+\contentsline {section}{\numberline {2.1}Metrici Raportate}{39}{appendix.B.1}%
+\contentsline {paragraph}{Notă privind consistența numerelor.}{40}{section*.25}%
+\contentsline {section}{\numberline {2.2}Rezultate Complete -- Credit Card Fraud Detection}{40}{appendix.B.2}%
+\contentsline {section}{\numberline {2.3}Rezultate Complete -- Yahoo Webscope S5}{41}{appendix.B.3}%
+\contentsline {section}{\numberline {2.4}Rezultate Complete -- CIC-IDS2017}{41}{appendix.B.4}%
+\contentsline {chapter}{\numberline {3}Compoziția pe Clase de Atac a Setului de Test Temporal CIC-IDS2017}{42}{appendix.C}%
+\contentsline {chapter}{\numberline {4}Verificare de Referință Trivială -- Yahoo S5 (Detalii)}{43}{appendix.D}%
+\contentsline {chapter}{\numberline {5}Diagnostice SHAP Suplimentare}{43}{appendix.E}%
+\contentsline {chapter}{\numberline {6}Validarea Scorului Temporal IForest Sub Etichetare pe Ultimul Flux}{45}{appendix.F}%
+\contentsline {chapter}{\numberline {7}Alinierea Scorurilor și Eșecul Standardizării $z$ pentru Ansamblul AE+Context + Temporal IForest}{45}{appendix.G}%
 \contentsline {chapter}{Bibliografie}{46}{appendix*.26}%

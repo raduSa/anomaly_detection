@@ -28,8 +28,8 @@ Compiled with `xelatex` (2 passes) and read the printed page number of each `\ch
 1. **Move secondary/supporting material to annexes, keep a one-line pointer in the main text.** This was the core lever for the whole exercise and is the single most defensible category of edit — nothing is lost, it's just relocated to where a reader who wants the detail can still find it.
    - §2.2.6 Transformer architecture rationale → Anexa A
    - §4.2.4 Yahoo trivial-baseline check → Anexa E    CHECK
-   - §5.2.1 two of three SHAP figure pairs (position-concentration, beeswarm) → Anexa G
-   - §3.1 preprocessing step-by-step detail (all three datasets) + DeepAnt comparison → Anexa A
+   - §5.2.1 two of three SHAP figure pairs (position-concentration, beeswarm) → Anexa G   CHECK
+   - §3.1 preprocessing step-by-step detail (all three datasets) + DeepAnt comparison → Anexa A    
    - §4.3.1 CIC-IDS2017 attack-composition table (flat/context) → Anexa D, next to the already-annexed temporal-set table
    - §4.3.2 per-class results table (`tab:cic-per-class`) and the DoS-lente sub-breakdown → Anexa C
    - §5.2.2 AE+Context PortScan SHAP summary figure → Anexa G (the small confirming table stays in the main text)

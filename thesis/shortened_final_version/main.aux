@@ -162,71 +162,75 @@
 \newlabel{sec:explain-temporal-window}{{5.2.1}{31}{Temporal IForest: Atribuire SHAP pe Toată Fereastra}{subsection.5.2.1}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces Temporal IForest -- valoarea medie SHAP per pas temporal pentru cele șase caracteristici cu cea mai mare atribuire, ferestre DDoS (stânga) și ferestre DoS slowloris (dreapta). În ambele cazuri atribuirea este negativă (anormală), recurentă cu semn consistent pe majoritatea celor 16 pași temporali, și nu se concentrează pe fluxul final (linia roșie punctată) -- fluxul combinat cu scorul lui AE+Context în ansamblul propus.}}{31}{figure.5.4}\protected@file@percent }
 \newlabel{fig:explain-temporal-shap}{{5.4}{31}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Temporal IForest -- valoarea medie SHAP per pas temporal pentru cele șase caracteristici cu cea mai mare atribuire, ferestre DDoS (stânga) și ferestre DoS slowloris (dreapta). În ambele cazuri atribuirea este negativă (anormală), recurentă cu semn consistent pe majoritatea celor 16 pași temporali, și nu se concentrează pe fluxul final (linia roșie punctată) -- fluxul combinat cu scorul lui AE+Context în ansamblul propus}{figure.5.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces Temporal IForest -- $|\text  {SHAP}|$ mediu, sumat pe caracteristici, per pas temporal, ferestre DDoS (stânga) și ferestre DoS slowloris (dreapta). Ultimul pas temporal (bara roșie, 15) -- fluxul combinat cu scorul lui AE+Context în ansamblul propus -- nu poartă mai multă masă de atribuire decât orice altă poziție din fereastră, confirmând statistica sumară raportată mai jos.}}{32}{figure.5.5}\protected@file@percent }
-\newlabel{fig:explain-temporal-position-concentration}{{5.5}{32}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Temporal IForest -- $|\text {SHAP}|$ mediu, sumat pe caracteristici, per pas temporal, ferestre DDoS (stânga) și ferestre DoS slowloris (dreapta). Ultimul pas temporal (bara roșie, 15) -- fluxul combinat cu scorul lui AE+Context în ansamblul propus -- nu poartă mai multă masă de atribuire decât orice altă poziție din fereastră, confirmând statistica sumară raportată mai jos}{figure.5.5}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.6}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces Temporal IForest -- diagramă beeswarm SHAP per caracteristică, ferestre DDoS (stânga) și ferestre DoS slowloris (dreapta), colapsând axa celor 16 pași temporali prin sumarea contribuției SHAP a fiecărei caracteristici pe toată fereastra și colorând după valoarea medie a acelei caracteristici pe fereastră. DoS slowloris arată o relație monotonă clară -- valori mari ale timpului între sosiri (inter-arrival time) determină un SHAP puternic negativ (anormal), valorile mici împing spre zero -- consistent cu comportamentul lent, de menținere a conexiunii, după care este numit atacul. DDoS arată o relație valoare-semn mai zgomotoasă pentru caracteristicile sale de lungime a pachetelor pe direcția inversă, și o răspândire per fereastră mai largă decât sugerează, singură, imaginea de medii din Figura~\ref {fig:explain-temporal-shap}.}}{32}{figure.5.6}\protected@file@percent }
-\newlabel{fig:explain-temporal-beeswarm}{{5.6}{32}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Temporal IForest -- diagramă beeswarm SHAP per caracteristică, ferestre DDoS (stânga) și ferestre DoS slowloris (dreapta), colapsând axa celor 16 pași temporali prin sumarea contribuției SHAP a fiecărei caracteristici pe toată fereastra și colorând după valoarea medie a acelei caracteristici pe fereastră. DoS slowloris arată o relație monotonă clară -- valori mari ale timpului între sosiri (inter-arrival time) determină un SHAP puternic negativ (anormal), valorile mici împing spre zero -- consistent cu comportamentul lent, de menținere a conexiunii, după care este numit atacul. DDoS arată o relație valoare-semn mai zgomotoasă pentru caracteristicile sale de lungime a pachetelor pe direcția inversă, și o răspândire per fereastră mai largă decât sugerează, singură, imaginea de medii din Figura~\ref {fig:explain-temporal-shap}}{figure.5.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}AE+Context: SHAP Dominat de Caracteristici de Context al Gazdei}{33}{subsection.5.2.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.7}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces AE+Context -- diagramă sumară SHAP, eșantioane PortScan. \texttt  {ctx\_min\_port\_cnt} domină printr-un cluster strâns, uniform pozitiv, bine separat de orice altă caracteristică; rândurile de top rămase sunt aproape în întregime caracteristici de context al gazdei.}}{33}{figure.5.7}\protected@file@percent }
-\newlabel{fig:explain-ae-context-portscan-shap}{{5.7}{33}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces AE+Context -- diagramă sumară SHAP, eșantioane PortScan. \texttt {ctx\_min\_port\_cnt} domină printr-un cluster strâns, uniform pozitiv, bine separat de orice altă caracteristică; rândurile de top rămase sunt aproape în întregime caracteristici de context al gazdei}{figure.5.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.3}Construirea Scorului Combinat}{34}{subsection.5.2.3}\protected@file@percent }
-\newlabel{sec:explain-ensemble-build}{{5.2.3}{34}{Construirea Scorului Combinat}{subsection.5.2.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.4}Acoperire per Clasă vs.\ AP Agregat}{34}{subsection.5.2.4}\protected@file@percent }
-\newlabel{sec:explain-ensemble-results}{{5.2.4}{34}{Acoperire per Clasă vs.\ AP Agregat}{subsection.5.2.4}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Concluzii}{35}{chapter.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}AE+Context: SHAP Dominat de Caracteristici de Context al Gazdei}{32}{subsection.5.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces AE+Context -- diagramă sumară SHAP, eșantioane PortScan. \texttt  {ctx\_min\_port\_cnt} domină printr-un cluster strâns, uniform pozitiv, bine separat de orice altă caracteristică; rândurile de top rămase sunt aproape în întregime caracteristici de context al gazdei.}}{32}{figure.5.5}\protected@file@percent }
+\newlabel{fig:explain-ae-context-portscan-shap}{{5.5}{32}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces AE+Context -- diagramă sumară SHAP, eșantioane PortScan. \texttt {ctx\_min\_port\_cnt} domină printr-un cluster strâns, uniform pozitiv, bine separat de orice altă caracteristică; rândurile de top rămase sunt aproape în întregime caracteristici de context al gazdei}{figure.5.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.3}Construirea Scorului Combinat}{33}{subsection.5.2.3}\protected@file@percent }
+\newlabel{sec:explain-ensemble-build}{{5.2.3}{33}{Construirea Scorului Combinat}{subsection.5.2.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.4}Acoperire per Clasă vs.\ AP Agregat}{33}{subsection.5.2.4}\protected@file@percent }
+\newlabel{sec:explain-ensemble-results}{{5.2.4}{33}{Acoperire per Clasă vs.\ AP Agregat}{subsection.5.2.4}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Concluzii}{34}{chapter.6}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{ch:concluzii}{{6}{35}{Concluzii}{chapter.6}{}}
-\@writefile{toc}{\contentsline {chapter}{Anexe}{37}{section*.24}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {1}Alegeri legate de Hiperparametri și Antrenare}{37}{appendix.A}\protected@file@percent }
+\newlabel{ch:concluzii}{{6}{34}{Concluzii}{chapter.6}{}}
+\@writefile{toc}{\contentsline {chapter}{Anexe}{36}{section*.24}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {1}Alegeri legate de Hiperparametri și Antrenare}{36}{appendix.A}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{sec:architecture}{{1}{37}{Alegeri legate de Hiperparametri și Antrenare}{appendix.A}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.1}Isolation Forest}{37}{appendix.A.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.2}One-Class SVM}{38}{appendix.A.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.3}Autoencoder Feedforward (MLP)}{38}{appendix.A.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.4}LSTM Predictiv}{38}{appendix.A.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.5}Autoencoder LSTM}{39}{appendix.A.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.6}Bottleneck Transformer Autoencoder}{39}{appendix.A.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.7}Causal Transformer}{40}{appendix.A.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {2}Protocolul de Evaluare: Metrici și Rezultate Complete}{40}{appendix.B}\protected@file@percent }
+\newlabel{sec:architecture}{{1}{36}{Alegeri legate de Hiperparametri și Antrenare}{appendix.A}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.1}Isolation Forest}{36}{appendix.A.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.2}One-Class SVM}{37}{appendix.A.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.3}Autoencoder Feedforward (MLP)}{37}{appendix.A.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.4}LSTM Predictiv}{37}{appendix.A.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.5}Autoencoder LSTM}{38}{appendix.A.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.6}Bottleneck Transformer Autoencoder}{38}{appendix.A.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.7}Causal Transformer}{39}{appendix.A.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}Protocolul de Evaluare: Metrici și Rezultate Complete}{39}{appendix.B}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{sec:eval-metrics}{{2}{40}{Protocolul de Evaluare: Metrici și Rezultate Complete}{appendix.B}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.1}Metrici Raportate}{40}{appendix.B.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces Metrici raportate de fiecare rulare de evaluare.}}{41}{table.B.1}\protected@file@percent }
-\newlabel{tab:eval-metrics-def}{{2.1}{41}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Metrici raportate de fiecare rulare de evaluare}{table.B.1}{}}
-\@writefile{toc}{\contentsline {paragraph}{Notă privind consistența numerelor.}{41}{section*.25}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.2}Rezultate Complete -- Credit Card Fraud Detection}{41}{appendix.B.2}\protected@file@percent }
-\newlabel{sec:eval-full-cc}{{2.2}{41}{Rezultate Complete -- Credit Card Fraud Detection}{appendix.B.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2.2}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces Credit Card Fraud Detection -- toate metricile raportate, pentru toate cele șase modele evaluate.}}{41}{table.B.2}\protected@file@percent }
-\newlabel{tab:eval-full-cc}{{2.2}{41}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Credit Card Fraud Detection -- toate metricile raportate, pentru toate cele șase modele evaluate}{table.B.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.3}Rezultate Complete -- Yahoo Webscope S5}{42}{appendix.B.3}\protected@file@percent }
-\newlabel{sec:eval-full-yahoo}{{2.3}{42}{Rezultate Complete -- Yahoo Webscope S5}{appendix.B.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2.3}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces Yahoo Webscope S5 -- toate metricile raportate, pe benchmark (A1, A3, A4), ordonate ca în tabelele din Capitolul~\ref {ch:results}.}}{42}{table.B.3}\protected@file@percent }
-\newlabel{tab:eval-full-yahoo}{{2.3}{42}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Yahoo Webscope S5 -- toate metricile raportate, pe benchmark (A1, A3, A4), ordonate ca în tabelele din Capitolul~\ref {ch:results}}{table.B.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.4}Rezultate Complete -- CIC-IDS2017}{42}{appendix.B.4}\protected@file@percent }
-\newlabel{sec:eval-full-cic}{{2.4}{42}{Rezultate Complete -- CIC-IDS2017}{appendix.B.4}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2.4}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces CIC-IDS2017 -- toate metricile raportate, pentru toate cele treisprezece combinații model/set-de-caracteristici, ordonate ca în Tabelul din \S  \ref {ch:results}.}}{42}{table.B.4}\protected@file@percent }
-\newlabel{tab:eval-full-cic}{{2.4}{42}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces CIC-IDS2017 -- toate metricile raportate, pentru toate cele treisprezece combinații model/set-de-caracteristici, ordonate ca în Tabelul din \S \ref {ch:results}}{table.B.4}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}Compoziția pe Clase de Atac a Setului de Test Temporal CIC-IDS2017}{43}{appendix.C}\protected@file@percent }
+\newlabel{sec:eval-metrics}{{2}{39}{Protocolul de Evaluare: Metrici și Rezultate Complete}{appendix.B}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}Metrici Raportate}{39}{appendix.B.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces Metrici raportate de fiecare rulare de evaluare.}}{40}{table.B.1}\protected@file@percent }
+\newlabel{tab:eval-metrics-def}{{2.1}{40}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Metrici raportate de fiecare rulare de evaluare}{table.B.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Notă privind consistența numerelor.}{40}{section*.25}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}Rezultate Complete -- Credit Card Fraud Detection}{40}{appendix.B.2}\protected@file@percent }
+\newlabel{sec:eval-full-cc}{{2.2}{40}{Rezultate Complete -- Credit Card Fraud Detection}{appendix.B.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.2}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces Credit Card Fraud Detection -- toate metricile raportate, pentru toate cele șase modele evaluate.}}{40}{table.B.2}\protected@file@percent }
+\newlabel{tab:eval-full-cc}{{2.2}{40}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Credit Card Fraud Detection -- toate metricile raportate, pentru toate cele șase modele evaluate}{table.B.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}Rezultate Complete -- Yahoo Webscope S5}{41}{appendix.B.3}\protected@file@percent }
+\newlabel{sec:eval-full-yahoo}{{2.3}{41}{Rezultate Complete -- Yahoo Webscope S5}{appendix.B.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.3}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces Yahoo Webscope S5 -- toate metricile raportate, pe benchmark (A1, A3, A4), ordonate ca în tabelele din Capitolul~\ref {ch:results}.}}{41}{table.B.3}\protected@file@percent }
+\newlabel{tab:eval-full-yahoo}{{2.3}{41}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Yahoo Webscope S5 -- toate metricile raportate, pe benchmark (A1, A3, A4), ordonate ca în tabelele din Capitolul~\ref {ch:results}}{table.B.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.4}Rezultate Complete -- CIC-IDS2017}{41}{appendix.B.4}\protected@file@percent }
+\newlabel{sec:eval-full-cic}{{2.4}{41}{Rezultate Complete -- CIC-IDS2017}{appendix.B.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.4}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces CIC-IDS2017 -- toate metricile raportate, pentru toate cele treisprezece combinații model/set-de-caracteristici, ordonate ca în Tabelul din \S  \ref {ch:results}.}}{41}{table.B.4}\protected@file@percent }
+\newlabel{tab:eval-full-cic}{{2.4}{41}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces CIC-IDS2017 -- toate metricile raportate, pentru toate cele treisprezece combinații model/set-de-caracteristici, ordonate ca în Tabelul din \S \ref {ch:results}}{table.B.4}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Compoziția pe Clase de Atac a Setului de Test Temporal CIC-IDS2017}{42}{appendix.C}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{ch:cic-composition-temporal}{{3}{43}{Compoziția pe Clase de Atac a Setului de Test Temporal CIC-IDS2017}{appendix.C}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces CIC-IDS2017 -- compoziția pe clase de atac a ferestrelor de atac agregate din setul de test temporal (1{,}719{,}616 ferestre în total, rată de atac de 25.41\%).}}{43}{table.C.1}\protected@file@percent }
-\newlabel{tab:cic-composition-temporal}{{3.1}{43}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces CIC-IDS2017 -- compoziția pe clase de atac a ferestrelor de atac agregate din setul de test temporal (1{,}719{,}616 ferestre în total, rată de atac de 25.41\%)}{table.C.1}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Verificare de Referință Trivială -- Yahoo S5 (Detalii)}{44}{appendix.D}\protected@file@percent }
+\newlabel{ch:cic-composition-temporal}{{3}{42}{Compoziția pe Clase de Atac a Setului de Test Temporal CIC-IDS2017}{appendix.C}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces CIC-IDS2017 -- compoziția pe clase de atac a ferestrelor de atac agregate din setul de test temporal (1{,}719{,}616 ferestre în total, rată de atac de 25.41\%).}}{42}{table.C.1}\protected@file@percent }
+\newlabel{tab:cic-composition-temporal}{{3.1}{42}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces CIC-IDS2017 -- compoziția pe clase de atac a ferestrelor de atac agregate din setul de test temporal (1{,}719{,}616 ferestre în total, rată de atac de 25.41\%)}{table.C.1}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Verificare de Referință Trivială -- Yahoo S5 (Detalii)}{43}{appendix.D}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{sec:yahoo-trivial-baseline-appendix}{{4}{44}{Verificare de Referință Trivială -- Yahoo S5 (Detalii)}{appendix.D}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Validarea Scorului Temporal IForest Sub Etichetare pe Ultimul Flux}{44}{appendix.E}\protected@file@percent }
+\newlabel{sec:yahoo-trivial-baseline-appendix}{{4}{43}{Verificare de Referință Trivială -- Yahoo S5 (Detalii)}{appendix.D}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Diagnostice SHAP Suplimentare}{43}{appendix.E}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{ch:temporal-iforest-last-flow-validation}{{5}{44}{Validarea Scorului Temporal IForest Sub Etichetare pe Ultimul Flux}{appendix.E}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Alinierea Scorurilor și Eșecul Standardizării $z$ pentru Ansamblul AE+Context + Temporal IForest}{45}{appendix.F}\protected@file@percent }
+\newlabel{ch:temporal-shap-extra}{{5}{43}{Diagnostice SHAP Suplimentare}{appendix.E}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces Temporal IForest -- $|\text  {SHAP}|$ mediu, sumat pe caracteristici, per pas temporal, ferestre DDoS (stânga) și ferestre DoS slowloris (dreapta). Ultimul pas temporal (bara roșie, 15) -- fluxul combinat cu scorul lui AE+Context în ansamblul propus -- nu poartă mai multă masă de atribuire decât orice altă poziție din fereastră, confirmând statistica sumară raportată în \S  \ref {sec:explain-temporal-window}.}}{44}{figure.E.1}\protected@file@percent }
+\newlabel{fig:explain-temporal-position-concentration}{{5.1}{44}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Temporal IForest -- $|\text {SHAP}|$ mediu, sumat pe caracteristici, per pas temporal, ferestre DDoS (stânga) și ferestre DoS slowloris (dreapta). Ultimul pas temporal (bara roșie, 15) -- fluxul combinat cu scorul lui AE+Context în ansamblul propus -- nu poartă mai multă masă de atribuire decât orice altă poziție din fereastră, confirmând statistica sumară raportată în \S \ref {sec:explain-temporal-window}}{figure.E.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces \xpg@aux {}{romanian}\ignorespaces Temporal IForest -- diagramă beeswarm SHAP per caracteristică, ferestre DDoS (stânga) și ferestre DoS slowloris (dreapta), colapsând axa celor 16 pași temporali prin sumarea contribuției SHAP a fiecărei caracteristici pe toată fereastra și colorând după valoarea medie a acelei caracteristici pe fereastră. DoS slowloris arată o relație monotonă clară -- valori mari ale timpului între sosiri (inter-arrival time) determină un SHAP puternic negativ (anormal), valorile mici împing spre zero -- consistent cu comportamentul lent, de menținere a conexiunii, după care este numit atacul. DDoS arată o relație valoare-semn mai zgomotoasă pentru caracteristicile sale de lungime a pachetelor pe direcția inversă, și o răspândire per fereastră mai largă decât sugerează, singură, imaginea de medii din Figura~\ref {fig:explain-temporal-shap}.}}{44}{figure.E.2}\protected@file@percent }
+\newlabel{fig:explain-temporal-beeswarm}{{5.2}{44}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Temporal IForest -- diagramă beeswarm SHAP per caracteristică, ferestre DDoS (stânga) și ferestre DoS slowloris (dreapta), colapsând axa celor 16 pași temporali prin sumarea contribuției SHAP a fiecărei caracteristici pe toată fereastra și colorând după valoarea medie a acelei caracteristici pe fereastră. DoS slowloris arată o relație monotonă clară -- valori mari ale timpului între sosiri (inter-arrival time) determină un SHAP puternic negativ (anormal), valorile mici împing spre zero -- consistent cu comportamentul lent, de menținere a conexiunii, după care este numit atacul. DDoS arată o relație valoare-semn mai zgomotoasă pentru caracteristicile sale de lungime a pachetelor pe direcția inversă, și o răspândire per fereastră mai largă decât sugerează, singură, imaginea de medii din Figura~\ref {fig:explain-temporal-shap}}{figure.E.2}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Validarea Scorului Temporal IForest Sub Etichetare pe Ultimul Flux}{45}{appendix.F}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{ch:ensemble-score-alignment}{{6}{45}{Alinierea Scorurilor și Eșecul Standardizării \texorpdfstring {$z$}{z} pentru Ansamblul AE+Context + Temporal IForest}{appendix.F}{}}
+\newlabel{ch:temporal-iforest-last-flow-validation}{{6}{45}{Validarea Scorului Temporal IForest Sub Etichetare pe Ultimul Flux}{appendix.F}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}Alinierea Scorurilor și Eșecul Standardizării $z$ pentru Ansamblul AE+Context + Temporal IForest}{45}{appendix.G}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{ch:ensemble-score-alignment}{{7}{45}{Alinierea Scorurilor și Eșecul Standardizării \texorpdfstring {$z$}{z} pentru Ansamblul AE+Context + Temporal IForest}{appendix.G}{}}
 \@writefile{toc}{\contentsline {chapter}{Bibliografie}{46}{appendix*.26}\protected@file@percent }
 \abx@aux@read@bbl@mdfivesum{8925B37F5C7384853D920BCC5DC0B924}
 \abx@aux@defaultrefcontext{0}{kaggle_creditcard}{none/global//global/global/global}
