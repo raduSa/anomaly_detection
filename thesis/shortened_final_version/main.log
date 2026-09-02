@@ -1,13 +1,9 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.7.20)  2 SEP 2026 20:46
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.7.20)  2 SEP 2026 21:42
 entering extended mode
  restricted \write18 enabled.
- file:line:error style messages enabled.
  %&-line parsing enabled.
-**"c:/Users/Radu Savin/facultate/anomaly_detection/thesis/shortened_final_versi
-on/main.tex"
-
-(c:/Users/Radu Savin/facultate/anomaly_detection/thesis/shortened_final_version
-/main.tex
+**./main.tex
+(main.tex
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-06-18>
 (C:\Users\Radu Savin\AppData\Local\Programs\MiKTeX\tex/latex/base\report.cls
@@ -1451,7 +1447,7 @@ File: ./images/logo-fmi.png Graphic file (type bmp)
 
 
 ] [4]
-Overfull \hbox (9.83008pt too wide) in paragraph at lines 101--101
+Overfull \hbox (9.83008pt too wide) in paragraph at lines 106--106
  [] [][][]\TU/lmr/bx/n/12 Alinierea Scorurilor și Eșecul Standardizării $[]$ pe
 ntru Ansamblul AE+Context 
  []
@@ -1512,34 +1508,43 @@ shap.png>
 Capitolul 6.
 ) [25] (7-anexe.tex
 Anexa 1.
+
+Overfull \hbox (13.81807pt too wide) in paragraph at lines 18--19
+[]\TU/lmr/m/n/12 Numărul de arbori este dat de parametrul \TU/lmtt/m/n/12 n_est
+imators \TU/lmr/m/n/12 (implementarea \TU/lmtt/m/n/12 scikit-learn \TU/lmr/m/n/
+12 [[][]11[][]]).
+ []
+
 [26
 
-] [27]
+]
 Anexa 2.
-[28] [29] [30]
+[27] [28] [29]
 Anexa 3.
-
-Underfull \hbox (badness 1048) in paragraph at lines 198--199
+[30] [31]
+Anexa 4.
+[32]
+Underfull \hbox (badness 1048) in paragraph at lines 232--233
 []\TU/lmr/m/n/12 Prin \TU/lmtt/m/n/12 sklearn.classification_report\TU/lmr/m/n/
 12 , raportate
  []
 
 
-Underfull \hbox (badness 1609) in paragraph at lines 200--200
+Underfull \hbox (badness 1609) in paragraph at lines 234--234
 []\TU/lmr/m/n/12 Precizie Medie (PR-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 202--202
+Underfull \hbox (badness 10000) in paragraph at lines 236--236
 []\TU/lmr/m/n/12 F1 (clasa poziti-
  []
 
-[31] [32]
-Anexa 4.
-[33]
+[33] [34]
 Anexa 5.
 Anexa 6.
-[34]
+[35]
+Anexa 7.
+[36]
 File: ../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/lstm_ae
 _error_heatmap.png Graphic file (type bmp)
 <../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/lstm_ae_erro
@@ -1549,13 +1554,14 @@ rmer_bottleneck_error_heatmap.png Graphic file (type bmp)
 <../../data/explainability/yahoo_A3Benchmark_lstm_vs_transformer/5/transformer_
 bottleneck_error_heatmap.png>
 
-Overfull \hbox (17.39758pt too wide) in paragraph at lines 403--404
+Overfull \hbox (17.39758pt too wide) in paragraph at lines 437--438
 \TU/lmr/m/n/12 ului se concentrează în puncte mai puține și mai luminoase, în t
 imp ce eroarea LSTM Autoencoder-
  []
 
-[35]
-Anexa 7.
+[37]
+Anexa 8.
+Anexa 9.
 File: ../../data/explainability/cicids_temporal_shap/2/ddos_position_concentrat
 ion.png Graphic file (type bmp)
 <../../data/explainability/cicids_temporal_shap/2/ddos_position_concentration.p
@@ -1564,39 +1570,37 @@ File: ../../data/explainability/cicids_temporal_shap/2/dos_slowloris_position_c
 oncentration.png Graphic file (type bmp)
 <../../data/explainability/cicids_temporal_shap/2/dos_slowloris_position_concen
 tration.png>
+[38]
 File: ../../data/explainability/cicids_temporal_shap/2/ddos_beeswarm.png Graphi
 c file (type bmp)
 <../../data/explainability/cicids_temporal_shap/2/ddos_beeswarm.png>
 File: ../../data/explainability/cicids_temporal_shap/2/dos_slowloris_beeswarm.p
 ng Graphic file (type bmp)
 <../../data/explainability/cicids_temporal_shap/2/dos_slowloris_beeswarm.png>
-[36]
-Anexa 8.
-[37]
-Anexa 9.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 17.28183pt on input line 451.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 17.27815pt on input line 451.
+
 Anexa 10.
-[38] [39]) [40] [41] (main.aux (0-title.aux) (0-abstract.aux))
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
+(Font)              scaled to size 17.28183pt on input line 485.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
+(Font)              scaled to size 17.27815pt on input line 485.
+[39]) [40] [41] (main.aux (0-title.aux) (0-abstract.aux))
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-06-18>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 79F87F415C07F748C17B1BBE045C7CE0;18082.
+(rerunfilecheck)             Checksum: 35E8471DD8EC00A1D5336CF13B4E3ACE;18082.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 27031 strings out of 402629
- 515498 string characters out of 5438092
- 1509263 words of memory out of 5000000
- 55779 multiletter control sequences out of 15000+600000
+ 27035 strings out of 402629
+ 515546 string characters out of 5438092
+ 1507393 words of memory out of 5000000
+ 55784 multiletter control sequences out of 15000+600000
  631229 words of font info for 89 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 86i,13n,107p,1380b,5749s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 86i,13n,107p,1301b,5749s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 Output written on main.pdf (41 pages).
