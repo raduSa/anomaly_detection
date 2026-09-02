@@ -428,7 +428,7 @@ Această anexă completează \S\ref{sec:explain-temporal-window} cu doi diagnost
 \chapter{Validarea Scorului Temporal IForest Sub Etichetare pe Ultimul Flux}
 \label{ch:temporal-iforest-last-flow-validation}
 
-Cifrele de AP per clasă arătate inițial folosesc o etichetă de fereastră "oricare-din-16", adică o fereastră este pozitivă dacă oricare din cele 16 fluxuri ale sale este un atac, etichetată cu tipul de atac majoritar.
+Cifrele de AP per clasă arătate inițial folosesc o etichetă de fereastră \enquote{oricare-din-16}, adică o fereastră este pozitivă dacă oricare din cele 16 fluxuri ale sale este un atac, etichetată cu tipul de atac majoritar.
 Aceasta este mai permisivă decât etichetarea per flux față de care este evaluat AE+Context. Fiecare fereastră de test existentă a fost reetichetată în schimb cu eticheta reală proprie a fluxului \emph{ultim}, iar AP-ul per clasă a fost recalculat față de modelul deja antrenat, neschimbat, și scorurile sale existente.
 
 \begin{center}

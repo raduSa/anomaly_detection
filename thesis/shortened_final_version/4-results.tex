@@ -31,12 +31,12 @@ Predictive LSTM            & Predictiv (pseudo-secv.)     & 0.9581 & 0.5190     
 \label{tab:cc-results}
 \end{table}
 
-Toate cele șase modele ating ROC-AUC $>0.93$, dar AP variază între 0.519--0.711 \rightarrow ROC-AUC este mult mai puțin sensibil la dezechilibrul de clasă față de AP.
+Toate cele șase modele ating ROC-AUC $>0.93$, dar AP variază între 0.519--0.711 $\to$ ROC-AUC este mult mai puțin sensibil la dezechilibrul de clasă față de AP.
 
 \subsection{Discuție}
 
 \paragraph{Nu există o secvență autentică în acest set de date.} Spre deosebire de Yahoo S5 sau variantele temporale/contextuale ale CIC-IDS2017, rândurile de tranzacții nu au nicio ordonare temporală sau cauzală între caracteristici: \texttt{Time} este eliminată la preprocesare (\S\ref{sec:preprocessing}); modelele secvențiale au fost adăugate ulterior exclusiv pentru comparabilitate între seturile de date.
-Cele trei arhitecturi "temporale" evaluate aici (Predictive LSTM, LSTM AE, Transformer Bottleneck AE) nu văd o secvență reală -- ele reformatează fiecare rând cu 29 de caracteristici într-o secvență artificială de 29 de pași scalari ($(N,29) \to (N,29,1)$), câte o caracteristică pe pas, în ordinea din fișierul .csv.
+Cele trei arhitecturi \enquote{temporale} evaluate aici (Predictive LSTM, LSTM AE, Transformer Bottleneck AE) nu văd o secvență reală -- ele reformatează fiecare rând cu 29 de caracteristici într-o secvență artificială de 29 de pași scalari ($(N,29) \to (N,29,1)$), câte o caracteristică pe pas, în ordinea din fișierul .csv.
 
 \paragraph{Impact asupra rezultatelor.} Predictive LSTM este cel mai slab model (AP 0.519): obiectivul său de predicție a următorului pas presupune o relație cauzală între pași consecutivi, dar componentele PCA adiacente sunt ortogonale/decorelate prin construcție, deci nu există niciun semnal real de învățat -- reflectat în cel mai slab număr de fals-pozitive (FP=566).
 LSTM AE se descurcă comparativ bine (AP 0.622, cel mai bun F1 dintre toate modelele, 0.736, cel mai mic FP, 174), probabil întrucât encoderul său comprimă întreaga intrare într-o singură stare ascunsă sumară, funcționând similar bottleneck-ului MLP AE, mai degrabă decât depinzând doar de ordine.
