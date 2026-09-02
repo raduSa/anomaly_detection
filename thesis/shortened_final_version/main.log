@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.7.20)  2 SEP 2026 18:10
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.7.20)  2 SEP 2026 18:28
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1508,19 +1508,20 @@ File: ../../data/explainability/cicids_temporal_shap/1/dos_slowloris_top_featur
 e_profiles.png Graphic file (type bmp)
 <../../data/explainability/cicids_temporal_shap/1/dos_slowloris_top_feature_pro
 files.png>
- [25]
-Overfull \hbox (0.93677pt too wide) in paragraph at lines 99--100
+
+Overfull \hbox (0.93677pt too wide) in paragraph at lines 97--98
 []\TU/lmr/m/n/12 SHAP a fost calculat cu \TU/lmtt/m/n/12 GradientExplainer \TU/
 lmr/m/n/12 pe eroarea de reconstrucție a lui AE+Context,
  []
 
+[25]
 File: ../../data/explainability/cicids_shap_portscan/5/autoencoder_context_port
 scan_shap.png Graphic file (type bmp)
 <../../data/explainability/cicids_shap_portscan/5/autoencoder_context_portscan_
 shap.png>
-[26]) (6-concluzii.tex [27]
+ [26]) (6-concluzii.tex
 Capitolul 6.
-) [28] (7-anexe.tex
+[27]) [28] (7-anexe.tex
 Anexa 1.
 [29
 

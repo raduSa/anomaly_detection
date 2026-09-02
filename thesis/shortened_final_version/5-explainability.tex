@@ -64,10 +64,8 @@ O \emph{diagramă beeswarm} (Figurile~\ref{fig:explain-temporal-beeswarm} și~\r
 Pentru definiția matematică și originea din teoria jocurilor cooperative, mai multe detalii se află în lucrarea originală~\parencite{lundberg2017unified}; pentru o descriere mai accesibilă, orientată spre interpretarea grafurilor, și detalii despre construcția diagramelor folosite mai jos, către documentația SHAP~\cite{shap_docs}.
 
 Astfel, se presupune că:
-1. Dacă Temporal IForest exploatează cu adevărat structura dintre pașii temporali, scorul său per fereastră ar trebui să poarte informație despre eticheta \emph{ultimului} flux -- fluxul care ar fi combinat cu scorul per flux al lui AE+Context -- și nu despre dacă \emph{vreun} flux din fereastra de 16 fluxuri este un atac.
-Așadar, atribuirea sa SHAP nu ar trebui, de asemenea, să se prăbușească pe acel unic flux final; dacă se întâmplă asta, fereastra este de fapt doar decorativă.
-2. Avantajul lui AE+Context pe propriile sale clase puternice provine din cele 9 caracteristici de context al gazdei, unice setului său de caracteristici
-Așadar, acestea ar trebui să apară printre caracteristicile cu cea mai mare medie $|\text{SHAP}|$.
+(1) dacă Temporal IForest exploatează cu adevărat structura dintre pașii temporali, scorul său per fereastră ar trebui să poarte informație despre eticheta \emph{ultimului} flux -- cel combinat cu scorul lui AE+Context -- nu doar despre dacă \emph{vreun} flux din fereastra de 16 este un atac, deci atribuirea sa SHAP nu ar trebui să se prăbușească pe acel flux final (altfel fereastra e doar decorativă); 
+și (2) avantajul lui AE+Context pe propriile sale clase puternice provine din cele 9 caracteristici de context al gazdei, care ar trebui deci să apară printre caracteristicile cu cea mai mare medie $|\text{SHAP}|$.
 
 O validare importantă, efectuată pe parcursul experimentării si demna de mentionat -- verificarea faptului că scorul lui Temporal IForest rămâne informativ și sub o etichetare mai strictă, per ultimul flux, nu doar sub eticheta permisivă "oricare-din-16" -- este detaliată în Anexa~\ref{ch:temporal-iforest-last-flow-validation}.
 
@@ -100,7 +98,7 @@ SHAP a fost calculat cu \texttt{GradientExplainer} pe eroarea de reconstrucție 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.75\textwidth]{../../data/explainability/cicids_shap_portscan/5/autoencoder_context_portscan_shap.png}
+\includegraphics[width=0.5\textwidth]{../../data/explainability/cicids_shap_portscan/5/autoencoder_context_portscan_shap.png}
 \caption{AE+Context -- diagramă sumară SHAP, eșantioane PortScan. \texttt{ctx\_min\_port\_cnt} domină printr-un cluster strâns, uniform pozitiv, bine separat de orice altă caracteristică; rândurile de top rămase sunt aproape în întregime caracteristici de context al gazdei.}
 \label{fig:explain-ae-context-portscan-shap}
 \end{figure}
@@ -124,12 +122,11 @@ Pentru ambele clase, \texttt{ctx\_min\_port\_cnt} și \texttt{ctx\_min\_flow\_cn
 \subsection{Construirea Scorului Combinat}
 \label{sec:explain-ensemble-build}
 
-Realizarea ansamblului schițat în Capitolul~\ref{ch:results} necesită combinarea, pentru fiecare flux $f$ din setul de test, a scorului propriu per flux al lui AE+Context cu scorul lui Temporal IForest pentru fereastra de 16 fluxuri care se \emph{încheie} la $f$.
-Însă cele două scoruri brute nu pot fi combinate direct: scorul lui AE+Context este o eroare medie pătratică de reconstrucție fără o scală fixă, iar scorul lui Temporal IForest este o lungime medie de cale, negată. Este necesară o normalizare înainte ca o medie ponderată sau un maxim să aibă sens. Statisticile de normalizare ale fiecărui model sunt calculate doar pe scorurile de antrenare \emph{benigne} ale acelui model, niciodată pe date de test, pentru a evita scurgerea informației de anomalie din setul de test în combinare.
+Realizarea ansamblului schițat în Capitolul~\ref{ch:results} necesită combinarea, pentru fiecare flux $f$, a scorului propriu al lui AE+Context cu scorul lui Temporal IForest pentru fereastra de 16 fluxuri care se \emph{încheie} la $f$. Cele două scoruri brute nu pot fi combinate direct (eroare de reconstrucție fără scală fixă vs.\ lungime medie de cale negată), deci e necesară o normalizare -- calculată doar pe scorurile de antrenare \emph{benigne} ale fiecărui model, niciodată pe date de test, pentru a evita scurgerea informației de anomalie în combinare.
 
-Au fost testate două reguli de combinare. \textbf{Votarea ponderată (soft voting)} ia o combinație convexă a celor două scoruri normalizate, $s_{\text{soft}}(f) = w \cdot \hat{s}_{AE}(f) + (1-w) \cdot \hat{s}_{IF}(f)$, variind $w \in \{0.3, \dots, 0.7\}$. \textbf{Combinarea prin regula maximului} ia în schimb $s_{\text{max}}(f) = \max(\hat{s}_{AE}(f), \hat{s}_{IF}(f))$ -- un combinator de tip OR, intenționat să reflecte ideea că încrederea oricărui model, singură, ar trebui să fie suficientă pentru a marca un flux.
+Au fost testate două reguli: \textbf{votarea ponderată (soft voting)}, $s_{\text{soft}}(f) = w \cdot \hat{s}_{AE}(f) + (1-w) \cdot \hat{s}_{IF}(f)$, variind $w \in \{0.3, \dots, 0.7\}$; și \textbf{regula maximului}, $s_{\text{max}}(f) = \max(\hat{s}_{AE}(f), \hat{s}_{IF}(f))$ -- un combinator de tip OR, reflectând ideea că încrederea oricărui model, singură, ar trebui să fie suficientă.
 
-Cele două scoruri au fost normalizate pe rang -- mapând fiecare scor de test la percentila sa în distribuția scorurilor proprii de antrenare benignă ale acelui model -- în locul standardizării $z$ obișnuite, deoarece normalizarea pe rang mărginește fiecare scor la $[0,1]$ indiferent de cât de extremă este valoarea brută, în timp ce standardizarea $z$ s-a dovedit o fundătură. O discuție detaliată a realinierii scorurilor între cele două pipeline-uri și a motivului exact pentru care standardizarea $z$ a eșuat se află în Anexa~\ref{ch:ensemble-score-alignment}.
+Cele două scoruri au fost normalizate pe rang -- mapând fiecare scor de test la percentila sa în distribuția scorurilor proprii de antrenare benignă -- în locul standardizării $z$, care s-a dovedit o fundătură (normalizarea pe rang mărginește fiecare scor la $[0,1]$ indiferent de valoarea brută). Detalii despre realinierea scorurilor și eșecul standardizării $z$: Anexa~\ref{ch:ensemble-score-alignment}.
 
 \subsection{Acoperire per Clasă vs.\ AP Agregat}
 \label{sec:explain-ensemble-results}
@@ -148,7 +145,6 @@ Votare ponderată $w=0.7$ (rang) & 0.977 & 0.358 & 0.821 & 0.140 & 0.245 \\
 \end{tabular}
 \end{center}
 
-AP-ul agregat pe întregul set de test aliniat pe rânduri \emph{favorizează} de fapt variantele care se schimbă cel mai puțin: atât regula maximului (AP agregat $0.943$), cât și AE+Context singur ($0.941$) depășesc votarea ponderată $w=0.4$ ($0.841$), pur și simplu pentru că DDoS și PortScan totalizează împreună peste 250{,}000 din cele aproximativ 434{,}000 de fluxuri pozitive din această evaluare, în timp ce GoldenEye, Slowhttptest și slowloris totalizează împreună abia 13{,}000.
+AP-ul agregat \emph{favorizează} de fapt variantele care se schimbă cel mai puțin: regula maximului (0.943) și AE+Context singur (0.941) depășesc votarea ponderată $w=0.4$ (0.841), pur și simplu pentru că DDoS și PortScan totalizează peste 250{,}000 din cele $\sim$434{,}000 de fluxuri pozitive, față de doar 13{,}000 pentru GoldenEye, Slowhttptest și slowloris împreună.
 
-Nicio regulă nu este pur și simplu un câștig gratuit, dar votarea ponderată pare alegerea mai pertinenta pentru un ansamblu motivat de acoperire: clasa sa acoperită cea mai \emph{slabă} ($0.205$, Slowhttptest, la $w=0.4$) depășește propriile clase cele mai slabe ale ambelor modele de sine stătătoare -- $0.013$ (Slowhttptest) al lui AE+Context și $0.123$ (PortScan) al lui Temporal IForest -- ceva ce nici un model de sine stătător, nici combinarea prin regula maximului nu realizează.
-Aceasta este o realizare autentică, deși parțială, a ideii de ansamblu din Capitolul~\ref{ch:results}: votarea ponderată normalizată pe rang lărgește măsurabil pragul minim de acoperire pe clase de atac, cu costul explicit al calității detecției PortScan.
+Nicio regulă nu e un câștig gratuit, dar votarea ponderată pare alegerea mai pertinentă pentru un ansamblu motivat de acoperire: clasa sa cea mai \emph{slabă} (0.205, Slowhttptest, la $w=0.4$) depășește propriile clase cele mai slabe ale ambelor modele singure -- 0.013 (AE+Context) și 0.123 (Temporal IForest) -- ceva ce niciun model singur sau regula maximului nu realizează. E o realizare autentică, deși parțială, a ideii de ansamblu din Capitolul~\ref{ch:results}: votarea ponderată pe rang lărgește pragul minim de acoperire, cu costul detecției PortScan.

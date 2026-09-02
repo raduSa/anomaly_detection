@@ -67,9 +67,9 @@
 \contentsline {paragraph}{O scurtă introducere la SHAP.}{24}{section*.19}%
 \contentsline {subsection}{\numberline {5.2.1}Temporal IForest: Atribuire SHAP pe Toată Fereastra}{25}{subsection.5.2.1}%
 \contentsline {subsection}{\numberline {5.2.2}AE+Context: SHAP Dominat de Caracteristici de Context al Gazdei}{26}{subsection.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}Construirea Scorului Combinat}{27}{subsection.5.2.3}%
+\contentsline {subsection}{\numberline {5.2.3}Construirea Scorului Combinat}{26}{subsection.5.2.3}%
 \contentsline {subsection}{\numberline {5.2.4}Acoperire per Clasă vs.\ AP Agregat}{27}{subsection.5.2.4}%
-\contentsline {chapter}{\numberline {6}Concluzii}{28}{chapter.6}%
+\contentsline {chapter}{\numberline {6}Concluzii}{27}{chapter.6}%
 \contentsline {chapter}{Anexe}{29}{section*.20}%
 \contentsline {chapter}{\numberline {1}Detalii Suplimentare de Preprocesare}{29}{appendix.A}%
 \contentsline {section}{\numberline {1.1}Preprocesare Tabelară (Credit Card)}{29}{appendix.A.1}%
